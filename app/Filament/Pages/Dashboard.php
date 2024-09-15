@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Resources\OrdenResource\Widgets\EstadisticasOrdenes;
+use App\Filament\Resources\OrdenResource\Widgets\UltimasOrdenes;
 use Filament\Facades\Filament;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Contracts\Support\Htmlable;
@@ -16,7 +17,8 @@ class Dashboard extends \Filament\Pages\Dashboard
     public function getWidgets(): array
     {
         return[
-            EstadisticasOrdenes::class
+            EstadisticasOrdenes::class,
+            UltimasOrdenes::class
         ];
     }
 

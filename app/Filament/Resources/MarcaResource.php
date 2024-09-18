@@ -50,6 +50,8 @@ class MarcaResource extends Resource
                     ->required()
                     ->label('Nombre De la Marca')
                     ->maxLength(70)
+                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                    ->live()
                     ->regex('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/')
                     ->unique(Marca::class, ignoreRecord: true)
                     ->autocomplete('off')
@@ -89,6 +91,8 @@ class MarcaResource extends Resource
                     ->required()
                     ->label('Descripción')
                     ->placeholder('Escribe una breve descripción...')
+                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                    ->live()
                     ->autosize()
                     ->minLength(5)
                     ->maxlength(300)
@@ -97,7 +101,7 @@ class MarcaResource extends Resource
                         'min' => 'La descripción debe tener al menos :min caracteres.',
                         'max' => 'La descripción no puede exceder los :max caracteres.'
                     ])
-                    ->columnSpan(4),
+                    ->columnSpanFull(),
             ]);
     }
 

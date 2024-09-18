@@ -50,6 +50,8 @@ class CuponResource extends Resource
                             ->required()
                             ->numeric()
                             ->label('Código del Cupón')
+                            ->helperText(fn ($state, $component) => 'Quedan: ' . (8 - strlen($state)) . '/8 caracteres')
+                            ->live()
                             ->unique(Cupon::class, ignoreRecord: true)                            ->validationMessages([
                                 'required' => 'El código es obligatorio.',
                                 'max_digits' => 'El código debe tener solamente 8 dígitos.',

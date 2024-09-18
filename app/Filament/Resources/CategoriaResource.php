@@ -51,6 +51,8 @@ class CategoriaResource extends Resource
                     ->required()
                     ->label('Nombre De la Categoria')
                     ->maxLength(70)
+                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                    ->live()
                     ->regex('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/')
                     ->unique(Categoria::class, ignoreRecord: true)
                     ->autocomplete('off')
@@ -60,6 +62,14 @@ class CategoriaResource extends Resource
                         'regex' => 'El nombre solo debe contener letras y espacios.',
                         'unique' => 'Esta categoría ya existe.',
                     ])->columnSpanFull(),
+
+                Forms\Components\Toggle::make('disponible')
+                    ->label('Disponible')
+                    ->default(true)
+                    ->rules(['boolean'])
+                    ->validationMessages([
+                        'boolean' => 'El valor debe ser verdadero o falso.',
+                    ]),
 
                 FileUpload::make('imagen')
                     ->required()
@@ -77,18 +87,13 @@ class CategoriaResource extends Resource
                         'max' => 'El tamaño de la imagen no debe exceder los 5MB.',
                     ]),
 
-                Forms\Components\Toggle::make('disponible')
-                    ->label('Disponible')
-                    ->default(true)
-                    ->rules(['boolean'])
-                    ->validationMessages([
-                        'boolean' => 'El valor debe ser verdadero o falso.',
-                    ]),
 
                 Forms\Components\Textarea::make('descripcion')
                     ->required()
                     ->label('Descripción')
                     ->placeholder('Escribe una breve descripción...')
+                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                    ->live()
                     ->autosize()
                     ->minLength(5)
                     ->maxlength(300)

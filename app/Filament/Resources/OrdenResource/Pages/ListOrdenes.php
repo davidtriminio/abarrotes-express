@@ -4,6 +4,7 @@ namespace App\Filament\Resources\OrdenResource\Pages;
 
 use App\Filament\Resources\OrdenResource;
 use Filament\Actions\CreateAction;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -25,9 +26,26 @@ class ListOrdenes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-                CreateAction::make()
+            CreateAction::make()
                 ->label('Crear Orden')
                 ->icon('heroicon-o-plus-circle'),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            null => Tab::make('Todo'),
+            'nuevo' => Tab::make('Nuevo')->query(fn($query) => $query->where('estado_entrega', 'nuevo'))
+                ->icon('heroicon-o-sparkles'),
+            'procesado' => Tab::make('En Proceso')->query(fn($query) => $query->where('estado_entrega', 'procesado'))
+                ->icon('heroicon-o-arrow-path'),
+            'enviado' => Tab::make('Enviado')->query(fn($query) => $query->where('estado_entrega', 'enviado'))
+                ->icon('heroicon-o-truck'),
+            'entregado' => Tab::make('Entregado')->query(fn($query) => $query->where('estado_entrega', 'entregado'))
+                ->icon('heroicon-o-archive-box'),
+            'cancelado' => Tab::make('Cancelado')->query(fn($query) => $query->where('estado_entrega', 'cancelado'))
+                ->icon('heroicon-o-x-circle'),
         ];
     }
 

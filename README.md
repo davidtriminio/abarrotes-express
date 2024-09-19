@@ -39,7 +39,7 @@ nvm use <version>
     ```bash
     npm run build
    ```
-5. Instalar dependencias PHP
+4. Instalar dependencias PHP
     ```bash
     composer install
    ```

@@ -39,19 +39,23 @@ nvm use <version>
     ```bash
     npm run build
    ```
-4. Modificar archivo .env (Guiarse por el archivo .envexample) y obtener key del proyecto
+4. Crear el archivo de configuración de Laravel
+    ```bash
+    cp .env.example .env
+   ```
+5. obtener key del proyecto
    ```bash
     php artisan key:generate
    ```
-5. Ejecutar migraciones y seeders (Usar datos en RolesPermisosSeeder o modificarlos con datos propios)
+6. Ejecutar migraciones y seeders (Usar datos en RolesPermisosSeeder o modificarlos con datos propios)
     ```bash
     php artisan migrate --seed
    ```
-6. Enlazar los archivos en el almacenamiento
+7. Enlazar los archivos en el almacenamiento
     ```bash
     php artisan storage:link
    ```
-7. Iniciar el servidor PHP
+8. Iniciar el servidor PHP
     ```bash
     php artisan serve
    ```

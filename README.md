@@ -9,7 +9,7 @@ Proyecto usado para la gestión de una abarrotería. Desarrollado usando como ba
 ---
 - **Compras:** Permite a los usuarios poder agregar elementos al carrito, agregarlos a lista de deseos y proceder a comprar, usando los distintos métodos de pagos.
 - **Gestiona:** Datos relacionados al usuario, como las direcciones para facilitar las compras y evitar que el usuario llene los mismos datos, de manera manual, en cada compra, además le permite.
-- **Administra:** todos los datos sobre las categorías, marcas y productos, entre otros datos de importancia que se encuentre disponible tanto para los administradores como para los usuarios invitados y los clientes. 
+- **Administra:** todos los datos sobre las categorías, marcas y productos, entre otros datos de importancia que se encuentre disponible tanto para los administradores como para los usuarios invitados y los clientes.
 
 ### Para empezar
 
@@ -30,7 +30,7 @@ nvm use <version>
    ```bash
     git clone https://github.com/davidtriminio/abarrotes-express.git 
    ```
-   
+
 2. Instala los paquetes de NPM
     ```bash
     npm run install
@@ -39,23 +39,27 @@ nvm use <version>
     ```bash
     npm run build
    ```
-4. Crear el archivo de configuración de Laravel
+5. Instalar dependencias PHP
+    ```bash
+    composer install
+   ```
+5. Crear el archivo de configuración de Laravel
     ```bash
     cp .env.example .env
    ```
-5. obtener key del proyecto
+6. obtener key del proyecto
    ```bash
     php artisan key:generate
    ```
-6. Ejecutar migraciones y seeders (Usar datos en RolesPermisosSeeder o modificarlos con datos propios)
+7. Ejecutar migraciones y seeders (Usar datos en RolesPermisosSeeder o modificarlos con datos propios)
     ```bash
     php artisan migrate --seed
    ```
-7. Enlazar los archivos en el almacenamiento
+8. Enlazar los archivos en el almacenamiento
     ```bash
     php artisan storage:link
    ```
-8. Iniciar el servidor PHP
+9. Iniciar el servidor PHP
     ```bash
     php artisan serve
    ```

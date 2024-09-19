@@ -30,6 +30,18 @@ class Cupon extends Model
 
     protected $table = 'cupones';
 
+
+    public function getEstadoAttribute($value)
+    {
+
+        if (Carbon::now()->greaterThan($this->fecha_expiracion)) {
+            return false;
+        }
+
+
+        return $value;
+    }
+
     public function usuario()
     {
         return $this->belongsTo(User::class, 'usuario_id');

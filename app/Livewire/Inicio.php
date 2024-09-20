@@ -47,7 +47,7 @@ class Inicio extends Component
 
     public function render()
     {
-        $this->marcas = Marca::all();
+        $this->marcas = Marca::inRandomOrder()->limit(3)->get();
         $this->categorias = Categoria::inRandomOrder()->limit(4)->get();
         $this->productos = Producto::orderBy('en_oferta', 'desc')->limit(4)->get();
         return view('livewire.inicio');

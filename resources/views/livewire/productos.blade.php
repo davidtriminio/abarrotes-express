@@ -123,11 +123,7 @@
                                         <a href="{{ route('producto', ['id' => $producto->id]) }}"
                                            class="text-ddd flex items-center" style="color: #BBB;">
                                             <span class="mr-2">Ver producto</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor" style="color: #BBB;">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                                      d="M12 4.5c-7.5 0-12 7.5-12 7.5s4.5 7.5 12 7.5 12-7.5 12-7.5-4.5-7.5-12-7.5zm0 3a4.5 4.5 0 110 9 4.5 4.5 0 010-9z"/>
-                                            </svg>
+                                            <span class="icon-[lucide--eye]"></span>
                                         </a>
                                     </div>
                                 </div>

@@ -161,7 +161,7 @@ class Productos extends Component
         }
 
         return view('livewire.productos', [
-            'productos' => Producto::paginate(10),
+            'productos' => Producto::paginate(12),
             'categorias' => $this->categorias,
             'marcas' => $this->marcas,
         ]);

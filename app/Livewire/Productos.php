@@ -24,7 +24,6 @@ class Productos extends Component
     public $categorias;
     public $orden = '';
     public $marcas;
-    public $perPage = 6;
     public $mostrarTodasCategorias = false;
     public $categoriasVisibles = 5;
     public $mostrarTodasMarcas = false;
@@ -103,7 +102,7 @@ class Productos extends Component
     public function seleccionarCategoria($categoriaId)
     {
         $this->categoriasFiltradas = [$categoriaId];
-        $this->marcasFiltradas = []; // Limpia el filtro de marcas
+        $this->marcasFiltradas = [];
         $this->resetPage();
     }
 
@@ -144,7 +143,7 @@ class Productos extends Component
         }
 
         if ($this->precio > 0) {
-            $query->where('precio', '<=', $this->precio); // Ajusta el límite inferior
+            $query->where('precio', '<=', $this->precio);
         }
 
         switch ($this->orden) {
@@ -161,10 +160,8 @@ class Productos extends Component
 
         }
 
-        $productos = $query->paginate($this->perPage);
-
         return view('livewire.productos', [
-            'productos' => $productos,
+            'productos' => Producto::paginate(10),
             'categorias' => $this->categorias,
             'marcas' => $this->marcas,
         ]);

@@ -109,7 +109,7 @@
                                     </a>
                                     <div class="flex items-center justify-center mb-4">
                                         <span
-                                                class="text-lg font-bold text-primary">L. {{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}</span>
+                                            class="text-lg font-bold text-primary">L. {{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}</span>
                                         @if($producto->porcentaje_oferta > 0)
                                             <span class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
                                         @endif
@@ -139,14 +139,15 @@
                         <p>No se encontraron productos.</p>
                     @endforelse
                 </div>
-
-                @if ($productos->isNotEmpty())
-                    <div class="text-center mt-4">
-                        {{ $productos->links() }}
-                    </div>
-                 @endif
-
+            </div>
+        </div>
+        @if ($productos->isNotEmpty())
+            <div class="flex justify-center mt-4 space-x-4">
+                {{ $productos->links() }}
+            </div>
+        @endif
     </section>
+
 
     <!-- Shop category description -->
     <section id="shop-category-description" class="py-8">

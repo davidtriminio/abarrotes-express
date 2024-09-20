@@ -100,17 +100,15 @@
                                 <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-100">
                                     <!-- Hacer toda la tarjeta clicable -->
                                     <a href="{{ route('producto', ['id' => $producto->id]) }}" class="block">
-                                        @if(!empty($producto->imagenes))
-                                            <img src="{{ url('storage' , $producto->imagenes[0]) }}"
-                                                 class="w-full object-cover mb-4 rounded-lg tamanoCard"
-                                                 alt="{{$producto->imagenes[0]}}">
-                                        @endif
+
+                                        <img src="{{ isset($producto->imagenes[0]) ? url('storage' , $producto->imagenes[0]) : asset('imagen/no-photo.jpg') }}"
+                                             class="w-full object-cover mb-4 rounded-lg tamanoCard" alt="{{$producto->nombre}}">
                                         <h3 class="text-lg font-semibold mb-2 text-primary">{{$producto->nombre}}</h3>
                                     </a>
                                     <div class="flex items-center justify-center mb-4">
                                         <span
                                             class="text-lg font-bold text-primary">L. {{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}</span>
-                                        @if($producto->porcentaje_oferta > 0)
+                                        @if($producto->en_oferta)
                                             <span class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
                                         @endif
                                     </div>
@@ -147,7 +145,6 @@
             </div>
         @endif
     </section>
-
 
     <!-- Shop category description -->
     <section id="shop-category-description" class="py-8">

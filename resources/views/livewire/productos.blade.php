@@ -107,7 +107,7 @@
                                     </a>
                                     <div class="flex items-center justify-center mb-4">
                                         <span
-                                            class="text-lg font-bold text-primary">L. {{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}</span>
+                                            class="text-lg font-bold text-primary">L. @if($producto->en_oferta){{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}@else{{ $producto->precio }}@endif</span>
                                         @if($producto->en_oferta)
                                             <span class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
                                         @endif

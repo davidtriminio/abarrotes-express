@@ -36,7 +36,7 @@ class Productos extends Component
 
     public function agregarAlCarrito($producto_id)
     {
-        $conteo_total = CarritoManagement::agregarElmentoAlCarrito($producto_id);
+        $conteo_total = CarritoManagement::agregarElementoAlCarrito($producto_id);
 
         if (is_numeric($conteo_total)) {
             // Si la operación fue exitosa y se devuelve el conteo total
@@ -161,7 +161,7 @@ class Productos extends Component
         }
 
         return view('livewire.productos', [
-            'productos' => Producto::paginate(10),
+            'productos' => Producto::paginate(12),
             'categorias' => $this->categorias,
             'marcas' => $this->marcas,
         ]);

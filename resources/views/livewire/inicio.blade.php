@@ -15,19 +15,18 @@
 
                         <!-- Traer los productos de la base de datos -->
                         <div
-                            class="flex flex-wrap -mx-3 w-6/10 @if($productos->where('disponible', true)->count() < 4) justify-center @endif dim"
+                            class="flex flex-wrap -mx-4 bg-gray-50 p-4  @if($productos->where('disponible', true)->count() < 4) justify-center @endif "
                         >
                             @forelse ($productos as $producto)
                                 @if($producto->disponible)
                                     <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-8">
-                                        <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-100">
+                                        <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-50">
                                             <!-- Hacer toda la tarjeta clicable -->
                                             <a href="{{ route('producto', ['id' => $producto->id]) }}" class="block">
-                                                @if(!empty($producto->imagenes))
-                                                    <img src="{{ url('storage', $producto->imagenes[0]) }}"
-                                                         class="w-full h-auto mx-auto mb-4 rounded-lg tamanoCard"
-                                                         alt="{{$producto->imagenes[0]}}">
-                                                @endif
+
+                                                <img src="{{ isset($producto->imagenes[0]) ? url('storage/' . $producto->imagenes[0]) : asset('imagen/no-photo.jpg') }}"
+                                                     class="w-full h-auto mx-auto mb-4 rounded-lg tamanoCard"
+                                                     alt="{{ $producto->imagenes[0] ?? 'Imagen no disponible' }}">
                                                 <h3 class="text-lg font-semibold mb-2 text-primary">{{$producto->nombre}}</h3>
                                             </a>
                                             <div class="flex items-center justify-center mb-4">
@@ -48,12 +47,7 @@
                                                 <a href="{{ route('producto', ['id' => $producto->id]) }}"
                                                    class="text-ddd flex items-center" style="color: #BBB;">
                                                     <span class="mr-2">Ver producto</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                                         viewBox="0 0 24 24" stroke="currentColor" style="color: #BBB;">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              stroke-width="1"
-                                                              d="M12 4.5c-7.5 0-12 7.5-12 7.5s4.5 7.5 12 7.5 12-7.5 12-7.5-4.5-7.5-12-7.5zm0 3a4.5 4.5 0 110 9 4.5 4.5 0 010-9z"/>
-                                                    </svg>
+                                                    <span class="icon-[lucide--eye]"></span>
                                                 </a>
                                             </div>
                                         </div>
@@ -78,15 +72,15 @@
                                 <!-- Traer los categoria de la base de datos -->
                                 <!-- Traer las categorías de la base de datos -->
                                 <div
-                                    class="flex flex-wrap -mx-4 @if($categorias->where('disponible', true)->count() < 4) justify-center @endif">
+                                    class="flex flex-wrap -mx-4 bg-gray-50 p-4  @if($categorias->where('disponible', true)->count() < 2) justify-center @endif">
                                     @forelse ($categorias as $categoria)
                                         @if($categoria->disponible == true)
                                             <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-8">
                                                 <a href="{{ route('productos', ['categoria' => $categoria->id]) }}"
-                                                   class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-100 transition">
-                                                    <img src="{{ url('storage', $categoria->imagen) }}"
+                                                   class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-50 transition">
+                                                    <img src="{{ isset($categoria->imagen) ? url('storage', $categoria->imagen) : asset('imagen/no-photo.jpg') }}"
                                                          class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
-                                                         alt="{{ $categoria->imagen }}">
+                                                         alt="{{ $categoria->nombre }}">
                                                     <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary">{{ $categoria->nombre }}</h3>
                                                 </a>
                                             </div>
@@ -106,15 +100,15 @@
                                     <p class="my-7">Explora las principales marcas que presentamos en nuestra tienda</p>
                                 </div>
                                 <div
-                                    class="flex flex-wrap -mx-4 bg-gray-100 p-4 @if($marcas->where('disponible', true)->count() < 4) justify-center @endif">
+                                    class="flex flex-wrap -mx-4 bg-gray-50 p-4 @if($marcas->where('disponible', true)->count() < 4) justify-center @endif">
                                     @forelse ($marcas as $marca)
                                         @if($marca->disponible == true)
                                             <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/3 px-4 mb-8">
                                                 <a href="{{ route('productos', [0, 'marca' => $marca->id]) }}"
-                                                   class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-100 transition">
-                                                    <img src="{{ url('storage', $marca->imagen) }}"
+                                                   class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-50 transition">
+                                                    <img src="{{ isset($marca->imagen) ? url('storage', $marca->imagen) : asset('imagen/no-photo.jpg') }}"
                                                          class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
-                                                         alt="{{ $marca->imagen }}">
+                                                         alt="{{ $marca->nombre }}">
                                                     <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary">{{ $marca->nombre }}</h3>
                                                 </a>
                                             </div>

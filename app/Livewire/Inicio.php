@@ -22,7 +22,7 @@ class Inicio extends Component
     #[Title('Inicio - Abarrotes Express')]
     public function agregarCarrito($producto_id)
     {
-        $conteo_total = CarritoManagement::agregarElmentoAlCarrito($producto_id);
+        $conteo_total = CarritoManagement::agregarElementoAlCarrito($producto_id);
 
         if (is_numeric($conteo_total)) {
             $this->dispatch('update-cart-count', ['conteo_total' => $conteo_total])->to(Navbar::class);
@@ -47,7 +47,7 @@ class Inicio extends Component
 
     public function render()
     {
-        $this->marcas = Marca::all();
+        $this->marcas = Marca::inRandomOrder()->limit(3)->get();
         $this->categorias = Categoria::inRandomOrder()->limit(4)->get();
         $this->productos = Producto::orderBy('en_oferta', 'desc')->limit(4)->get();
         return view('livewire.inicio');

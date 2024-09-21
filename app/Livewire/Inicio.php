@@ -22,7 +22,7 @@ class Inicio extends Component
     #[Title('Inicio - Abarrotes Express')]
     public function agregarCarrito($producto_id)
     {
-        $conteo_total = CarritoManagement::agregarElmentoAlCarrito($producto_id);
+        $conteo_total = CarritoManagement::agregarElementoAlCarrito($producto_id);
 
         if (is_numeric($conteo_total)) {
             $this->dispatch('update-cart-count', ['conteo_total' => $conteo_total])->to(Navbar::class);

@@ -24,6 +24,9 @@ class Login extends Component
 
     public function save()
     {
+
+        $this->resetErrorBag();
+        $this->resetValidation();
         $this->validate([
             'email' => 'required|email|max:255|min:4|exists:users,email',
             'password' => 'required|min:4|max:300'
@@ -40,13 +43,9 @@ class Login extends Component
         );
 
         if (!Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            $this->addError('email', 'Correo y contraseña no coinciden');
-
-        }
-        else{
+            session()->flash('error', 'Correo y contraseña no coinciden.');
+        } else {
             return redirect()->route('inicio');
         }
     }
-
-
 }

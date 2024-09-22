@@ -48,3 +48,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/cupones', \App\Livewire\DetalleCupon::class)->name('cupones');
 });
+
+

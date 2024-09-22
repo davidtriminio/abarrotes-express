@@ -33,10 +33,12 @@
                                 </td>
                                 <td class="py-4">{{ Number::currency($item['monto_total'], 'LPS') }}</td>
                                 <td>
-                                    <button wire:click="eliminarElemento({{$item['producto_id']}})" class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700">
-                                        <span wire:loading.remove wire:target='eliminarElemento({{$item['producto_id']}})'>Eliminar</span>
-                                        <span wire:target="eliminarElemento({{$item['producto_id']}})" wire:loading>Eliminando...</span>
-                                    </button>
+                                    <div class="container mx-auto w-full">
+                                        <button wire:click="eliminarElemento({{$item['producto_id']}})" class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700 w-full">
+                                            <span wire:loading.remove wire:target='eliminarElemento({{$item['producto_id']}})'>Eliminar</span>
+                                            <span wire:target="eliminarElemento({{$item['producto_id']}})" wire:loading class="icon-[line-md--loading-loop] h-4 w-4 animate-spin"></span>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty

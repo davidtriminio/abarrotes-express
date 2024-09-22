@@ -4,27 +4,37 @@
 
         <form wire:submit.prevent="save">
             <div class="mb-4">
-                <label for="login-email" class="block">Correo Electrónico</label>
                 <input wire:model="email" type="email" id="login-email" class="input" placeholder="Ingrese su correo electrónico" required>
-                @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
+                @error('email')
+                <div class="contenedor-shake animate-shake">
+                    <span class="text-red-500">{{ $message }}</span>
+                </div>
+                <!-- /.contenedor-shake --> @enderror
             </div>
+
             <div class="mb-4">
                 <label for="login-password" class="block">Contraseña</label>
                 <input wire:model="password" type="password" id="login-password" class="input" placeholder="Ingrese su contraseña" required>
-                @error('password') <span class="text-red-500">{{ $message }}</span> @enderror
-                <div class="text-right mt-2">
-                    <a href="#" class="text-sm text-primary hover:text-blue-400 hover:ease-in hover:duration-300">¿Olvidaste tu Contraseña?</a>
+                @error('password')
+                <div class="contenedor-shake animate-shake">
+                    <span class="text-red-500 ">{{ $message }}</span>
                 </div>
+                <!-- /.contenedor-shake -->
+               @enderror
             </div>
+
             @if (session()->has('error'))
-                <div class="mb-4">
-                    <span class="text-red-500">{{ session('error') }}</span>
+                <div class="mb-4 animate-shake">
+                    <span class="text-red-500 ">{{ session('error') }}</span>
                 </div>
             @endif
-            <button type="submit" class="btn w-full">
-                Iniciar Sesión
+
+            <button type="submit" class="btn w-full" wire:target="save">
+                <span wire:loading.remove wire:target="save">Iniciar Sesión</span>
+                <span wire:loading wire:target="save" class="icon-[line-md--loading-loop] h-4 w-4 animate-spin"></span>
             </button>
         </form>
+
         <p class="mt-4 text-sm text-center">¿No tienes una cuenta? <a href="{{ route('registro') }}" class="text-sm font-black text-primary hover:text-blue-400 hover:ease-in hover:duration-300">Regístrate</a></p>
     </div>
 </div>

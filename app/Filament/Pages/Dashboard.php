@@ -19,6 +19,7 @@ class Dashboard extends \Filament\Pages\Dashboard
     {
         return[
             EstadisticasOrdenes::class,
+            OrdenesTotales::class,
             UltimasOrdenes::class,
         ];
     }

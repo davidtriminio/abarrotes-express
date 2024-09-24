@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Resources\OrdenResource\Widgets\EstadisticasOrdenes;
+use App\Filament\Resources\OrdenResource\Widgets\OrdenesTotales;
 use App\Filament\Resources\OrdenResource\Widgets\UltimasOrdenes;
 use Filament\Facades\Filament;
 use Filament\Support\Facades\FilamentIcon;
@@ -18,7 +19,7 @@ class Dashboard extends \Filament\Pages\Dashboard
     {
         return[
             EstadisticasOrdenes::class,
-            UltimasOrdenes::class
+            UltimasOrdenes::class,
         ];
     }
 

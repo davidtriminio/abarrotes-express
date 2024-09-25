@@ -57,7 +57,7 @@ class OrdenesTotales extends ApexChartWidget
 
         return [
             'chart' => [
-                'type' => 'line',
+                'type' => 'area',
                 'height' => 200,
             ],
             'series' => [
@@ -84,8 +84,22 @@ class OrdenesTotales extends ApexChartWidget
             'colors' => ['rgba(59, 130, 246, 1)'],
             'stroke' => [
                 'curve' => 'smooth',
+                'width' => 0.8,
+                'colors' => ['#f1f1f1'],
+            ],
+            'fill' => [
+                'type' => 'gradient',
+                'gradient' => [
+                    'shade' => 'light',
+                    'type' => 'vertical',
+                    'shadeIntensity' => 0.2,
+                    'opacityFrom' => 0.8,
+                    'opacityTo' => 0.4,
+                ],
+            ],
+            'dataLabels' => [
+                'enabled' => false,
             ],
         ];
     }
-
 }

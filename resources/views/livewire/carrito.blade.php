@@ -33,10 +33,12 @@
                                 </td>
                                 <td class="py-4">{{ Number::currency($item['monto_total'], 'LPS') }}</td>
                                 <td>
-                                    <button wire:click="eliminarElemento({{$item['producto_id']}})" class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700">
-                                        <span wire:loading.remove wire:target='eliminarElemento({{$item['producto_id']}})'>Eliminar</span>
-                                        <span wire:target="eliminarElemento({{$item['producto_id']}})" wire:loading>Eliminando...</span>
-                                    </button>
+                                    <div class="container mx-auto w-full">
+                                        <button wire:click="eliminarElemento({{$item['producto_id']}})" class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700 w-full">
+                                            <span wire:loading.remove wire:target='eliminarElemento({{$item['producto_id']}})'>Eliminar</span>
+                                            <span wire:target="eliminarElemento({{$item['producto_id']}})" wire:loading class="icon-[line-md--loading-loop] h-4 w-4 animate-spin"></span>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -129,6 +131,37 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Modal para reemplazar cupón -->
+                    <div x-data="{ open: @entangle('mostrar_modal_cupon') }" x-show="open" class="fixed inset-0 flex items-center justify-center z-50">
+                        <div class="bg-white rounded-lg p-6 z-10"
+                             x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 transform scale-90"
+                             x-transition:enter-end="opacity-100 transform scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 transform scale-100"
+                             x-transition:leave-end="opacity-0 transform scale-90"
+                        >
+                            <h3 class="text-lg font-semibold">Reemplazar Cupón</h3>
+                            <p>Solo puedes escoger un cupón por compra. ¿Deseas reemplazarlo?</p>
+                            <label for="nuevo-cupon" class="block mt-4">Selecciona un nuevo cupón:</label>
+                            <select id="nuevo-cupon" wire:model="nuevo_cupon_id" class="mt-2 border p-2 rounded">
+                                <option value="">-- Selecciona un cupón --</option>
+                                @foreach($cupones as $cupon)
+                                    @if(!in_array($cupon->id, $cupones_aplicados)) <!-- Excluir el cupón activo -->
+                                    <option value="{{ $cupon->id }}">{{ $cupon->codigo }} - {{ $cupon->tipo_descuento === 'porcentaje' ? $cupon->descuento_porcentaje.'% de descuento' : 'Lps. '.$cupon->descuento_dinero.' de descuento' }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <div class="mt-4 flex justify-end">
+                                <button @click="open = false" class="bg-gray-300 text-black py-2 px-4 rounded-lg mr-2">Cancelar</button>
+                                <button wire:click="confirmarReemplazoCupon" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+
+
 
                     <!-- Total Final después del cupón -->
                     <div class="flex justify-between mb-2 mt-2">

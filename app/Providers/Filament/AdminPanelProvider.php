@@ -18,6 +18,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
+use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -29,6 +31,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->colors([
                 'primary' => Color::Blue,
+            ])
+            ->plugins([
+                FilamentApexChartsPlugin::make()
             ])
             ->brandLogo(asset('/imagen/logo-admin.png'))
             ->favicon(asset('imagen/favicon-admin.ico'))

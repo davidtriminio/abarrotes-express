@@ -47,4 +47,6 @@ Route::middleware('auth')->group(function () {
     route::post('/auth/logout', [\App\Http\Controllers\Filament\LogoutController::class, 'logout'])->name('filament.admin.auth.logout');
 
     Route::get('/cupones', \App\Livewire\DetalleCupon::class)->name('cupones');
+
+    Route::get('/perfil', \App\Livewire\Perfil::class)->name('perfil');
 });

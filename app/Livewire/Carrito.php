@@ -23,6 +23,10 @@ class Carrito extends Component
     public $mostrar_menu_cupones = false;
     public $descuento_total = 0;
     public $usuario_autenticado = false;
+    public $mostrar_modal_cupon = false;
+
+    public $cupon_a_reemplazar;
+    public $nuevo_cupon_id;
 
     protected $listeners = ['userLoggedIn' => 'actualizarCarrito'];
 
@@ -85,7 +89,18 @@ class Carrito extends Component
 
     public function toggleMenuCupones()
     {
-        $this->mostrar_menu_cupones = !$this->mostrar_menu_cupones;
+
+        if (count($this->elementos_carrito) > 0) {
+            $this->mostrar_menu_cupones = !$this->mostrar_menu_cupones;
+        } else {
+            // Mostrar alerta si el carrito está vacío
+            $this->alert('error', 'Para agregar cupones, debe tener productos en el carrito.', [
+                'position' => 'bottom-end',
+                'timer' => 3000,
+                'toast' => true,
+                'timerProgressBar' => true,
+            ]);
+        }
     }
 
     public function aplicarCupon($cupon_id)
@@ -96,10 +111,48 @@ class Carrito extends Component
         }
 
         if (count($this->cupones_aplicados) > 0) {
-            $this->alert('error', 'Solo se puede usar un cupón por compra.');
+            $this->cupon_a_reemplazar = $this->cupones_aplicados[0];
+            $this->nuevo_cupon_id = $cupon_id;
+            $this->mostrar_modal_cupon = true;
             return;
         }
 
+
+        $this->procesarAplicacionCupon($cupon_id);
+
+        $cupon = Cupon::find($cupon_id);
+        if ($cupon) {
+            if (!in_array($cupon_id, $this->cupones_aplicados)) {
+                if ($cupon->tipo_descuento === 'porcentaje') {
+                    $descuento = $this->total_final * ($cupon->descuento_porcentaje / 100);
+                } else {
+                    $descuento = $cupon->descuento_dinero;
+                }
+                $this->total_final -= $descuento;
+                $this->descuento_total += $descuento;
+                $this->cupones_aplicados = [$cupon_id];
+            }
+        }
+
+        $this->alert('success', 'Cupón aplicado correctamente.');
+
+
+        $this->mostrar_menu_cupones = false;
+    }
+
+    public function confirmarReemplazoCupon()
+    {
+        if ($this->cupon_a_reemplazar) {
+            $this->retirarCupon($this->cupon_a_reemplazar);
+            $this->procesarAplicacionCupon($this->nuevo_cupon_id);
+            $this->mostrar_modal_cupon = false;
+            $this->mostrar_menu_cupones = false;
+            $this->alert('success', 'Cupón aplicado correctamente.');
+        }
+    }
+
+    private function procesarAplicacionCupon($cupon_id)
+    {
         $cupon = Cupon::find($cupon_id);
         if ($cupon) {
             if (!in_array($cupon_id, $this->cupones_aplicados)) {

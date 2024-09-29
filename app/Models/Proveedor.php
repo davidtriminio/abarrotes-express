@@ -19,7 +19,7 @@ class Proveedor extends Model
 
     public function producto()
     {
-        return $this->belongsTo(Producto::class);
+        return $this->belongsTo(Product::class);
     }
     
 }

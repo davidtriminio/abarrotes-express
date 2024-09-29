@@ -140,14 +140,14 @@
                     @endforelse
                 </div>
 
-                @if ($productos->isNotEmpty())
-                    <div class="text-center mt-4">
-                        {{ $productos->links() }}
-                    </div>
-                 @endif
+             
 
     </section>
-
+    @if ($productos->isNotEmpty())
+        <div class="text-center mt-4">
+            {{ $productos->links() }}
+        </div>
+    @endif
     <!-- Shop category description -->
     <section id="shop-category-description" class="py-8">
         <div class="container mx-auto">

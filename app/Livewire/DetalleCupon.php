@@ -17,6 +17,7 @@ class DetalleCupon extends Component
 
         // Aplicar los mismos filtros que en el método actualizarCarrito
         $cupones = Cupon::where('estado', true)  // Solo cupones activos
+        ->where('fecha_inicio', '<=', now())
         ->where('fecha_expiracion', '>', now())  // Solo cupones no caducados
         ->where('usuario_id', $userId)  // Solo los cupones del usuario autenticado
         ->paginate($this->perPage);

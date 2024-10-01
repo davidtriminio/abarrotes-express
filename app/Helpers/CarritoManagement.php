@@ -2,7 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Models\Cupon;
 use App\Models\Producto;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
 class CarritoManagement
@@ -95,6 +97,53 @@ class CarritoManagement
         return count($elementos_carrito);
     }
 
+    static public function agregarDescuentoCookies($descuento_total, $cupones_aplicados, $nuevo_cupon_id)
+    {
+        if (Auth::check()) { // Solo guarda si el usuario está autenticado
+            Cookie::queue('descuento_total', json_encode($descuento_total), 60 * 24 * 30);
+            Cookie::queue('cupones_aplicados', json_encode($cupones_aplicados), 60 * 24 * 30);
+            if ($nuevo_cupon_id) {
+                Cookie::queue('nuevo_cupon_id', json_encode($nuevo_cupon_id), 60 * 24 * 30);
+            }
+        }
+    }
+
+    static public function obtenerDescuentoDeCookies()
+    {
+        if (Auth::check()) {
+            $descuento_total = json_decode(Cookie::get('descuento_total'), true);
+            $cupones_aplicados = json_decode(Cookie::get('cupones_aplicados'), true);
+
+            if (!empty($cupones_aplicados)) {
+                foreach ($cupones_aplicados as $key => $cupon_id) {
+                    $cupon = Cupon::find($cupon_id);
+                    if ($cupon) {
+                        $fecha_actual = now();
+
+                        if ($fecha_actual < $cupon->fecha_inicio || $fecha_actual > $cupon->fecha_expiracion) {
+                            unset($cupones_aplicados[$key]);
+                            $descuento_total = 0;
+                        }
+                    }
+                }
+            }
+
+            return [
+                'descuento_total' => $descuento_total ? $descuento_total : 0,
+                'cupones_aplicados' => $cupones_aplicados ? $cupones_aplicados : [],
+            ];
+        }
+
+        return [
+            'descuento_total' => 0,
+            'cupones_aplicados' => [],
+        ];
+    }
+
+
+
+
+
     static public function calcularPrecioConDescuento($precio, $porcentaje_oferta)
     {
         if (!is_null($porcentaje_oferta) && $porcentaje_oferta > 0) {
@@ -111,15 +160,33 @@ class CarritoManagement
     static public function quitarElementosCarrito($producto_id)
     {
         $elementos_carrito = self::obtenerElementosDeCookies();
+        $producto_eliminado = false;
 
         foreach ($elementos_carrito as $key => $item) {
             if ($item['producto_id'] == $producto_id) {
                 unset($elementos_carrito[$key]);
+                $producto_eliminado = true;
+                break;
             }
         }
+
+        if ($producto_eliminado) {
+            self::quitarCuponesYDescuentos();
+        }
+
         self::agregarElementoCookies($elementos_carrito);
         return $elementos_carrito;
     }
+
+    static public function quitarCuponesYDescuentos()
+    {
+        Cookie::queue(Cookie::forget('descuento_total'));
+        Cookie::queue(Cookie::forget('cupones_aplicados'));
+        Cookie::queue(Cookie::forget('nuevo_cupon_id'));
+    }
+
+
+
 
     /*Agregar elementos a cookies*/
     static public function agregarElementoCookies($elementos_carrito)

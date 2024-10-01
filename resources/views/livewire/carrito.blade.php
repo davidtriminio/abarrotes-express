@@ -77,7 +77,7 @@
                     </div>
                     <!-- Descuento aplicado -->
                     @if($descuento_total > 0)
-                        <div class="flex justify-between mb-2 text-green-600">
+                        <div class="flex justify-between mb-2 text-red-500">
                             <span>Descuento aplicado</span>
                             <span>-{{ Number::currency($descuento_total, 'LPS') }}</span> <!-- Mostrar descuento total -->
                         </div>
@@ -106,28 +106,35 @@
 
                                 <!-- Lista de cupones -->
                                 <div class="space-y-2">
-                                    @foreach($cupones as $cupon)
-                                        <div class="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
-                                            <div>
-                                                <p class="text-sm font-semibold">{{ $cupon->codigo }}</p>
-                                                <p class="text-sm text-gray-500">
-                                                    {{ $cupon->tipo_descuento === 'porcentaje' ? $cupon->descuento_porcentaje.'% de descuento' : 'Lps. '.$cupon->descuento_dinero.' de descuento' }}
-                                                </p>
+                                    @if(count($cupones) > 0)
+                                        @foreach($cupones as $cupon)
+                                            <div class="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
+                                                <div>
+                                                    <p class="text-sm font-semibold">{{ $cupon->codigo }}</p>
+                                                    <p class="text-sm text-gray-500">
+                                                        {{ $cupon->tipo_descuento === 'porcentaje' ? $cupon->descuento_porcentaje.'% de descuento' : 'Lps. '.$cupon->descuento_dinero.' de descuento' }}
+                                                    </p>
+                                                </div>
+                                                <div class="ml-4">
+                                                    @if(in_array($cupon->id, $cupones_aplicados))
+                                                        <button wire:click="retirarCupon({{ $cupon->id }})" class="bg-red-500 text-white py-1 px-3 rounded-lg">
+                                                            Retirar
+                                                        </button>
+                                                    @else
+                                                        <button wire:click="aplicarCupon({{ $cupon->id }})" class="bg-blue-500 text-white py-1 px-3 rounded-lg">
+                                                            Aplicar
+                                                        </button>
+                                                    @endif
+                                                </div>
                                             </div>
-                                            <div class="ml-4">
-                                                @if(in_array($cupon->id, $cupones_aplicados))
-                                                    <button wire:click="retirarCupon({{ $cupon->id }})" class="bg-red-500 text-white py-1 px-3 rounded-lg">
-                                                        Retirar
-                                                    </button>
-                                                @else
-                                                    <button wire:click="aplicarCupon({{ $cupon->id }})" class="bg-blue-500 text-white py-1 px-3 rounded-lg">
-                                                        Aplicar
-                                                    </button>
-                                                @endif
-                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="bg-gray-100 p-4 rounded-lg text-center">
+                                            <p class="text-sm text-gray-500">No hay cupones disponibles en este momento.</p>
                                         </div>
-                                    @endforeach
+                                    @endif
                                 </div>
+
                             </div>
                         </div>
                     </div>

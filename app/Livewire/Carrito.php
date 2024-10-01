@@ -36,7 +36,14 @@ class Carrito extends Component
         $this->actualizarCarrito();
         $this->elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
         $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
-        $this->total_final = $this->total_original;
+
+        // Obtener descuento y cupones aplicados de las cookies
+        $descuento_data = CarritoManagement::obtenerDescuentoDeCookies();
+        $this->descuento_total = $descuento_data['descuento_total'];
+        $this->cupones_aplicados = $descuento_data['cupones_aplicados'];
+
+        $this->total_final = $this->total_original - $this->descuento_total;
+
     }
 
     public function eliminarElemento($producto_id)
@@ -137,6 +144,10 @@ class Carrito extends Component
         $this->alert('success', 'Cupón aplicado correctamente.');
 
 
+
+        CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
+
+
         $this->mostrar_menu_cupones = false;
     }
 
@@ -147,6 +158,8 @@ class Carrito extends Component
             $this->procesarAplicacionCupon($this->nuevo_cupon_id);
             $this->mostrar_modal_cupon = false;
             $this->mostrar_menu_cupones = false;
+
+            CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
             $this->alert('success', 'Cupón aplicado correctamente.');
         }
     }
@@ -190,6 +203,13 @@ class Carrito extends Component
                     }
                 }
             }
+
+            $this->alert('success', 'Cupón retirado correctamente.');
+            // Guardar el descuento total actualizado en las cookies
+            CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
+
+            $this->mostrar_menu_cupones = false;
+
         }
     }
 
@@ -197,6 +217,7 @@ class Carrito extends Component
     {
         if ($this->usuario_autenticado) {
             $this->cupones = Cupon::where('estado', true)
+                ->where('fecha_inicio', '<=', now())
                 ->where('fecha_expiracion', '>', now())
                 ->where('usuario_id', Auth::id())
                 ->get();

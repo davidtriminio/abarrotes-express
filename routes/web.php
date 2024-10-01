@@ -50,3 +50,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/perfil', \App\Livewire\Perfil::class)->name('perfil');
 });
+
+

@@ -14,7 +14,7 @@ class ListaOrdenes extends Component
     public $id=0;
     public function render()
     {
-        $mis_ordenes = Orden::where('user_id', auth()->user())->latest()->paginate(10);
+        $mis_ordenes = Orden::where('user_id', auth()->user()->id)->latest()->paginate(10);
         return view('livewire.lista-ordenes', [
             'ordenes' => $mis_ordenes
         ]);

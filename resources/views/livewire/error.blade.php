@@ -10,8 +10,8 @@
                             <a href="{{ route('inicio') }}" class="boton-regresar">Ir al Inicio</a>
                         </div>
                     </div>
-                    <div class="relativo h-80 overflow-hidden md:h-auto">
-                        <img src="{{url(asset('imagen/error_ilustracion.svg'))}}" alt="Imagen de Error" class="w-full h-auto">
+                    <div class="relativo h-80 overflow-hidden md:h-auto drop-shadow-img">
+                        <img src="{{url(asset('imagen/error_ilustracion.png'))}}" alt="Imagen de Error" class="w-full h-auto">
                     </div>
                 </div>
             </div>

@@ -101,6 +101,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 'mensaje' => 'Has enviado demasiadas solicitudes en un corto periodo de tiempo. Por favor, espera un momento antes de intentarlo nuevamente.'
             ], 429);
         });
+
+        /*Error 419*/
+        $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+            if ($e->getStatusCode() == 419) {
+                return redirect()->route('login')->with('error', 'La sesión ha expirado. Por favor, inicia sesión nuevamente.');
+            }
+        });
     })->create();
 
 

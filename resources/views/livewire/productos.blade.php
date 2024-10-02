@@ -140,14 +140,39 @@
                     @endforelse
                 </div>
 
-             
+           
 
     </section>
     @if ($productos->isNotEmpty())
-        <div class="text-center mt-4">
-            {{ $productos->links() }}
-        </div>
-    @endif
+    <div class="mt-4 text-right"> <!-- Alinea a la derecha -->
+        <nav aria-label="Page navigation">
+            <ul class="flex justify-center space-x-2"> <!-- Flexbox para alinear los números -->
+                @if ($productos->onFirstPage())
+                    <li class="disabled"><span class="px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed">Anterior</span></li>
+                @else
+                    <li><a href="{{ $productos->previousPageUrl() }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Anterior</a></li>
+                @endif
+
+                @for ($i = 1; $i <= $productos->lastPage(); $i++)
+                    <li>
+                        @if ($i == $productos->currentPage())
+                            <span class="px-4 py-2 bg-blue-500 text-white rounded">{{ $i }}</span> <!-- Página actual -->
+                        @else
+                            <a href="{{ $productos->url($i) }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-blue-500 hover:text-white">{{ $i }}</a>
+                        @endif
+                    </li>
+                @endfor
+
+                @if ($productos->hasMorePages())
+                    <li><a href="{{ $productos->nextPageUrl() }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Siguiente</a></li>
+                @else
+                    <li class="disabled"><span class="px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed">Siguiente</span></li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+@endif
+ 
     <!-- Shop category description -->
     <section id="shop-category-description" class="py-8">
         <div class="container mx-auto">

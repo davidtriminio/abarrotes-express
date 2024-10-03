@@ -24,6 +24,7 @@ class Productos extends Component
     public $categorias;
     public $orden = '';
     public $marcas;
+    public $perPage = 12;
     public $mostrarTodasCategorias = false;
     public $categoriasVisibles = 5;
     public $mostrarTodasMarcas = false;
@@ -160,8 +161,10 @@ class Productos extends Component
 
         }
 
+        $productos = $query->paginate($this->perPage);
+
         return view('livewire.productos', [
-            'productos' => Producto::paginate(12),
+            'productos' => $productos,
             'categorias' => $this->categorias,
             'marcas' => $this->marcas,
         ]);

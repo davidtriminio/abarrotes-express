@@ -4,9 +4,12 @@
             <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
                 <div class="flex flex-row items-center justify-between space-y-0 p-6">
                     <h3 class="text-xl font-bold">Mis Ordenes</h3>
+                    <button onclick="printTable()" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400">
+                        Imprimir Ordenes
+                    </button>
                 </div>
                 <div class="p-6 pt-0">
-                    <div class="relative w-full overflow-auto">
+                    <div id="orderTable" class="relative w-full overflow-auto">
                         <table class="w-full caption-bottom text-sm">
                             <thead class="[&_tr]:border-b">
                             <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
@@ -96,5 +99,14 @@
             </div>
         </div>
     </div>
+    <script>
+        function printTable() {
+    var printContents = document.getElementById('orderTable').innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+    }
+    </script>
 </div>
 

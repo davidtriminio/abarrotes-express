@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProveedorResource\Pages;
-use App\Filament\Resources\ProveedorResource\RelationManagers;
-use App\Models\Proveedor;
+use App\Filament\Resources\ProveedoresResource\Pages;
+use App\Filament\Resources\ProveedoresResource\RelationManagers;
+use App\Models\Proveedores;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProveedorResource extends Resource
+class ProveedoresResource extends Resource
 {
-    protected static ?string $model = Proveedor::class;
+    protected static ?string $model = Proveedores::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -56,9 +56,9 @@ class ProveedorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProveedors::route('/'),
-            'create' => Pages\CreateProveedor::route('/create'),
-            'edit' => Pages\EditProveedor::route('/{record}/edit'),
+            'index' => Pages\ListProveedores::route('/'),
+            'create' => Pages\CreateProveedores::route('/create'),
+            'edit' => Pages\EditProveedores::route('/{record}/edit'),
         ];
     }
 }

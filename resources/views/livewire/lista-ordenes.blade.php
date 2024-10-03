@@ -5,7 +5,7 @@
                 <div class="flex flex-row items-center justify-between space-y-0 p-6">
                     <h3 class="text-xl font-bold">Mis Ordenes</h3>
                     <button onclick="printTable()" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400">
-                        Imprimir Tabla
+                        Imprimir Ordenes
                     </button>
                 </div>
                 <div class="p-6 pt-0">

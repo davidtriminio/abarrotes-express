@@ -196,4 +196,6 @@
             </div>
         </div>
     </section>
+
+    </script>
 </div>

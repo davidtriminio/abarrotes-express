@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/cupones', \App\Livewire\DetalleCupon::class)->name('cupones');
 
     Route::get('/perfil', \App\Livewire\Perfil::class)->name('perfil');
+
+    Route::get('/favoritos', \App\Livewire\Favoritos::class)->name('favoritos');
 });
 
 

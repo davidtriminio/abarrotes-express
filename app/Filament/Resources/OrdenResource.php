@@ -6,6 +6,7 @@ use App\Filament\Resources\OrdenResource\Pages;
 use App\Filament\Resources\OrdenResource\RelationManagers\DireccionRelationManager;
 use App\Models\Orden;
 use App\Models\Producto;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
@@ -71,6 +72,19 @@ class OrdenResource extends Resource
                         Section::make([
                             Select::make('user_id')
                                 ->relationship('user', 'email')
+                                ->getSearchResultsUsing(function (string $search){
+                                    return User::query()
+                                        ->where('email', 'like', "%{$search}%")
+                                        ->orWhere('name', 'like', "%{$search}%")
+                                        ->get(['id', 'name', 'email'])
+                                        ->mapWithKeys(function ($usuario){
+                                            return [$usuario->id => "{$usuario->name} ({$usuario->email})"];
+                                        });
+                                })
+                                ->getOptionLabelsUsing(function ($valor){
+                                    $usuario = User::find($valor);
+                                    return $usuario ? "{$usuario->name} ({$usuario->email})" : null;
+                                })
                                 ->exists('users', 'id')
                                 ->label('Usuario')
                                 ->searchable()

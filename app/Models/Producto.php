@@ -61,6 +61,15 @@ class Producto extends Model
         return $this->hasMany(Cupon::class, 'producto_id');
     }
 
+    public function favoritos()
+    {
+        return $this->hasMany(Favorito::class);
+    }
+
+
+
+
+
 
     /*Función de almacenamiento en diferentes columnas*/
    /* protected static function booted()

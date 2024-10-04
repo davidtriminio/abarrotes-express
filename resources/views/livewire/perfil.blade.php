@@ -23,29 +23,34 @@
     <!-- Tarjetas de resumen -->
     <div class="tarjetas-resumen">
         <a href="#" class="tarjeta">
-            <div class="texto-tarjeta">
-                <p><span class="i-bi-shopping-cart"></span> Pedidos en curso</p>
+            <div class="texto-tarjeta" style="text-align: center;">
+                <span class="icon-[icon-park-outline--order]"></span>
+                <p>Pedidos en curso</p>
                 <h3>3</h3>
             </div>
         </a>
         <a href="#" class="tarjeta">
-            <div class="texto-tarjeta">
-                <p><span class="i-bi-gift"></span> Cupones Disponibles</p>
+            <div class="texto-tarjeta" style="text-align: center;">
+                <span class="icon-[ci--ticket-voucher]"></span>
+                <p>Mis Cupones</p>
                 <h3>5</h3>
             </div>
         </a>
         <a href="#" class="tarjeta">
-            <div class="texto-tarjeta">
-                <p><span class="i-bi-box"></span> Mis órdenes</p>
+            <div class="texto-tarjeta" style="text-align: center;">
+                <span class="icon-[bi--truck]"></span>
+                <p>Mis ordenes</p>
                 <h3>5</h3>
             </div>
         </a>
-        <a href="#" class="tarjeta">
-            <div class="texto-tarjeta">
-                <p><span class="icon-[bi--heart]"></span> Lista de Deseos</p>
-                <h3>7</h3>
+        <a href="/favoritos" class="tarjeta">
+            <div class="texto-tarjeta" style="text-align: center;">
+                <span class="icon-[bi--heart]"></span>
+                <p>Favoritos</p>
+                <h3>{{ $contadorFavoritos }}</h3>
             </div>
         </a>
+
     </div>
 
     <!-- Menú de navegación estilo tarjetas -->

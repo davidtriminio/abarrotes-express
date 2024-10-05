@@ -19,6 +19,7 @@ Route::get('/productos/{categoria?}/{marca?}', \App\Livewire\Productos::class)->
 Route::get('/producto/{id}', \App\Livewire\DetalleProducto::class)->name('producto');
 Route::get('/carrito', \App\Livewire\Carrito::class)->name('carrito');
 Route::get('/ordenes', \App\Livewire\ListaOrdenes::class)->name('ordenes');
+Route::get('/mi_orden/{id}', \App\Livewire\Ordenes::class)->name('mi_orden');
 
 Route::middleware('auth')->group(function () {
     Route::get('logout', function () {

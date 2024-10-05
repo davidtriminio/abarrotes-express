@@ -32,6 +32,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Nette\Utils\Html;
 
 class OrdenResource extends Resource
 {
@@ -184,21 +185,22 @@ class OrdenResource extends Resource
                                     ->required()
                                     ->distinct()
                                     ->reactive()
-->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         $producto = Producto::find($state);
-
                                         if ($producto) {
                                             $precio = $producto->precio;
-                                            $porcentajeDescuento = $producto->porcentaje_oferta / 100;
-                                            $precioConDescuento = $precio - ($precio * $porcentajeDescuento);
-
-                                            $set('monto_unitario', $precioConDescuento);
-                                            $set('monto_total', $precioConDescuento * $get('cantidad'));
-
-                                            // Mostrar hint si el producto está en oferta
                                             if ($producto->en_oferta) {
-                                                $set('hint_monto_unitario', "L. " . number_format( $precio, 2));
+                                                $porcentajeDescuento = $producto->porcentaje_oferta / 100;
+                                                $precioConDescuento = $precio - ($precio * $porcentajeDescuento);
+                                            } else {
+                                                $precioConDescuento = $precio;
+                                            }
+                                            $set('monto_unitario', number_format((float)$precioConDescuento, 2, '.', ''));
+                                            $set('monto_total', number_format((float)($precioConDescuento * $get('cantidad')), 2, '.', ''));
+
+                                            if ($producto->en_oferta) {
+                                                $set('hint_monto_unitario', Html::htmlToText("<s>L. " . number_format($precio, 2) . "</s>"));
                                             } else {
                                                 $set('hint_monto_unitario', null);
                                             }
@@ -218,8 +220,10 @@ class OrdenResource extends Resource
                                     ->reactive()
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
-                                        $set('monto_total', $state * $get('monto_unitario'));
-                                    })->columns(3)
+                                        $monto_unitario = $get('monto_unitario');
+                                        $set('monto_total', number_format((float)($state * $monto_unitario), 2, '.', ''));
+                                    })
+                                    ->columns(3)
                                     ->required()
                                     ->validationMessages([
                                         'required' => 'Debe introducir una cantidad',
@@ -232,8 +236,10 @@ class OrdenResource extends Resource
                                     ->disabled()
                                     ->dehydrated()
                                     ->label('Monto Unitario')
-                                    ->hint(fn(Get $get) => $get('hint_monto_unitario')) // Mostrar el hint con el precio original tachado
+                                    ->hint(fn(Get $get) => $get('hint_monto_unitario'))
+                                    ->hintColor('danger')
                                     ->reactive()
+                                    ->formatStateUsing(fn($state) => is_numeric($state) ? number_format((float)$state, 2) : $state)
                                     ->validationMessages([
                                         'disabled' => 'El campo no puede ser deshabilitado',
                                         'numeric' => 'El valor ingresado debe ser un número',
@@ -253,6 +259,7 @@ class OrdenResource extends Resource
                                     ->extraAttributes([
                                         'step' => '0.01'
                                     ])
+                                    ->formatStateUsing(fn($state) => is_numeric($state) ? number_format((float)$state, 2) : $state)
                                     ->validationMessages([
                                         'disabled' => 'El campo no puede ser deshabilitado',
                                         'numeric' => 'El valor ingresado debe ser un número',

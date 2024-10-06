@@ -1431,6 +1431,22 @@ body {
     }
 }
 
+/*Estilos para vistas de errores*/
+.box-shadow-error{
+    float: left;
+    box-shadow: 2px 2px 2px gray;
+}
+.text-shadow-error{
+    float: right;
+    text-shadow: 2px 2px 2px gray;
+}
+.drop-shadow-img{
+    float: right;
+}
+.drop-shadow-img img{
+    filter: drop-shadow(2px 5px 10px gray);
+}
+
 
 
 

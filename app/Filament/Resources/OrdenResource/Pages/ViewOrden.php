@@ -6,6 +6,7 @@ use App\Filament\Resources\OrdenResource;
 use App\Models\Orden;
 use App\Models\Producto;
 use Filament\Actions;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
@@ -92,7 +93,27 @@ class ViewOrden extends ViewRecord
                                 ])
                                 ->default('nuevo')
                                 ->inline()
-                                ->required(),
+                                ->required()
+                                ->afterStateUpdated(function ($state, $set, $get) {
+                                    if ($state === 'entregado' && !$get('fecha_entrega')) {
+                                        $set('fecha_entrega', \Carbon\Carbon::now());
+                                    }
+                                })
+                                ->validationMessages([
+                                    'options' => 'Debe seleccionar un estado de entrega válido.',
+                                    'required' => 'Debe seleccionar un estado de entrega.',
+                                ])
+                                ->live(),
+                            DateTimePicker::make('fecha_entrega')
+                                ->visible(function (Get $get, Set $set) {
+                                    if ($get('estado_entrega') === 'entregado' && !$get('fecha_entrega')) {
+                                        $set('fecha_entrega', \Carbon\Carbon::now());
+                                    }
+                                    return $get('estado_entrega') === 'entregado';
+                                })
+                                ->live()
+                                ->native(false)
+                                ->minDate(fn(Get $get) => $get('created_at'))
                         ])->columns(2),
 
 

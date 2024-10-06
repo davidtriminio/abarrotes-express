@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\OrdenResource\Pages;
 
 use App\Filament\Resources\OrdenResource;
+use App\Models\Orden;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
@@ -34,19 +35,33 @@ class ListOrdenes extends ListRecords
 
     public function getTabs(): array
     {
-        return [
-            null => Tab::make('Todo'),
-            'nuevo' => Tab::make('Nuevo')->query(fn($query) => $query->where('estado_entrega', 'nuevo'))
-                ->icon('heroicon-o-sparkles'),
-            'procesado' => Tab::make('En Proceso')->query(fn($query) => $query->where('estado_entrega', 'procesado'))
-                ->icon('heroicon-o-arrow-path'),
-            'enviado' => Tab::make('Enviado')->query(fn($query) => $query->where('estado_entrega', 'enviado'))
-                ->icon('heroicon-o-truck'),
-            'entregado' => Tab::make('Entregado')->query(fn($query) => $query->where('estado_entrega', 'entregado'))
-                ->icon('heroicon-o-archive-box'),
-            'cancelado' => Tab::make('Cancelado')->query(fn($query) => $query->where('estado_entrega', 'cancelado'))
-                ->icon('heroicon-o-x-circle'),
-        ];
+        $orden = Orden::query();
+        if ($orden->count()) {
+            $tabs = [];
+            if (Orden::query()->where('estado_entrega', 'nuevo')->exists()) {
+                $tabs['nuevo'] = Tab::make('Nuevo')->query(fn($query) => $query->where('estado_entrega', 'nuevo'))
+                    ->icon('heroicon-o-sparkles');
+            }
+            if (Orden::query()->where('estado_entrega', 'procesado')->exists()) {
+                $tabs['procesado'] = Tab::make('En Proceso')->query(fn($query) => $query->where('estado_entrega', 'procesado'))
+                    ->icon('heroicon-o-arrow-path');
+            }
+            if (Orden::query()->where('estado_entrega', 'enviado')->exists()) {
+                $tabs['enviado'] = Tab::make('Enviado')->query(fn($query) => $query->where('estado_entrega', 'enviado'))
+                    ->icon('heroicon-o-truck');
+            }
+            if (Orden::query()->where('estado_entrega', 'entregado')->exists()) {
+                $tabs['entregado'] = Tab::make('Entregado')->query(fn($query) => $query->where('estado_entrega', 'entregado'))
+                    ->icon('heroicon-o-archive-box');
+            }
+            if (Orden::query()->where('estado_entrega', 'cancelado')->exists()) {
+                $tabs['cancelado'] = Tab::make('Cancelado')
+                    ->query(fn($query) => $query->where('estado_entrega', 'cancelado'))
+                    ->icon('heroicon-o-x-circle');
+            }
+            return [null => Tab::make('Todo')] + $tabs;
+        }
+        return [];
     }
 
     public function table(Table $table): Table
@@ -63,28 +78,70 @@ class ListOrdenes extends ListRecords
                     ->sortable(),
 
                 TextColumn::make('metodo_pago')
-                    ->searchable()
-                    ->sortable(),
+                    ->badge()
+                    ->icon(fn(string $state): string => match ($state) {
+                        'par' => 'heroicon-o-banknotes',
+                        'efectivo' => 'heroicon-o-currency-dollar',
+                        'tarjeta' => 'heroicon-o-credit-card',
+                    })
+                    ->color(fn(string $state): string => match ($state) {
+                        'par' => 'primary',
+                        'efectivo' => 'success',
+                        'tarjeta' => 'warning',
+                    })
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                        'par' => 'Pago al recibir',
+                        'efectivo' => 'Efectivo',
+                        'tarjeta' => 'Tarjeta',
+                    })
+                    ->sortable()
+                    ->searchable(),
 
-                SelectColumn::make('estado_pago')
-                    ->options([
+                TextColumn::make('estado_pago')
+                    ->badge()
+                    ->icon(fn(string $state): string => match ($state) {
+                        'pagado' => 'heroicon-m-check-circle',
+                        'procesando' => 'heroicon-m-arrow-path',
+                        'error' => 'heroicon-m-exclamation-circle',
+                    })
+                    ->color(fn(string $state): string => match ($state) {
+                        'pagado' => 'success',
+                        'procesando' => 'warning',
+                        'error' => 'danger',
+                    })
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
                         'pagado' => 'Pagado',
                         'procesando' => 'Procesando',
-                        'error' => 'Error'
-                    ])
-                    ->searchable()
-                    ->sortable(),
+                        'error' => 'Error',
+                    })
+                    ->sortable()
+                    ->searchable(),
 
-                SelectColumn::make('estado_entrega')
-                    ->options([
+                TextColumn::make('estado_entrega')
+                    ->badge()
+                    ->icon(fn(string $state): string => match ($state) {
+                        'nuevo' => 'heroicon-m-sparkles',
+                        'procesado' => 'heroicon-m-arrow-path',
+                        'enviado' => 'heroicon-m-truck',
+                        'entregado' => 'heroicon-m-archive-box',
+                        'cancelado' => 'heroicon-m-x-circle',
+                    })
+                    ->color(fn(string $state): string => match ($state) {
+                        'nuevo' => 'primary',
+                        'procesado' => 'warning',
+                        'enviado' => 'success',
+                        'entregado' => 'success',
+                        'cancelado' => 'danger',
+                    })
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
                         'nuevo' => 'Nuevo',
                         'procesado' => 'En Proceso',
                         'enviado' => 'Enviado',
                         'entregado' => 'Entregado',
                         'cancelado' => 'Cancelado',
-                    ])
-                    ->searchable()
-                    ->sortable(),
+                    })
+                    ->sortable()
+                    ->searchable(),
             ])
             ->paginated([10, 25, 50, 100,])
             ->actions([

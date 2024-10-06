@@ -14,7 +14,7 @@ class Orden extends Model
     use SoftDeletes;
     protected $table = 'ordenes';
 
-    protected $fillable = ['user_id', 'sub_total', 'total_final', 'monto_unitario', 'metodo_pago', 'estado_pago', 'estado_entrega', 'costos_envio', 'notas'];
+    protected $fillable = ['user_id', 'sub_total', 'total_final', 'monto_unitario', 'metodo_pago', 'estado_pago', 'estado_entrega', 'fecha_entrega', 'costos_envio', 'notas'];
 
     public function user(): BelongsTo
     {

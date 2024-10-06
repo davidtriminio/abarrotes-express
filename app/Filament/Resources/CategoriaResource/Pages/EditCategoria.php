@@ -32,7 +32,6 @@ class EditCategoria extends EditRecord
 
     public function form(Form $form): Form
     {
-        $isEditing = true; // Cambia esto según tu lógica para determinar si estás editando
 
         return $form
             ->schema([
@@ -40,6 +39,8 @@ class EditCategoria extends EditRecord
                     ->required()
                     ->label('Nombre De la Categoria')
                     ->maxLength(70)
+                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                    ->live()
                     ->regex('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/')
                     ->unique(Categoria::class, ignoreRecord: true)
                     ->autocomplete('off')
@@ -49,6 +50,14 @@ class EditCategoria extends EditRecord
                         'regex' => 'El nombre solo debe contener letras y espacios.',
                         'unique' => 'Esta categoría ya existe.',
                     ])->columnSpanFull(),
+
+                Toggle::make('disponible')
+                    ->label('Disponible')
+                    ->default(true)
+                    ->rules(['boolean'])
+                    ->validationMessages([
+                        'boolean' => 'El valor debe ser verdadero o falso.',
+                    ]),
 
                 FileUpload::make('imagen')
                     ->required()
@@ -66,18 +75,13 @@ class EditCategoria extends EditRecord
                         'max' => 'El tamaño de la imagen no debe exceder los 5MB.',
                     ]),
 
-                Toggle::make('disponible')
-                    ->label('Disponible')
-                    ->default(true)
-                    ->rules(['boolean'])
-                    ->validationMessages([
-                        'boolean' => 'El valor debe ser verdadero o falso.',
-                    ]),
 
                 Textarea::make('descripcion')
                     ->required()
                     ->label('Descripción')
                     ->placeholder('Escribe una breve descripción...')
+                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                    ->live()
                     ->autosize()
                     ->minLength(5)
                     ->maxlength(300)
@@ -87,12 +91,8 @@ class EditCategoria extends EditRecord
                         'max' => 'La descripción no puede exceder los :max caracteres.'
                     ])
                     ->columnSpan(2),
-            ])
-            ->afterStateUpdated(function (Form $form, $state) use ($isEditing) {
-                if (!$isEditing) {
-                    $form->actions()->save()->disabled();
-                }
-            });
+            ]);
+
     }
 
     protected function getRedirectUrl(): string

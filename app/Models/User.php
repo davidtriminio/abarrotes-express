@@ -61,6 +61,13 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Cupon::class, 'user_id');
     }
 
+    public function favoritos()
+    {
+        return $this->hasMany(Favorito::class);
+    }
+
+
+
 
     public $user;
     public $isAdmin;

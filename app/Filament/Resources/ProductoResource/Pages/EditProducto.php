@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProductoResource\Pages;
 
 use App\Filament\Resources\ProductoResource;
+use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\Producto;
 use Filament\Actions;
@@ -56,6 +57,8 @@ class EditProducto extends EditRecord
                             ->required()
                             ->label('Nombre del Producto')
                             ->maxLength(70)
+                            ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                            ->live()
                             ->regex('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/')
                             ->unique(Producto::class, ignoreRecord: true)
                             ->autocomplete('off')
@@ -96,6 +99,8 @@ class EditProducto extends EditRecord
                             ->required()
                             ->label('Descripción')
                             ->placeholder('Escribe una breve descripción...')
+                            ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                            ->live()
                             ->autosize()
                             ->minLength(5)
                             ->maxlength(300)
@@ -189,7 +194,68 @@ class EditProducto extends EditRecord
                             ->required()
                             ->searchable()
                             ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('nombre')
+                                    ->required()
+                                    ->label('Nombre De la Marca')
+                                    ->maxLength(70)
+                                    ->placeholder('Escribe una breve descripción...')
+                                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                                    ->live()
+                                    ->regex('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/')
+                                    ->unique(Marca::class, ignoreRecord: true)
+                                    ->autocomplete('off')
+                                    ->validationMessages([
+                                        'maxLength' => 'El nombre debe contener un máximo de :max caracteres.',
+                                        'required' => 'Debe introducir un nombre para la marca.',
+                                        'regex' => 'El nombre solo puede contener letras, números y los caracteres especiales permitidos.',
+                                        'unique' => 'Esta marca ya existe.',
+                                    ])->columnSpanFull(),
+
+                                Forms\Components\Toggle::make('disponible')
+                                    ->label('Disponible')
+                                    ->default(true)
+                                    ->rules(['boolean'])
+                                    ->validationMessages([
+                                        'boolean' => 'El valor debe ser verdadero o falso.',
+                                    ])
+                                    ->columnSpanFull(),
+
+                                Forms\Components\FileUpload::make('imagen')
+                                    ->required()
+                                    ->label('Imagen')
+                                    ->image()
+                                    ->directory('marcas')
+                                    ->maxFiles(1)
+                                    ->maxSize(5190)
+                                    ->preserveFilenames()
+                                    ->validationMessages([
+                                        'maxFiles' => 'Se permite un máximo de 1 imagen.',
+                                        'required' => 'Debe seleccionar al menos una imagen.',
+                                        'image' => 'El archivo debe ser una imagen válida.',
+                                        'max' => 'El tamaño de la imagen no debe exceder los 5MB.',
+                                    ])
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Textarea::make('descripcion')
+                                    ->required()
+                                    ->label('Descripción')
+                                    ->placeholder('Escribe una breve descripción...')
+                                    ->autosize()
+                                    ->minLength(5)
+                                    ->maxlength(300)
+                                    ->placeholder('Escribe una breve descripción...')
+                                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                                    ->live()
+                                    ->validationMessages([
+                                        'required' => 'La descripción es obligatoria.',
+                                        'min' => 'La descripción debe tener al menos :min caracteres.',
+                                        'max' => 'La descripción no puede exceder los :max caracteres.'
+                                    ])
+                                    ->columnSpanFull(),
+                            ])
                             ->label('Marca')
+                            ->helperText('Puedes crear marcas con "+"')
                             ->rules(['exists:marcas,id'])
                             ->validationMessages([
                                 'required' => 'Debe seleccionar una marca.',
@@ -202,7 +268,70 @@ class EditProducto extends EditRecord
                             ->required()
                             ->searchable()
                             ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('nombre')
+                                    ->required()
+                                    ->label('Nombre De la Categoria')
+                                    ->maxLength(70)
+                                    ->placeholder('Escribe una breve descripción...')
+                                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                                    ->live()
+                                    ->regex('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/')
+                                    ->unique(Categoria::class, ignoreRecord: true)
+                                    ->autocomplete('off')
+                                    ->validationMessages([
+                                        'maxLength' => 'El nombre debe contener un máximo de :max caracteres.',
+                                        'required' => 'Debe introducir un nombre para la categoría.',
+                                        'regex' => 'El nombre solo debe contener letras y espacios.',
+                                        'unique' => 'Esta categoría ya existe.',
+                                    ])->columnSpanFull(),
+
+                                Forms\Components\Toggle::make('disponible')
+                                    ->label('Disponible')
+                                    ->default(true)
+                                    ->rules(['boolean'])
+                                    ->validationMessages([
+                                        'boolean' => 'El valor debe ser verdadero o falso.',
+                                    ])
+                                    ->columnSpanFull(),
+
+                                FileUpload::make('imagen')
+                                    ->required()
+                                    ->label('Imagen')
+                                    ->image()
+                                    ->directory('categorias')
+                                    ->maxFiles(1)
+                                    ->maxSize(5190)
+                                    ->preserveFilenames()
+                                    ->columnSpanFull()
+                                    ->validationMessages([
+                                        'maxFiles' => 'Se permite un máximo de 1 imagen.',
+                                        'required' => 'Debe seleccionar al menos una imagen.',
+                                        'image' => 'El archivo debe ser una imagen válida.',
+                                        'max' => 'El tamaño de la imagen no debe exceder los 5MB.',
+                                    ])
+                                    ->columnSpanFull(),
+
+
+                                Forms\Components\Textarea::make('descripcion')
+                                    ->required()
+                                    ->label('Descripción')
+                                    ->placeholder('Escribe una breve descripción...')
+                                    ->autosize()
+                                    ->minLength(5)
+                                    ->maxlength(300)
+                                    ->placeholder('Escribe una breve descripción...')
+                                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                                    ->live()
+                                    ->validationMessages([
+                                        'required' => 'La descripción es obligatoria.',
+                                        'min' => 'La descripción debe tener al menos :min caracteres.',
+                                        'max' => 'La descripción no puede exceder los :max caracteres.'
+                                    ])
+                                    ->columnSpanFull(),
+                            ])
                             ->label('Categoría')
+                            ->helperText('Puedes crear una categorias con "+"')
                             ->rules(['exists:categorias,id'])
                             ->validationMessages([
                                 'required' => 'Debe seleccionar una categoría.',

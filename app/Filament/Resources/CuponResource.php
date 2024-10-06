@@ -61,6 +61,7 @@ class CuponResource extends Resource
 
                         Forms\Components\Select::make('tipo_descuento')
                             ->required()
+                            ->native(false)
                             ->label('Tipo de Descuento')
                             ->options([
                                 'porcentaje' => 'Porcentaje',
@@ -190,12 +191,6 @@ class CuponResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('usuario.name')
                     ->label('Usuario'),
-                Tables\Columns\TextColumn::make('producto.nombre')
-                    ->label('Producto'),
-                Tables\Columns\TextColumn::make('categoria.nombre')
-                    ->label('Categoría'),
-                Tables\Columns\TextColumn::make('marca.nombre')
-                    ->label('Marca'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

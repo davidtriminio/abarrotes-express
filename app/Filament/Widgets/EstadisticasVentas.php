@@ -29,6 +29,9 @@ class EstadisticasVentas extends BaseWidget
         $ganancia_actual_dia = $estadisticasDiarias['ganancia_actual_dia'] ?? 0;
         $porcentaje_cambio_diario = $estadisticasDiarias['porcentaje_cambio_diario'] ?? 0;
 
+        /*Valores para el margen*/
+        $margen_promedio = $estadisticasMedia['margen_promedio'] ?? 0;
+
         /*Definir los colores*/
         $color = $ganancia_actual_dia > 0
             ? ($porcentaje_cambio_diario > 0 ? 'success' : ($porcentaje_cambio_diario < 0 ? 'warning' : 'white'))
@@ -40,8 +43,11 @@ class EstadisticasVentas extends BaseWidget
                 ->descriptionIcon($porcentaje_cambio_diario > 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down', IconPosition::Before)
                 ->color($color)
                 ->description(round($porcentaje_cambio_diario, 2) . '%' . ' de ganancias con respecto al día anterior')
-                // Mostrar el chart con las ventas de los últimos 7 días
                 ->chart($this->ventasUltimos7Dias()),
+
+            Stat::make('Margen de venta por orden', 'LPS ' . $numeroFormateado($margen_promedio))
+                ->color($margen_promedio == 0 ? 'white' : ($margen_promedio > 10 ? 'success' : 'danger'))
+                ->chart($this->ventasTotalesEntregadas()),
         ];
     }
 

@@ -15,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\TextInput;
 
 class ProveedorResource extends Resource
 {
@@ -99,17 +100,7 @@ class ProveedorResource extends Resource
                                 'min' => 'La cantidad disponible debe ser al menos 1.',
                             ]),
 
-                        Forms\Components\Toggle::make('estado')
-                            ->label('estado')
-                            ->default(true)
-                            ->rules(['boolean'])
-                            ->validationMessages([
-                                'boolean' => 'El valor debe ser verdadero o falso.',
-                            ]),
-                        Group::make([]),
-
-
-                        Forms\Components\Select::make('id_producto')
+                            Forms\Components\Select::make('id_producto')
                             ->relationship('producto', 'nombre')
                             ->required()
                             ->searchable()
@@ -120,6 +111,15 @@ class ProveedorResource extends Resource
                                 'required' => 'Debe seleccionar un productos.',
                                 'exists' => 'Los productos seleccionada no es válida.',
                             ]),
+
+                        Forms\Components\Toggle::make('estado')
+                            ->label('Estado de contrato')
+                            ->default(true)
+                            ->rules(['boolean'])
+                            ->validationMessages([
+                                'boolean' => 'El valor debe ser verdadero o falso.',
+                            ]),
+
                             ])->columnSpan(1)
                     ])->columns(3)
                 ])->columns(1);
@@ -158,6 +158,7 @@ class ProveedorResource extends Resource
             'index' => Pages\ListProveedors::route('/'),
             'create' => Pages\CreateProveedor::route('/create'),
             'edit' => Pages\EditProveedor::route('/{record}/edit'),
+            'view' => ProveedorResource\Pages\ViewProveedor::route('/{record}/view')
         ];
     }
 }

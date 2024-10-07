@@ -11,6 +11,13 @@ use Filament\Resources\Resource;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\Action;
+
 
 class EditProveedor extends EditRecord
 {
@@ -35,7 +42,7 @@ class EditProveedor extends EditRecord
             ->schema([
                 Group::make([
                     Section::make([
-                        Forms\Components\TextInput::make('nombre')
+                        TextInput::make('nombre')
                             ->required()
                             ->label('Nombre del Proveedor')
                             ->maxLength(70)
@@ -51,7 +58,7 @@ class EditProveedor extends EditRecord
                             ]),
 
 
-                        Forms\Components\Textarea::make('contracto')
+                        Textarea::make('contracto')
                             ->required()
                             ->label('Descripción de contrato')
                             ->placeholder('Escribe una breve descripción de contrato...')
@@ -71,7 +78,7 @@ class EditProveedor extends EditRecord
 
                     Section::make([
 
-                        Forms\Components\TextInput::make('pago')->prefix('L.')
+                        TextInput::make('pago')->prefix('L.')
                             ->required()
                             ->inputMode('decimal')
                             ->numeric()
@@ -88,25 +95,37 @@ class EditProveedor extends EditRecord
                                 'minValue' => 'El pago debe ser al menos 1.'
                             ]),
 
-                        Forms\Components\TextInput::make('cantidad_producto')
-                            ->required()
+                        TextInput::make('cantidad_producto')
+                        ->required()
+                            ->inputMode('decimal')
                             ->numeric()
-                            ->integer()
-                            ->inputMode('numeric')
-                            ->label('Cantidad Producto acordado')
-                            ->placeholder(0)
-                            ->step('1')
-                            ->minValue(1)
+                            ->label('Cantidad de Producto')
+                            ->regex('/^\d{1,10}(\.\d{1,2})?$/')
+                            ->placeholder(0.00)
                             ->autocomplete('off')
+                            ->step(0.01)
+                            ->minValue(1)
                             ->validationMessages([
-                                'required' => 'La cantidad es obligatoria.',
+                                'required' => 'La cantidad de producto es obligatorio.',
                                 'numeric' => 'La cantidad debe ser un valor numérico.',
-                                'integer' => 'La cantidad debe ser un número entero.',
-                                'min' => 'La cantidad disponible debe ser al menos 1.',
+                                'regex' => 'El pago debe tener hasta 10 dígitos enteros y 2 decimales.',
+                                'minValue' => 'La cantidad debe ser al menos 1.'
                             ]),
 
-                        Forms\Components\Toggle::make('estado')
-                            ->label('estado')
+                            Select::make('id_producto')
+                            ->relationship('producto', 'nombre')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->label('Productos')
+                            ->rules(['exists:productos,id'])
+                            ->validationMessages([
+                                'required' => 'Debe seleccionar un productos.',
+                                'exists' => 'Los productos seleccionada no es válida.',
+                            ]),
+                           
+                        Toggle::make('estado')
+                            ->label('Estado de contrato')
                             ->default(false)
                             ->rules(['boolean'])
                             ->validationMessages([

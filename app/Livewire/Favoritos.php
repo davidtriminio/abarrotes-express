@@ -15,10 +15,7 @@ class Favoritos extends Component
     use WithPagination;
     use LivewireAlert;
 
-    public $mostrarModalEliminar = false;
-    public $favoritoSeleccionado;
 
-    protected $paginationTheme = 'tailwind';
 
     // Método para agregar el producto favorito al carrito
     // Método para agregar el producto favorito al carrito
@@ -52,7 +49,7 @@ class Favoritos extends Component
 
     public function render()
     {
-        $favoritos = Favorito::where('user_id', auth()->id())->with('producto')->paginate(9);
+        $favoritos = Favorito::where('user_id', auth()->id())->with('producto')->paginate(10);
 
         return view('livewire.favoritos', [
             'favoritos' => $favoritos,

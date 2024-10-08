@@ -24,7 +24,7 @@ class ProveedorResource extends Resource
     protected static ?string $slug = 'proveedores';
     protected static ?string $modelLabel = 'proveedores';
 
-    protected static ?string $navigationIcon = 'user-group.';
+    protected static ?string $navigationIcon = 'heroicon-s-user';
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-cube';
 

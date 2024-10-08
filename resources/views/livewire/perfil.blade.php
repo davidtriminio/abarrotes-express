@@ -29,14 +29,16 @@
                 <h3>3</h3>
             </div>
         </a>
+        
         <a href="#" class="tarjeta">
+       
             <div class="texto-tarjeta" style="text-align: center;">
                 <span class="icon-[ci--ticket-voucher]"></span>
                 <p>Mis Cupones</p>
                 <h3>5</h3>
             </div>
         </a>
-        <a href="#" class="tarjeta">
+        <a href="/ordenes" class="tarjeta">
             <div class="texto-tarjeta" style="text-align: center;">
                 <span class="icon-[bi--truck]"></span>
                 <p>Mis ordenes</p>

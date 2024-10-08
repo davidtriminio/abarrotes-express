@@ -24,6 +24,8 @@ class EstadisticasVentas extends BaseWidget
         };
         /*Llamada a las funciones*/
         $estadisticasDiarias = $this->calcularEstadisticasDiarias();
+        $estadisticasMedia = $this->calcularMediaPorOrden();
+        $estadisticasMensuales =$this->calcularEstadisticasMensuales();
 
         /*Definir valores predeterminados*/
         $ganancia_actual_dia = $estadisticasDiarias['ganancia_actual_dia'] ?? 0;
@@ -32,9 +34,17 @@ class EstadisticasVentas extends BaseWidget
         /*Valores para el margen*/
         $margen_promedio = $estadisticasMedia['margen_promedio'] ?? 0;
 
+        /*Valores para ganancia mensual*/
+        $ganancia_actual_mes = $estadisticasMensuales['ganancia_actual_mes'] ?? 0;
+        $porcentaje_cambio_mes_anterior = $estadisticasMensuales['porcentaje_cambio_mes_anterior'] ?? 0;
+
         /*Definir los colores*/
         $color = $ganancia_actual_dia > 0
             ? ($porcentaje_cambio_diario > 0 ? 'success' : ($porcentaje_cambio_diario < 0 ? 'warning' : 'white'))
+            : 'white';
+
+        $color_mes_anterior = $ganancia_actual_mes > 0
+            ? ($porcentaje_cambio_mes_anterior > 0 ? 'success' : ($porcentaje_cambio_mes_anterior < 0 ? 'warning' : 'white'))
             : 'white';
 
         /*Mostrar las estadísticas*/
@@ -48,6 +58,14 @@ class EstadisticasVentas extends BaseWidget
             Stat::make('Margen de venta por orden', 'LPS ' . $numeroFormateado($margen_promedio))
                 ->color($margen_promedio == 0 ? 'white' : ($margen_promedio > 10 ? 'success' : 'danger'))
                 ->chart($this->ventasTotalesEntregadas()),
+
+            Stat::make('Ganancias Mensuales', 'LPS ' . $numeroFormateado($ganancia_actual_mes))
+                ->description(round($porcentaje_cambio_mes_anterior, 2) . '%' . ' de ganancias con respecto al mes anterior')
+                // Icono condicional según el porcentaje
+                ->descriptionIcon($porcentaje_cambio_mes_anterior > 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down', IconPosition::Before)
+                ->color($color_mes_anterior)
+                // Chart de los últimos 31 días
+                ->chart($this->ventasConvertidasMensuales()),
         ];
     }
 
@@ -137,5 +155,57 @@ class EstadisticasVentas extends BaseWidget
         $margen_promedio = $total_pedidos_margen > 0 ? round($total_ventas_margen / $total_pedidos_margen, 2) : 0;
 
         return ['margen_promedio' => $margen_promedio];
+    }
+
+    /*Ganancias mensuales*/
+    protected function calcularEstadisticasMensuales(): array
+    {
+        $ganancia_actual_mes = \DB::table('ordenes')
+            ->where('estado_entrega', 'entregado')
+            ->whereMonth('fecha_entrega', '=', Carbon::now()->month)
+            ->whereYear('fecha_entrega', '=', Carbon::now()->year)
+            ->sum('total_final'); // Cambié a total_final
+
+        $ganancia_mes_anterior = \DB::table('ordenes')
+            ->where('estado_entrega', 'entregado')
+            ->whereMonth('fecha_entrega', '=', Carbon::now()->subMonth()->month)
+            ->whereYear('fecha_entrega', '=', Carbon::now()->subMonth()->year)
+            ->sum('total_final');
+
+        $porcentaje_cambio_mes_anterior = $ganancia_mes_anterior > 0
+            ? (($ganancia_actual_mes - $ganancia_mes_anterior) / $ganancia_mes_anterior) * 100
+            : 0;
+
+        return [
+            'ganancia_actual_mes' => $ganancia_actual_mes,
+            'ganancia_mes_anterior' => $ganancia_mes_anterior,
+            'porcentaje_cambio_mes_anterior' => $porcentaje_cambio_mes_anterior,
+        ];
+    }
+
+    protected function ventasConvertidasMensuales(): array
+    {
+        $fechas = [];
+        $ventas = [];
+
+        for ($i = 30; $i >= 0; $i--) {
+            $fecha = Carbon::now()->subDays($i)->format('Y-m-d');
+            $fechas[] = $fecha;
+            $ventas[$fecha] = 0; // Inicializar cada fecha con 0
+        }
+
+        $datos_ventas = ElementoOrden::join('ordenes', 'elementos_ordenes.orden_id', '=', 'ordenes.id')
+            ->where('ordenes.estado_entrega', 'entregado')
+            ->whereDate('ordenes.fecha_entrega', '>=', Carbon::now()->subDays(30))
+            ->selectRaw('DATE(ordenes.fecha_entrega) as fecha, SUM(ordenes.total_final) as total_ventas')
+            ->groupBy('fecha')
+            ->orderBy('fecha', 'asc')
+            ->get();
+
+        foreach ($datos_ventas as $venta) {
+            $ventas[$venta->fecha] = $venta->total_ventas;
+        }
+
+        return array_values($ventas);
     }
 }

@@ -39,34 +39,63 @@
                             @php
                                 $estado_orden = '';
                                  if($orden->estado_entrega == 'nuevo'){
-                                     $estado_orden = '<span class="mr-1 icon-[ph--sparkle]">Nuevo</span>';
+                                     $estado_orden = '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-nuevo">
+                                    <span class="mr-1 icon-[ph--sparkle]"></span>
+                                    Nuevo
+                                </span>';
                                  } elseif ($orden->estado_entrega == 'procesado'){
-                                     $estado_orden = '<span class="mr-1 icon-[uim--process]">En Proceso</span>';
+                                     $estado_orden = '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-en-proceso">
+                                    <span class="mr-1 icon-[uim--process]"></span>
+                                    En Proceso
+                                </span>';
                                  } elseif ($orden->estado_entrega == 'enviado'){
                                      $estado_orden = '<span class="mr-1 icon-[bi--truck]">Enviado</span>';
                                  } elseif ($orden->estado_entrega == 'entregado'){
-                                     $estado_orden = '<span class="mr-1 icon-[carbon--box]">Entregado</span>';
+                                     $estado_orden = '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-enviado">
+                                    <span class="mr-1 icon-[bi--truck]"></span>
+                                    Enviado
+                                </span>';
                                  } else{
-                                     $estado_orden = '<span class=".bg-cancelado">Cancelado </span>';
+                                     $estado_orden = '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-error">
+                                    <span class="mr-1 icon-[teenyicons--exclamation-circle-outline]"></span>
+                                    cancelado
+                                </span>';
                                  }
 
-                                
+
                                 $metodos_pago = '';
                                  if($orden->metodo_pago == 'efectivo'){
-                                     $metodos_pago = '<span class="mr-1 icon-[ion--card-outline]">efectivo</span>';
+                                     $metodos_pago = '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-efectivo">
+                                    <span class="mr-1 icon-[teenyicons--money-stack-outline]"></span>
+                                    Efectivo
+                                </span>';
                                  } elseif ($orden->metodo_pago == 'tarjeta'){
-                                     $metodos_pago = '<span class="mr-1 icon-[teenyicons--money-stack-outline]">Tarjeta de crédito o débito</span>';
+                                     $metodos_pago = '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-tarjeta">
+                                    <span class="mr-1 icon-[ion--card-outline]"></span>
+                                    Tarjeta
+                                </span>';
                                  } elseif ($orden->metodo_pago == 'par'){
-                                     $metodos_pago = '<span class="mr-1 icon-[teenyicons--shop-outline]">Pago al Recibir</span>';
-                                 } 
+                                     $metodos_pago = '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-pago-al-recibir">
+                                    <span class="mr-1 icon-[teenyicons--shop-outline]"></span>
+                                    Pago al Recibir
+                                </span>';
+                                 }
 
                                  $estado_pago = '';
                                  if($orden->estado_pago == 'fallo'){
-                                     $estado_pago = '<span class="mr-1 icon-[teenyicons--exclamation-circle-outline]">Falló</span>';
+                                     $estado_pago = '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-error">
+                                    <span class="mr-1 icon-[teenyicons--exclamation-circle-outline]"></span>
+                                    Error
+                                </span>';
                                  } elseif ($orden->estado_pago == 'pendiente'){
-                                     $estado_pago = '<span class="bg-orange-700 py-1 px-3 rounded text-white shadow">Pendiente</span>';
+                                     $estado_pago = '<span class="bg-pagado inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-pagado">
+                                     <span class="bg-orange-700 py-1 px-3 rounded text-white shadow">Pendiente</span>
+                                     </span>';
                                  } else {
-                                     $estado_pago = '<span class="mr-1 icon-[uim--process]">Pagado</span>';
+                                     $estado_pago = ' <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-pagado">
+                                    <span class="mr-1 icon-[material-symbols--check-circle-outline]"></span>
+                                    Pagado
+                                </span>';
                                  }
 
                                  $moneda = '';
@@ -80,7 +109,7 @@
                             @endphp
                             <tr wire:key="{{$orden -> id}}"
                                 class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{$orden->id}}</td>
+                                <td class="p-4 align-middle [&:has([role=checkbox])]:pr-0">{{$orden->id}}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $orden->total_final }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $metodos_pago !!}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $estado_pago !!}</td>
@@ -91,7 +120,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                            
+
                             </tbody>
                         </table>
                     </div>

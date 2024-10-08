@@ -13,6 +13,7 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
@@ -23,7 +24,20 @@ class ProveedorResource extends Resource
     protected static ?string $slug = 'proveedores';
     protected static ?string $modelLabel = 'proveedores';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'user-group.';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-s-cube';
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('Regresar')
+                ->url($this->previousUrl ?? $this->getResource()::getUrl('index'))
+                ->button()
+                ->icon('heroicon-o-chevron-left')
+                ->color('gray'),
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -33,7 +47,7 @@ class ProveedorResource extends Resource
                     Section::make([
                         Forms\Components\TextInput::make('nombre')
                             ->required()
-                            ->label('Nombre del Proveedor')
+                            ->label('Nombre')
                             ->maxLength(70)
                             ->regex('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/')
                             ->unique(Proveedor::class, ignoreRecord: true)

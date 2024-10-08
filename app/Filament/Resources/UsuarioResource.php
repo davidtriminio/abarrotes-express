@@ -41,6 +41,7 @@ class UsuarioResource extends Resource
     protected static ?string $activeNavigationIcon = 'heroicon-s-users';
     protected static ?string $pluralModelLabel = 'Usuarios';
     protected static ?string $recordTitleAttribute = 'name';
+
     protected function getHeaderActions(): array
     {
         return [

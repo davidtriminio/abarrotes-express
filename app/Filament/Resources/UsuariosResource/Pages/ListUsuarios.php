@@ -11,7 +11,6 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ViewAction;
@@ -33,6 +32,7 @@ class ListUsuarios extends ListRecords
                 ->icon('heroicon-o-plus-circle'),
         ];
     }
+
 
     public function table(Table $table): Table
     {
@@ -81,7 +81,6 @@ class ListUsuarios extends ListRecords
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     RestoreBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
                 ])
             ]);
     }

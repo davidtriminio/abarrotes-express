@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Categoria;
+use App\Models\DireccionGuardada;
+use App\Models\Producto;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,7 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RolesPermisosSeeder::class
+            RolesPermisosSeeder::class,
+            CategoriaTableSeeder::class,
+            MarcaTableSeeder::class,
+            ProductoTableSeeder::class,
+            OrdenTableSeeder::class,
+            ElementoOrdenTableSeeder::class,
         ]);
     }
 }

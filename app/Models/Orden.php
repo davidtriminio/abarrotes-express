@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Orden extends Model
 {
     use SoftDeletes;
+    use HasFactory;
     protected $table = 'ordenes';
 
     protected $fillable = ['user_id', 'sub_total', 'total_final', 'monto_unitario', 'metodo_pago', 'estado_pago', 'estado_entrega', 'fecha_entrega', 'costos_envio', 'notas'];

@@ -1,0 +1,22 @@
+{
+    "departamentos": {
+        "Atlántida": "01 - Atlántida",
+        "Colón": "02 - Colón",
+        "Comayagua": "03 - Comayagua",
+        "Copán": "04 - Copán",
+        "Cortés": "05 - Cortés",
+        "Choluteca": "06 - Choluteca",
+        "El Paraíso": "07 - El Paraíso",
+        "Francisco Morazán": "08 - Francisco Morazán",
+        "Gracias a Dios": "09 - Gracias a Dios",
+        "Intibucá": "10 - Intibucá",
+        "Islas de la Bahía": "11 - Islas de la Bahía",
+        "La Paz": "12 - La Paz",
+        "Lempira": "13 - Lempira",
+        "Ocotepeque": "14 - Ocotepeque",
+        "Olancho": "15 - Olancho",
+        "Santa Bárbara": "16 - Santa Bárbara",
+        "Valle": "17 - Valle",
+        "Yoro": "18 - Yoro"
+    }
+}

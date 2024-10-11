@@ -19,7 +19,7 @@
                     <td class="py-4">
                         <div class="flex items-center">
                             <img class="h-16 w-16 mr-4 rounded-md object-cover"
-                                 src="{{ isset($favorito->producto->imagenes[0]) ? url('storage', $favorito->producto->imagenes[0]) : asset('imagen/no-photo.jpg') }}"
+                                 src="{{ isset($favorito->producto->imagenes[0]) ? url('storage', $favorito->producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
                                  alt="{{ $favorito->producto->nombre }}">
                             <span class="font-semibold text-primary">{{ $favorito->producto->nombre }}</span>
                         </div>

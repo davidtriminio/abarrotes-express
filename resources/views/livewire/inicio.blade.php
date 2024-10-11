@@ -24,7 +24,7 @@
                                             <!-- Hacer toda la tarjeta clicable -->
                                             <a href="{{ route('producto', ['id' => $producto->id]) }}" class="block">
 
-                                                <img src="{{ isset($producto->imagenes[0]) ? url('storage/' . $producto->imagenes[0]) : asset('imagen/no-photo.jpg') }}"
+                                                <img src="{{ isset($producto->imagenes[0]) ? url('storage/' . $producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
                                                      class="w-full h-auto mx-auto mb-4 rounded-lg tamanoCard"
                                                      alt="{{ $producto->imagenes[0] ?? 'Imagen no disponible' }}">
                                                 <h3 class="text-lg font-semibold mb-2 text-primary">{{$producto->nombre}}</h3>
@@ -78,7 +78,7 @@
                                             <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-8">
                                                 <a href="{{ route('productos', ['categoria' => $categoria->id]) }}"
                                                    class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-50 transition">
-                                                    <img src="{{ isset($categoria->imagen) ? url('storage', $categoria->imagen) : asset('imagen/no-photo.jpg') }}"
+                                                    <img src="{{ isset($categoria->imagen) ? url('storage', $categoria->imagen) : asset('imagen/no-photo.png') }}"
                                                          class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
                                                          alt="{{ $categoria->nombre }}">
                                                     <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary">{{ $categoria->nombre }}</h3>
@@ -106,7 +106,7 @@
                                             <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/3 px-4 mb-8">
                                                 <a href="{{ route('productos', [0, 'marca' => $marca->id]) }}"
                                                    class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-50 transition">
-                                                    <img src="{{ isset($marca->imagen) ? url('storage', $marca->imagen) : asset('imagen/no-photo.jpg') }}"
+                                                    <img src="{{ isset($marca->imagen) ? url('storage', $marca->imagen) : asset('imagen/no-photo.png') }}"
                                                          class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
                                                          alt="{{ $marca->nombre }}">
                                                     <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary">{{ $marca->nombre }}</h3>

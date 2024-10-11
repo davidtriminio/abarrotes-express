@@ -27,7 +27,7 @@
                             <div id="main-image-container">
                                 <img id="main-image"
                                      class="h-auto w-full max-w-full rounded-lg object-cover object-center md:h-[480px] transition-transform duration-300 ease-in-out transform hover:scale-105"
-                                     src="{{ isset($producto->imagenes[0]) ? url('storage/' . $producto->imagenes[0]) : asset('imagen/no-photo.jpg') }}"
+                                     src="{{ isset($producto->imagenes[0]) ? url('storage/' . $producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
                                      alt="{{ $producto->nombre }}"/>
                             </div>
                             <!-- Small Images -->
@@ -35,8 +35,8 @@
                                 @if(is_array($producto->imagenes) && count($producto->imagenes) > 0)
                                     @foreach($producto->imagenes as $imagen)
                                         <img onclick="changeImage(this)"
-                                             data-full="{{ isset($imagen) ? url('storage/' . $imagen) : asset('imagen/no-photo.jpg') }}"
-                                             src="{{ isset($imagen) ? url('storage/' . $imagen) : asset('imagen/no-photo.jpg') }}"
+                                             data-full="{{ isset($imagen) ? url('storage/' . $imagen) : asset('imagen/no-photo.png') }}"
+                                             src="{{ isset($imagen) ? url('storage/' . $imagen) : asset('imagen/no-photo.png') }}"
                                              class="object-cover object-center max-h-30 max-w-full rounded-lg cursor-pointer border-2 border-transparent hover:border-primary transition-shadow duration-300 ease-in-out shadow-sm hover:shadow-lg"
                                              alt="{{ $producto->nombre }}"/>
                                     @endforeach

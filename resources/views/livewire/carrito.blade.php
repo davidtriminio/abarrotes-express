@@ -19,7 +19,7 @@
                             <tr wire:key="{{$item['producto_id']}}">
                                 <td class="py-4">
                                     <div class="flex items-center">
-                                        <img class="h-16 w-16 mr-4" src="{{ url('storage', $item['imagen']) }}" alt="{{$item['nombre']}}">
+                                        <img class="h-16 w-16 mr-4" src="{{ isset($item['imagen']) ? asset($item['imagen']) : asset('imagen/no-photo.png') }}" alt="{{ $item['nombre'] }}">
                                         <span class="font-semibold">{{ $item['nombre'] }}</span>
                                     </div>
                                 </td>

@@ -40,7 +40,7 @@ class CarritoManagement
                 $elementos_carrito[] = [
                     'producto_id' => $producto_id,
                     'nombre' => $producto->nombre,
-                    'imagen' => $producto->imagenes[0] ?? 'default_image.jpg',
+                    'imagen' => $producto->imagenes[0] ?? asset('imagen/no-photo.png'),
                     'cantidad' => 1,
                     'porcentaje_oferta' => $producto->porcentaje_oferta ?? 0,
                     'monto_unitario' => $precio_con_descuento,
@@ -84,7 +84,7 @@ class CarritoManagement
                 $elementos_carrito[] = [
                     'producto_id' => $producto_id,
                     'nombre' => $producto->nombre,
-                    'imagen' => $producto->imagenes[0] ?? 'default_image.jpg',
+                    'imagen' => $producto->imagenes[0] ?? asset('imagen/no-photo.png'),
                     'cantidad' => $cantidad, // Usar la cantidad pasada
                     'porcentaje_oferta' => $producto->porcentaje_oferta,
                     'monto_unitario' => $precio_con_descuento,

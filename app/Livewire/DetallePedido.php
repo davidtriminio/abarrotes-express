@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Helpers\CarritoManagement;
+use App\Models\Orden;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -56,6 +58,16 @@ class DetallePedido extends Component
 
             'metodo_pago.required' => 'Es necesario seleccionar un método de pago.',
         ]);
+
+        $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
+        $linea_items = [];
+        $orden = new Orden();
+        $orden->user_id = auth()->user()->id;
+        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito);
+        $orden->metodo_pago = $this->metodo_pago;
+        $orden->estado_pago = 'procesando';
+        $orden->estado_entrega = 'nuevo';
+        $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
     }
 
     public function render()

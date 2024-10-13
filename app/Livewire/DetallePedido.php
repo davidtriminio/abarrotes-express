@@ -90,6 +90,11 @@ class DetallePedido extends Component
 
     public function render()
     {
-        return view('livewire.detalle-pedido');
+        $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
+        $total_final = CarritoManagement::calcularTotalFinal($elementos_carrito);
+        return view('livewire.detalle-pedido', [
+            'elementos_carrito' => $elementos_carrito,
+            'total_final' => $total_final
+        ]);
     }
 }

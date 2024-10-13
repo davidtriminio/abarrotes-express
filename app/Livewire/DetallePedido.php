@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Helpers\CarritoManagement;
+use App\Models\Direccion;
 use App\Models\Orden;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -68,6 +69,23 @@ class DetallePedido extends Component
         $orden->estado_pago = 'procesando';
         $orden->estado_entrega = 'nuevo';
         $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
+
+        $orden->save();
+        $direccion = new Direccion();
+        $direccion->nombres = $this->nombres;
+        $direccion-> apellidos = $this->apellidos ;
+        $direccion-> telefono = $this->telefono;
+        $direccion-> departamento = $this->departamento;
+        $direccion-> municipio = $this->municipio;
+        $direccion-> ciudad = $this->ciudad;
+        $direccion-> direccion_completa = $this->direccion_completa;
+        $direccion->orden_id = $orden->id;
+        $direccion->save();
+        $orden->elementos()->createMany($elementos_carrito);
+        CarritoManagement::quitarElementosCookies();
+        if ($orden->save()) {
+            return redirect()->route('exito');
+        }
     }
 
     public function render()

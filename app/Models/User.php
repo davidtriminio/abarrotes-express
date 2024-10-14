@@ -28,6 +28,9 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'telefono',
+        'recovery_key',
+        'recovery_key_created_at',
         'email_verified_at'
     ];
 

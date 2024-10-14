@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('guest')->group(function () {
     Route::get('/registro', \App\Livewire\Auth\Registro::class)->name('registro');
     Route::get('/login', \App\Livewire\Auth\Login::class)->name('login');
+    Route::get('/verificarclave', \App\Livewire\Auth\VerificarClave::class)->name('verificarclave');
+    Route::get('/cambiarcontrasena', \App\Livewire\Auth\CambiarContrasena::class)->name('cambiarcontrasena');
     Route::get('/admin/login', function () {
         return redirect()->route('login');
     });
@@ -53,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/perfil', \App\Livewire\Perfil::class)->name('perfil');
 
     Route::get('/favoritos', \App\Livewire\Favoritos::class)->name('favoritos');
+
+    Route::get('/editarperfil', \App\Livewire\EditarPerfil::class)->name('editarperfil');
 });
 
 

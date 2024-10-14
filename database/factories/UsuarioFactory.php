@@ -18,6 +18,7 @@ class UsuarioFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => Carbon::now(),
             'password' => bcrypt($this->faker->password()),
+            'telefono' => $this->faker->numerify('########'),
             'remember_token' => Str::random(10),
             'rol_id' => $this->faker->randomNumber(),
             'created_at' => Carbon::now(),

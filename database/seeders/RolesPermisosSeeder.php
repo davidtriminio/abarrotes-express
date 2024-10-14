@@ -209,6 +209,7 @@ class RolesPermisosSeeder extends Seeder
             'email' => 'super@ae.com',
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ])->assignRole($superAdministradorRole);
 
@@ -217,6 +218,7 @@ class RolesPermisosSeeder extends Seeder
             'email' => 'admin@ae.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
+            'recovery_key' => Str::random(30),
         ])->assignRole($adminitradorRole);;
 
 User::create([
@@ -224,6 +226,8 @@ User::create([
             'email' => 'triminio@ae.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
+            'telefono' => '95684578',
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ])->assignRole($adminitradorRole);;
 
@@ -232,6 +236,8 @@ User::create([
             'email' => 'l_ortez@ae.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
+            'telefono' => '96321545',
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ])->assignRole($adminitradorRole);;
 
@@ -240,6 +246,8 @@ User::create([
             'email' => 'claudia@ae.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
+            'telefono' => '32146978',
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ])->assignRole($adminitradorRole);;
 
@@ -248,6 +256,8 @@ User::create([
             'email_verified_at' => now(),
             'email' => 's_plata@ae.com',
             'password' => bcrypt('admin'),
+            'telefono' => '32025896',
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ])->assignRole($adminitradorRole);;
 
@@ -256,6 +266,7 @@ User::create([
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ])->assignRole($adminRole);
 
@@ -264,6 +275,7 @@ User::create([
             'email' => 'vendedor@ae.com',
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ])->assignRole($vendedorRol);
 
@@ -272,6 +284,7 @@ User::create([
             'email' => 'cliente@ae.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ])->assignRole($usuarioRol);
 
@@ -280,6 +293,7 @@ User::create([
             'email' => 'invitado@ae.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
+            'recovery_key' => Str::random(30),
             'remember_token' => Str::random(10),
         ]);
 

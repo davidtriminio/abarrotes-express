@@ -25,11 +25,11 @@ class Login extends Component
 
     public function save()
     {
-        // Reset errores previos
+
         $this->resetErrorBag();
         $this->resetValidation();
 
-        // Validar los datos
+
         $this->validate([
             'email' => 'required|email|max:255|min:4|exists:users,email',
             'password' => 'required|min:4|max:300'
@@ -43,28 +43,35 @@ class Login extends Component
             'password.min' => 'La contraseña no puede tener menos de 4 caracteres.',
         ]);
 
-        // Definir key para limitar intentos por email
-        $throttleKey = strtolower($this->email) . '|' . request()->ip();
 
-        // Verificar si el usuario está bloqueado
+        $throttleKey = strtolower($this->email);
+
+
         if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
-            // Obtener el tiempo restante del bloqueo
+
             $seconds = RateLimiter::availableIn($throttleKey);
 
+
+            $minutes = floor($seconds / 60);
+            $remainingSeconds = $seconds % 60;
+
+
+            $timeRemaining = "{$minutes} minuto(s) y {$remainingSeconds} segundo(s)";
+
             throw ValidationException::withMessages([
-                'email' => ['Has excedido los intentos. Inténtalo nuevamente en ' . Carbon::now()->addSeconds($seconds)->diffForHumans() . '.'],
+                'email' => ["Has excedido los intentos. Inténtalo nuevamente en {$timeRemaining}."],
             ]);
         }
 
-        // Intento de autenticación
-        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            // Registrar un intento fallido
-            RateLimiter::hit($throttleKey, 300); // 300 segundos = 5 minutos
 
-            // Mostrar error
+        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+
+            RateLimiter::hit($throttleKey, 300);
+
+
             session()->flash('error', 'Correo y contraseña no coinciden.');
         } else {
-            // Si se autentica con éxito, limpiar los intentos fallidos
+
             RateLimiter::clear($throttleKey);
 
             return redirect()->route('inicio');

@@ -1,15 +1,16 @@
-<div class="bg-fondo min-h-screen flex justify-center items-center" style="background-image: url({{url(asset('imagen/fondo_login.jpeg'))}}">
+<div class="bg-fondo min-h-screen flex justify-center items-center" style="background-image: url({{url(asset('imagen/fondo_login.jpeg'))}})">
     <div class="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
         <h2 class="text-2xl font-semibold mb-4 text-center">Iniciar Sesión ó Regístrate</h2>
 
         <form wire:submit.prevent="save">
             <div class="mb-4">
+                <label for="login-password" class="block">Correo Electronico</label>
                 <input wire:model="email" type="email" id="login-email" class="input" placeholder="Ingrese su correo electrónico" required>
                 @error('email')
                 <div class="contenedor-shake animate-shake">
                     <span class="text-red-500">{{ $message }}</span>
                 </div>
-                <!-- /.contenedor-shake --> @enderror
+                @enderror
             </div>
 
             <div class="mb-4">
@@ -19,8 +20,12 @@
                 <div class="contenedor-shake animate-shake">
                     <span class="text-red-500 ">{{ $message }}</span>
                 </div>
-                <!-- /.contenedor-shake -->
-               @enderror
+                @enderror
+            </div>
+
+            <!-- Enlace de "¿Olvidaste tu contraseña?" alineado a la derecha -->
+            <div class="mb-4 flex justify-end">
+                <a href="/verificarclave" class="text-sm text-primary hover:text-blue-400 hover:ease-in hover:duration-300">¿Olvidaste tu contraseña?</a>
             </div>
 
             @if (session()->has('error'))

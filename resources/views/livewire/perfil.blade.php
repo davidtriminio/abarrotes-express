@@ -2,78 +2,119 @@
     <!-- Cabecera principal con fondo azul marino -->
     <div class="perfil-cabecera">
         <div class="perfil-info">
-            <img src="avatar.png" alt="Avatar del usuario" class="avatar">
+            <div class="avatar">
+                <span class="inicial-avatar">{{ strtoupper(substr($nombreUsuario, 0, 1)) }}</span>
+            </div>
             <div class="texto-info">
-                <h1 class="nombre-usuario">[Nombre del Usuario]</h1>
-                <a href="#" class="btn-editar-perfil">
-                    <span class="i-bi-user-edit"></span> Editar Perfil
-                </a>
+                <h1 class="nombre-usuario">{{ $nombreUsuario }}</h1>
+                <button class="btn-editar-perfil" wire:click="exportarClaveRecuperacion" type="button" id="btnExportar">
+                    <span class="i-bi-user-edit"></span>Exportar Clave de Recuperación
+                </button>
             </div>
         </div>
         <div class="botones-header">
-            <a href="#" class="btn-notificaciones">
-                <span class="i-bi-bell"></span> Notificaciones
-            </a>
             <a href="#" class="btn-ajustes">
-                <span class="i-bi-gear"></span> Ajustes
+                <span class="icon-[majesticons--bell] icon-large"></span>
             </a>
         </div>
     </div>
 
-    <!-- Tarjetas de resumen -->
-    <div class="tarjetas-resumen">
-        <a href="#" class="tarjeta">
-            <div class="texto-tarjeta" style="text-align: center;">
-                <span class="icon-[icon-park-outline--order]"></span>
-                <p>Pedidos en curso</p>
-                <h3>3</h3>
-            </div>
-        </a>
-        
-        <a href="#" class="tarjeta">
-       
-            <div class="texto-tarjeta" style="text-align: center;">
-                <span class="icon-[ci--ticket-voucher]"></span>
-                <p>Mis Cupones</p>
-                <h3>5</h3>
-            </div>
-        </a>
-        <a href="/ordenes" class="tarjeta">
-            <div class="texto-tarjeta" style="text-align: center;">
-                <span class="icon-[bi--truck]"></span>
-                <p>Mis ordenes</p>
-                <h3>5</h3>
-            </div>
-        </a>
-        <a href="/favoritos" class="tarjeta">
-            <div class="texto-tarjeta" style="text-align: center;">
-                <span class="icon-[bi--heart]"></span>
-                <p>Favoritos</p>
-                <h3>{{ $contadorFavoritos }}</h3>
-            </div>
-        </a>
-
-    </div>
-
-    <!-- Menú de navegación estilo tarjetas -->
+    <!-- Menú de navegación estilo tarjetas (Movido arriba) -->
     <div class="perfil-menu-nuevo">
-        <h2>Mi Cuenta</h2>
         <div class="menu-tarjetas">
-            <a href="#" class="menu-item">
-                <p><span class="i-bi-user"></span> Información Personal</p>
+            <a href="#" class="menu-item" id="miCuenta">
+                <span class="icon-[ph--user]"></span>
+                <p>Mi Cuenta</p>
             </a>
-            <a href="#" class="menu-item">
-                <p><span class="i-bi-history"></span> Historial de Compras</p>
-            </a>
-            <a href="#" class="menu-item">
-                <p><span class="i-bi-credit-card"></span> Métodos de Pago</p>
-            </a>
-            <a href="#" class="menu-item">
-                <p><span class="i-bi-truck"></span> Seguimiento de Pedidos</p>
-            </a>
-            <a href="#" class="menu-item">
-                <p><span class="i-bi-lock"></span> Seguridad de la Cuenta</p>
+            <a href="#" class="menu-item" id="misOrdenes">
+                <span class="icon-[bi--truck]"></span>
+                <p>Mis Ordenes</p>
             </a>
         </div>
+    </div>
+
+    <div class="tarjetas-resumen " id="tarjetasResumen">
+        <!-- Resumen de tarjetas -->
     </div>
 </div>
+
+<script>
+    const miCuentaBtn = document.getElementById('miCuenta');
+    const misOrdenesBtn = document.getElementById('misOrdenes');
+    const tarjetasResumen = document.getElementById('tarjetasResumen');
+
+    // Simulación de clic en el botón "Mi Cuenta" al cargar la página
+    document.addEventListener('DOMContentLoaded', function () {
+        miCuentaBtn.click(); // Simular clic en el botón "Mi Cuenta" al cargar la página
+    });
+
+    miCuentaBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        tarjetasResumen.innerHTML = `
+            <a href="/editarperfil" class="tarjeta">
+                <div class="texto-tarjeta" style="text-align: center;">
+                    <span class="icon-[material-symbols--edit-square-outline-sharp]"></span>
+                    <p>Editar mis datos</p>
+                </div>
+            </a>
+            <a href="#" class="tarjeta">
+                <div class="texto-tarjeta" style="text-align: center;">
+                    <span class="icon-[streamline--payment-10]"></span>
+                    <p>Métodos de pago</p>
+                </div>
+            </a>
+            <a href="#" class="tarjeta">
+                <div class="texto-tarjeta" style="text-align: center;">
+                    <span class="icon-[charm--padlock]"></span>
+                    <p>Métodos de seguridad</p>
+                </div>
+            </a>
+            <a href="/favoritos" class="tarjeta">
+                <div class="texto-tarjeta" style="text-align: center;">
+                    <span class="icon-[bi--heart]"></span>
+                    <p>Mis favoritos</p>
+                </div>
+            </a>
+        `;
+        tarjetasResumen.style.display = 'flex';
+    });
+
+    misOrdenesBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        tarjetasResumen.innerHTML = `
+            <a href="#" class="tarjeta">
+                <div class="texto-tarjeta" style="text-align: center;">
+                    <span class="icon-[hugeicons--package-moving]"></span>
+                    <p>Nuevo</p>
+                    <h3>{{$contadorNuevo}}</h3>
+                </div>
+            </a>
+            <a href="#" class="tarjeta">
+                <div class="texto-tarjeta" style="text-align: center;">
+                    <span class="icon-[hugeicons--package-process]"></span>
+                    <p>En proceso</p>
+                    <h3>{{$contadorProceso}}</h3>
+                </div>
+            </a>
+            <a href="#" class="tarjeta">
+                <div class="texto-tarjeta" style="text-align: center;">
+                    <span class="icon-[hugeicons--package-open]"></span>
+                    <p>Entregado</p>
+                    <h3>{{$contadorEntregado}}</h3>
+                </div>
+            </a>
+            <a href="#" class="tarjeta">
+                <div class="texto-tarjeta" style="text-align: center;">
+                    <span class="icon-[hugeicons--package-delivered]"></span>
+                    <p>Terminado</p>
+                    <h3>{{$contadorTerminado}}</h3>
+                </div>
+            </a>
+        `;
+        tarjetasResumen.style.display = 'flex';
+    });
+</script>
+
+

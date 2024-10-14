@@ -9,11 +9,12 @@
                 <form method="post" wire:submit.prevent="guardar">
                     <div class="mb-3">
                         <label for="name" class="block">Nombre de Usuario</label>
-                        <input wire:model="name" type="name" id="register-email"
+                        <input wire:model="name" type="text" id="register-name"
                                class="input"
                                placeholder="Ingrese un nombre de usuario" required>
                         @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="email" class="block">Correo Electrónico</label>
                         <input wire:model="email" type="email" id="login-email"
@@ -25,6 +26,16 @@
                         </div>
                         @enderror
                     </div>
+
+                    <!-- Campo de teléfono -->
+                    <div class="mb-3">
+                        <label for="telefono" class="block">Teléfono</label>
+                        <input wire:model="telefono" type="text" id="register-telefono"
+                               class="input"
+                               placeholder="Ingrese su número de teléfono" maxlength="8>
+                        @error('telefono') <span class="text-red-500">{{ $message }}</span> @enderror
+                    </div>
+
                     <div class="mb-3">
                         <label for="login-password" class="block">Contraseña</label>
                         <input wire:model="password" type="password" id="login-password"
@@ -55,4 +66,3 @@
         </div>
     </div>
 </div>
-

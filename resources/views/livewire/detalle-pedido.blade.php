@@ -122,7 +122,64 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                     </div>
                 </form>
             </div>
-
+            <!-- Columna derecha: Resumen del carrito -->
+            <div class="md:grid-cols-1 lg:grid-cols-1">
+                <div class="rounded-lg border-2 border-blue-200 bg-white shadow-md">
+                    <div class="rounded-t-lg bg-blue-100 px-6 py-4">
+                        <h2 class="text-xl font-semibold text-blue-700">Resumen del pedido</h2>
+                    </div>
+                    <div class="space-y-4 p-6">
+                        @foreach($elementos_carrito as $key => $item)
+                            <div
+                                class="flex items-center space-x-4 @if($item['en_oferta']) rounded-md bg-green-50 p-2 @endif">
+                                <div
+                                    class="h-16 w-16 overflow-hidden">
+                                    <img
+                                        src="{{isset($item['imagen']) ? (url( 'storage', $item['imagen'])) : url(asset('imagen/no-photo.jpg'))}}"
+                                        alt="{{$item['nombre']}}"
+                                        class="h-full w-full object-cover"/>
+                                </div>
+                                <div class="flex-grow">
+                                    <h3 class="font-medium text-blue-700">{{$item['nombre']}} @if($item['en_oferta'])
+                                            (Oferta)
+                                        @endif</h3>
+                                    <p class="text-blue-600"> {{Number::currency($item['monto_total'],  'lps.')}}
+                                        {{--@if($item['en_oferta'])
+                                            <span class="text-gray-500 line-through">LPS 40.00</span>
+                                        @endif--}}
+                                    </p>
+                                </div>
+                                @if($item['en_oferta'])
+                                    <div class="rounded bg-green-500 px-2 py-1 text-xs font-bold text-white">
+                                        -{{ number_format($item['porcentaje_oferta'], 2, '.', ',') }}%
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                        {{--Detalles de la compra--}}
+                        <div class="border-t border-blue-200 pt-4">
+                            <div class="flex justify-between text-blue-700">
+                                <span>Subtotal</span>
+                                <span>{{Number::currency($total_final, 'lps')}}</span>
+                            </div>
+                            <div class="flex justify-between text-red-600">
+                                <span>Descuentos</span>
+                                <span>-</span>
+                            </div>
+                            <div class="mt-4 flex justify-between text-lg font-bold text-blue-800">
+                                <span>Total</span>
+                                <span>{{Number::currency($total_final, 'lps')}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-b-lg bg-gray-50 px-6 py-4">
+                        <button wire:click="realizarPedido"
+                                class="w-full rounded-md bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700">
+                            <span wire:loading.remove>Realizar pedido</span> <span wire:loading>Ordenando</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

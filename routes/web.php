@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/perfil', \App\Livewire\Perfil::class)->name('perfil');
 
     Route::get('/favoritos', \App\Livewire\Favoritos::class)->name('favoritos');
+
+    Route::get('/exito', \App\Livewire\ExitoPedido::class)->name('exito');
 });
 
 

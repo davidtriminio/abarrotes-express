@@ -124,6 +124,25 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
             </div>
             <!-- Columna derecha: Resumen del carrito -->
             <div class="md:grid-cols-1 lg:grid-cols-1">
+                <!-- Metodo de pago -->
+                <div class="rounded-lg border-2 border-blue-200 bg-white shadow-md">
+                    <div class="rounded-t-lg bg-blue-100 px-6 py-4">
+                        <h2 class="text-xl font-semibold text-blue-700">Método de pago</h2>
+                    </div>
+                    <div class="p-6">
+                        <label for="metodo-pago" class="block text-sm font-medium text-blue-700">Método de pago.</label>
+                        <select wire:model="metodo_pago" id="metodo-pago"
+                                class="w-full rounded-md border @error('metodo_pago') border-red-500 @enderror border-blue-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Seleccione un método de pago</option>
+                            <option value="tarjeta">Tarjeta de crédito/débito</option>
+                            <option value="efectivo">Efectivo</option>
+                            <option value="par">Pago al recibir</option>
+                        </select>
+                        @error('metodo_pago')
+                        <p class=" text-xs text-red-600 mt-2" id="metodo_pago-error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
                 <div class="rounded-lg border-2 border-blue-200 bg-white shadow-md">
                     <div class="rounded-t-lg bg-blue-100 px-6 py-4">
                         <h2 class="text-xl font-semibold text-blue-700">Resumen del pedido</h2>

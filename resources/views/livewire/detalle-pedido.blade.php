@@ -15,8 +15,8 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
     }
 }
 ?>
-<div>
-    <div class="container mx-auto bg-gradient-to-r from-blue-50 to-blue-100 p-6">
+<div class="m-2 bg-gradient-to-r from-blue-50 to-blue-100 p-6">
+    <div class="container w-full mx-auto bg-gradient-to-r from-blue-50 to-blue-100 p-6">
         <h1 class="mb-6 text-3xl font-bold text-blue-600">Proceder al pago</h1>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
             <!-- Columna izquierda: Detalles del envío y pago -->
@@ -125,19 +125,55 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
             <!-- Columna derecha: Resumen del carrito -->
             <div class="md:grid-cols-1 lg:grid-cols-1">
                 <!-- Metodo de pago -->
-                <div class="rounded-lg border-2 border-blue-200 bg-white shadow-md">
+                <div class="rounded-lg border-2 border-blue-200 bg-white shadow-md mb-4">
                     <div class="rounded-t-lg bg-blue-100 px-6 py-4">
                         <h2 class="text-xl font-semibold text-blue-700">Método de pago</h2>
                     </div>
                     <div class="p-6">
-                        <label for="metodo-pago" class="block text-sm font-medium text-blue-700">Método de pago.</label>
-                        <select wire:model="metodo_pago" id="metodo-pago"
-                                class="w-full rounded-md border @error('metodo_pago') border-red-500 @enderror border-blue-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="">Seleccione un método de pago</option>
-                            <option value="tarjeta">Tarjeta de crédito/débito</option>
-                            <option value="efectivo">Efectivo</option>
-                            <option value="par">Pago al recibir</option>
-                        </select>
+                        <ul class="grid w-full gap-6 p-2 md:grid-cols-3">
+                            <li class="col-span-1 mx-auto text-center align-items-center">
+                                <input wire:model="metodo_pago" class="hidden peer" id="efectivo" name="efectivo" required="" type="radio"
+                                       value="efectivo"/>
+                                <label
+                                    class="inline-flex items-center justify-between w-full h-full p-5 text-gray-500 bg-white border border-gray-500 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+                                    for="efectivo">
+                                    <div class="block">
+                                        <span class="icon-[clarity--dollar-bill-line] green  w-20"></span>
+                                        <div class="w-full text-lg font-semibold ">
+                                            Efectivo
+                                        </div>
+                                    </div>
+                                </label>
+                            </li>
+                            <li class="col-span-1 mx-auto text-center align-items-center">
+                                <input wire:model="metodo_pago" class="hidden peer" id="par" name="par" type="radio"
+                                       value="par">
+                                <label
+                                    class="inline-flex items-center justify-between w-full h-full p-5 text-gray-500 bg-white border border-gray-500 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+                                    for="par">
+                                    <div class="block">
+                                        <span class="icon-[mingcute--shop-line]"></span>
+                                        <div class="w-full text-lg font-semibold">
+                                            Pago al recibir
+                                        </div>
+                                    </div>
+                                </label>
+                            </li>
+                            <li class="col-span-1 mx-auto text-center align-items-center">
+                                <input wire:model="metodo_pago" class="hidden peer" id="tarjeta" name="tarjeta" type="radio"
+                                       value="tarjeta">
+                                <label
+                                    class="inline-flex items-center justify-between w-full h-full p-5 text-gray-500 bg-white border border-gray-500 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+                                    for="tarjeta">
+                                    <div class="block">
+                                        <span class="icon-[majesticons--credit-card-line]  w-20"></span>
+                                        <div class="w-full text-lg font-semibold">
+                                            Tarjeta
+                                        </div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
                         @error('metodo_pago')
                         <p class=" text-xs text-red-600 mt-2" id="metodo_pago-error">{{ $message }}</p>
                         @enderror

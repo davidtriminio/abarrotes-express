@@ -19,6 +19,16 @@ class DetallePedido extends Component
     public $ciudad;
     public $direccion_completa;
     public $metodo_pago;
+    public $total_original;
+    public $cupones_aplicados;
+
+    public function skipMount()
+    {
+        $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
+        if (count($elementos_carrito) === 0) {
+            return redirect()->route('productos');
+        }
+    }
 
     public function realizarPedido()
     {
@@ -73,12 +83,12 @@ class DetallePedido extends Component
         $orden->save();
         $direccion = new Direccion();
         $direccion->nombres = $this->nombres;
-        $direccion-> apellidos = $this->apellidos ;
-        $direccion-> telefono = $this->telefono;
-        $direccion-> departamento = $this->departamento;
-        $direccion-> municipio = $this->municipio;
-        $direccion-> ciudad = $this->ciudad;
-        $direccion-> direccion_completa = $this->direccion_completa;
+        $direccion->apellidos = $this->apellidos;
+        $direccion->telefono = $this->telefono;
+        $direccion->departamento = $this->departamento;
+        $direccion->municipio = $this->municipio;
+        $direccion->ciudad = $this->ciudad;
+        $direccion->direccion_completa = $this->direccion_completa;
         $direccion->orden_id = $orden->id;
         $direccion->save();
         $orden->elementos()->createMany($elementos_carrito);
@@ -91,10 +101,14 @@ class DetallePedido extends Component
     public function render()
     {
         $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
-        $total_final = CarritoManagement::calcularTotalFinal($elementos_carrito);
+        $total_original = CarritoManagement::calcularTotalFinal($elementos_carrito);
+        $descuentos = CarritoManagement::obtenerDescuentoDeCookies();
+        $descuento_total = $descuentos['descuento_total'];
+        $total_final = ($total_original - $descuento_total);
         return view('livewire.detalle-pedido', [
             'elementos_carrito' => $elementos_carrito,
-            'total_final' => $total_final
+            'total_final' => $total_final,
+            'descuento_total' => $descuento_total,
         ]);
     }
 }

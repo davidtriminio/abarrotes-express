@@ -183,7 +183,7 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                             </div>
                             <div class="flex justify-between text-red-600">
                                 <span>Descuentos</span>
-                                <span>-</span>
+                                <span>- {{$descuento_total}}</span>
                             </div>
                             <div class="mt-4 flex justify-between text-lg font-bold text-blue-800">
                                 <span>Total</span>

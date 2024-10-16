@@ -18,7 +18,7 @@ Route::get('/marcas', \App\Livewire\MostrarMarca::class)->name('marcas');
 Route::get('/productos/{categoria?}/{marca?}', \App\Livewire\Productos::class)->name('productos');
 Route::get('/producto/{id}', \App\Livewire\DetalleProducto::class)->name('producto');
 Route::get('/carrito', \App\Livewire\Carrito::class)->name('carrito');
-Route::get('/ordenes', \App\Livewire\ListaOrdenes::class)->name('ordenes');
+Route::get('/ordenes/{estado?}', \App\Livewire\ListaOrdenes::class)->name('ordenes');
 Route::get('/mi_orden/{id}', \App\Livewire\Ordenes::class)->name('mi_orden');
 
 Route::middleware('auth')->group(function () {

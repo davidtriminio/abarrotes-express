@@ -134,36 +134,6 @@ class CuponResource extends Resource
                                 'exists' => 'El usuario seleccionado no es válido.'
                             ]),
 
-
-
-                        Forms\Components\Select::make('producto_id')
-                            ->relationship('producto', 'nombre')
-                            ->nullable()
-                            ->searchable()
-                            ->preload()
-                            ->native(false)
-                            ->label('Producto')
-                            ->exists('productos', 'id'),
-
-                        Forms\Components\Select::make('categoria_id')
-                            ->relationship('categoria', 'nombre')
-                            ->nullable()
-                            ->searchable()
-                            ->preload()
-                            ->native(false)
-                            ->label('Categoría')
-                            ->exists('categorias', 'id'),
-
-                        Forms\Components\Select::make('marca_id')
-                            ->relationship('marca', 'nombre')
-                            ->nullable()
-                            ->searchable()
-                            ->preload()
-                            ->native(false)
-                            ->label('Marca')
-                            ->exists('marcas', 'id'),
-
-
                         Forms\Components\Toggle::make('estado')
                             ->label('Estado')
                             ->default(true),

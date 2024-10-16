@@ -8,7 +8,7 @@
             <div class="texto-info">
                 <h1 class="nombre-usuario">{{ $nombreUsuario }}</h1>
                 <button class="btn-editar-perfil" wire:click="exportarClaveRecuperacion" type="button" id="btnExportar">
-                    <span class="i-bi-user-edit"></span>Exportar Clave de Recuperación
+                    <span class="i-bi-user-edit"></span> Exportar Clave de Recuperación
                 </button>
             </div>
         </div>
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <!-- Menú de navegación estilo tarjetas (Movido arriba) -->
+    <!-- Menú de navegación estilo tarjetas -->
     <div class="perfil-menu-nuevo">
         <div class="menu-tarjetas">
             <a href="#" class="menu-item" id="miCuenta">
@@ -33,25 +33,20 @@
         </div>
     </div>
 
-    <div class="tarjetas-resumen " id="tarjetasResumen">
-        <!-- Resumen de tarjetas -->
-    </div>
+    <div class="tarjetas-resumen" id="tarjetasResumen"></div>
 </div>
 
 <script>
-    const miCuentaBtn = document.getElementById('miCuenta');
-    const misOrdenesBtn = document.getElementById('misOrdenes');
+    // Selección de elementos del DOM
     const tarjetasResumen = document.getElementById('tarjetasResumen');
+    const menuItems = {
+        miCuenta: document.getElementById('miCuenta'),
+        misOrdenes: document.getElementById('misOrdenes')
+    };
 
-    // Simulación de clic en el botón "Mi Cuenta" al cargar la página
-    document.addEventListener('DOMContentLoaded', function () {
-        miCuentaBtn.click(); // Simular clic en el botón "Mi Cuenta" al cargar la página
-    });
-
-    miCuentaBtn.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        tarjetasResumen.innerHTML = `
+    // Contenido de las tarjetas para "Mi Cuenta" y "Mis Ordenes"
+    const contenidoTarjetas = {
+        miCuenta: `
             <a href="/editarperfil" class="tarjeta">
                 <div class="texto-tarjeta" style="text-align: center;">
                     <span class="icon-[material-symbols--edit-square-outline-sharp]"></span>
@@ -76,45 +71,59 @@
                     <p>Mis favoritos</p>
                 </div>
             </a>
-        `;
+        `,
+        misOrdenes: `
+         <a href="#" class="tarjeta" wire:click="redirigirOrdenes('nuevo')">
+            <div class="texto-tarjeta" style="text-align: center;">
+                <span class="icon-[hugeicons--package-moving]"></span>
+                <p>Nuevo</p>
+                <h3>{{ $contadorNuevo }}</h3>
+            </div>
+        </a>
+        <a href="#" class="tarjeta" wire:click="redirigirOrdenes('procesado')">
+            <div class="texto-tarjeta" style="text-align: center;">
+                <span class="icon-[hugeicons--package-process]"></span>
+                <p>En proceso</p>
+                <h3>{{ $contadorProceso }}</h3>
+            </div>
+        </a>
+        <a href="#" class="tarjeta" wire:click="redirigirOrdenes('enviado')">
+            <div class="texto-tarjeta" style="text-align: center;">
+                <span class="icon-[hugeicons--package-open]"></span>
+                <p>Enviado</p>
+                <h3>{{ $contadorEnviado }}</h3>
+            </div>
+        </a>
+        <a href="#" class="tarjeta" wire:click="redirigirOrdenes('entregado')">
+            <div class="texto-tarjeta" style="text-align: center;">
+                <span class="icon-[hugeicons--package-delivered]"></span>
+                <p>Entregado</p>
+                <h3>{{ $contadorEntregado }}</h3>
+            </div>
+        </a>
+
+        `
+    };
+
+    // Función para mostrar el contenido de las tarjetas
+    function mostrarContenido(tipo) {
+        tarjetasResumen.innerHTML = contenidoTarjetas[tipo];
         tarjetasResumen.style.display = 'flex';
+    }
+
+    // Evento para simular el clic en "Mi Cuenta" al cargar la página
+    document.addEventListener('DOMContentLoaded', function () {
+        mostrarContenido('miCuenta'); // Muestra el contenido de "Mi Cuenta"
     });
 
-    misOrdenesBtn.addEventListener('click', function (event) {
+    // Añadir event listeners a los botones del menú
+    menuItems.miCuenta.addEventListener('click', function (event) {
         event.preventDefault();
+        mostrarContenido('miCuenta');
+    });
 
-        tarjetasResumen.innerHTML = `
-            <a href="#" class="tarjeta">
-                <div class="texto-tarjeta" style="text-align: center;">
-                    <span class="icon-[hugeicons--package-moving]"></span>
-                    <p>Nuevo</p>
-                    <h3>{{$contadorNuevo}}</h3>
-                </div>
-            </a>
-            <a href="#" class="tarjeta">
-                <div class="texto-tarjeta" style="text-align: center;">
-                    <span class="icon-[hugeicons--package-process]"></span>
-                    <p>En proceso</p>
-                    <h3>{{$contadorProceso}}</h3>
-                </div>
-            </a>
-            <a href="#" class="tarjeta">
-                <div class="texto-tarjeta" style="text-align: center;">
-                    <span class="icon-[hugeicons--package-open]"></span>
-                    <p>Entregado</p>
-                    <h3>{{$contadorEntregado}}</h3>
-                </div>
-            </a>
-            <a href="#" class="tarjeta">
-                <div class="texto-tarjeta" style="text-align: center;">
-                    <span class="icon-[hugeicons--package-delivered]"></span>
-                    <p>Terminado</p>
-                    <h3>{{$contadorTerminado}}</h3>
-                </div>
-            </a>
-        `;
-        tarjetasResumen.style.display = 'flex';
+    menuItems.misOrdenes.addEventListener('click', function (event) {
+        event.preventDefault();
+        mostrarContenido('misOrdenes');
     });
 </script>
-
-

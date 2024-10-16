@@ -11,10 +11,24 @@ class ListaOrdenes extends Component
 {
     #[Title('Mis Ordenes - Abarrotes Express')]
 
-    public $id=0;
+    public $estado;
+
+    public function mount($estado = null)
+    {
+        $this->estado = $estado;
+    }
+
     public function render()
     {
-        $mis_ordenes = Orden::where('user_id', auth()->user()->id)->latest()->paginate(10);
+        $query = Orden::where('user_id', auth()->user()->id);
+
+
+        if ($this->estado) {
+            $query->where('estado_entrega', $this->estado);
+        }
+
+        $mis_ordenes = $query->latest()->paginate(10);
+
         return view('livewire.lista-ordenes', [
             'ordenes' => $mis_ordenes
         ]);

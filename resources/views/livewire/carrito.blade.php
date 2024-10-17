@@ -4,8 +4,15 @@
         <div class="flex flex-col md:flex-row gap-4">
             <div class="md:w-3/4">
                 <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
-                    <div class="bg-gray-100 p-4 rounded-lg mb-1">
-                        <span class="inline text-red-500 font-bold text-xl align-middle justify-center justify-items-center"> * </span> = Producto en oferta
+                    {{--Alerta de información--}}
+                    <div class="bg-blue-50 border border-blue-200 text-gray-800 rounded-lg p-4 mb-2" role="alert" tabindex="-1" aria-labelledby="hs-actions-label">
+                        <div class="flex">
+                            <div class="ms-3">
+                                <div class="mt-2 text-lg text-gray-600 align-middle">
+                                    <span class="icon-[ph--info] text-lg text-blue-600"></span> Productos marcados con <span class="font-bold text-red-500">*</span> son productos en oferta.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <table class="w-full">
                         <thead>

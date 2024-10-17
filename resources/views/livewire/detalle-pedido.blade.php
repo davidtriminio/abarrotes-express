@@ -60,7 +60,8 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                             {{--Telefono--}}
                             <div class="space-y-2">
                                 <label for="telefono" class="block text-sm font-medium text-blue-700">Teléfono</label>
-                                <input wire:model="telefono" type="tel" id="telefono" name="telefono" maxlength="8"
+                                <input wire:model="telefono" type="tel" id="telefono" name="telefono" minlength="8"
+                                       maxlength="8"
                                        pattern="[0-9]{8}"
                                        class="w-full rounded-md border @error('telefono') border-red-500 @enderror border-blue-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        oninput="updateCounter('telefono', 'counterTelefono', 8)"
@@ -132,7 +133,8 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                     <div class="p-6">
                         <ul class="grid w-full gap-6 p-2 md:grid-cols-3">
                             <li class="col-span-1 mx-auto text-center align-items-center">
-                                <input wire:model="metodo_pago" class="hidden peer" id="efectivo" name="efectivo" required="" type="radio"
+                                <input wire:model="metodo_pago" class="hidden peer" id="efectivo" name="efectivo"
+                                       required="" type="radio"
                                        value="efectivo"/>
                                 <label
                                     class="inline-flex items-center justify-between w-full h-full p-5 text-gray-500 bg-white border border-gray-500 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
@@ -160,7 +162,8 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                                 </label>
                             </li>
                             <li class="col-span-1 mx-auto text-center align-items-center">
-                                <input wire:model="metodo_pago" class="hidden peer" id="tarjeta" name="tarjeta" type="radio"
+                                <input wire:model="metodo_pago" class="hidden peer" id="tarjeta" name="tarjeta"
+                                       type="radio"
                                        value="tarjeta">
                                 <label
                                     class="inline-flex items-center justify-between w-full h-full p-5 text-gray-500 bg-white border border-gray-500 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
@@ -184,13 +187,38 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                         <h2 class="text-xl font-semibold text-blue-700">Resumen del pedido</h2>
                     </div>
                     <div class="space-y-4 p-6">
+                        {{--Detalles de la compra--}}
+                        <div class="border-t border-blue-200 pt-4">
+                            <div class="flex justify-between text-blue-700">
+                                <span>Subtotal</span>
+                                <span>{{Number::currency($total_final, 'lps')}}</span>
+                            </div>
+                            @if($descuento_total > 0)
+                                <div class="flex justify-between text-red-600">
+                                    <span>Descuentos</span>
+                                    <span>- {{$descuento_total}}</span>
+                                </div>
+                            @endif
+                            <div class="mt-4 flex justify-between text-lg font-bold text-blue-800">
+                                <span>Total</span>
+                                <span>{{Number::currency($total_final, 'lps')}}</span>
+                            </div>
+                        </div>
+                        <div class="rounded-b-lg px-6 py-4">
+                            <button wire:click="realizarPedido"
+                                    class="w-full rounded-md bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700">
+                                <span wire:loading.remove>Realizar pedido</span> <span wire:loading>Ordenando</span>
+                            </button>
+                        </div>
+                        <hr class="border-t border-blue-300" />
                         @foreach($elementos_carrito as $key => $item)
                             <div
                                 class="flex items-center space-x-4 @if($item['en_oferta']) rounded-md bg-gray-100 p-2 @endif">
                                 <div class="h-16 w-16 overflow-hidden">
-                                    <img src="{{ isset($item['imagen']) ? url('storage', $item['imagen']) : asset('imagen/no-photo.png') }}"
-                                         alt="{{ $item['nombre'] }}"
-                                         class="h-full w-full object-cover"/>
+                                    <img
+                                        src="{{ isset($item['imagen']) ? url('storage', $item['imagen']) : asset('imagen/no-photo.png') }}"
+                                        alt="{{ $item['nombre'] }}"
+                                        class="h-full w-full object-cover"/>
                                 </div>
                                 <div class="flex-grow">
                                     <h3 class="font-medium text-blue-700">{{$item['nombre']}} @if($item['en_oferta'])
@@ -206,28 +234,8 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                                 @endif
                             </div>
                         @endforeach
-                        {{--Detalles de la compra--}}
-                        <div class="border-t border-blue-200 pt-4">
-                            <div class="flex justify-between text-blue-700">
-                                <span>Subtotal</span>
-                                <span>{{Number::currency($total_final, 'lps')}}</span>
-                            </div>
-                            <div class="flex justify-between text-red-600">
-                                <span>Descuentos</span>
-                                <span>- {{$descuento_total}}</span>
-                            </div>
-                            <div class="mt-4 flex justify-between text-lg font-bold text-blue-800">
-                                <span>Total</span>
-                                <span>{{Number::currency($total_final, 'lps')}}</span>
-                            </div>
-                        </div>
                     </div>
-                    <div class="rounded-b-lg bg-gray-50 px-6 py-4">
-                        <button wire:click="realizarPedido"
-                                class="w-full rounded-md bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700">
-                            <span wire:loading.remove>Realizar pedido</span> <span wire:loading>Ordenando</span>
-                        </button>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -259,6 +267,7 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
         departamentoSelect.addEventListener('change', actualizarMunicipios);
         actualizarMunicipios();
     });
+
     /*Actualizar contadores*/
     function updateCounter(inputId, counterId, maxLength) {
         const input = document.getElementById(inputId);

@@ -118,8 +118,8 @@ class Productos extends Component
         $this->categorias = Categoria::all();
         $this->marcas = Marca::all();
         $this->mostrarTodasCategorias = false; // Asegúrate de inicializar esto
-        $this->precioMaximo = Producto::max('precio');
-        $this->precioMinimo= Producto::min('precio');
+        $this->precioMaximo = Producto::where('disponible','=', true)->max('precio');
+        $this->precioMinimo= Producto::where('disponible','=', true)->min('precio');
         $this->precio = $this->precioMaximo;
         $this->mostrarTodasMarcas = false;
         $this->orden = 'tiempo';

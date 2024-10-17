@@ -4,6 +4,9 @@
         <div class="flex flex-col md:flex-row gap-4">
             <div class="md:w-3/4">
                 <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-1">
+                        <span class="inline text-red-500 font-bold text-xl align-middle justify-center justify-items-center"> * </span> = Producto en oferta
+                    </div>
                     <table class="w-full">
                         <thead>
                         <tr>
@@ -16,10 +19,12 @@
                         </thead>
                         <tbody>
                         @forelse($elementos_carrito as $item)
-                            <tr wire:key="{{$item['producto_id']}}">
-                                <td class="py-4">
+                            <tr class="@if($item['en_oferta']) rounded-md bg-gray-100 p-2 @endif" wire:key="{{$item['producto_id']}}">
+                                <td class="py-4 ">
                                     <div class="flex items-center">
-                                        <img class="h-16 w-16 mr-4" src="{{ isset($item['imagen']) ? asset($item['imagen']) : asset('imagen/no-photo.png') }}" alt="{{ $item['nombre'] }}">
+                                        <img class="h-16 w-16 mr-4"
+                                             src="{{ $item['imagen'] ? url('storage', $item['imagen']) : asset('imagen/no-photo.png') }}"
+                                             alt="{{ $item['nombre'] }}">@if($item['en_oferta']) <span class="inline text-red-500 font-bold text-xl"> * </span> @endif
                                         <span class="font-semibold">{{ $item['nombre'] }}</span>
                                     </div>
                                 </td>

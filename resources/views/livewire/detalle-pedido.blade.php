@@ -61,7 +61,7 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                             <div class="space-y-2">
                                 <label for="telefono" class="block text-sm font-medium text-blue-700">Teléfono</label>
                                 <input wire:model="telefono" type="tel" id="telefono" name="telefono" maxlength="8"
-                                       minlength="8"
+                                       pattern="[0-9]{8}"
                                        class="w-full rounded-md border @error('telefono') border-red-500 @enderror border-blue-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                        oninput="updateCounter('telefono', 'counterTelefono', 8)"
                                        value="{{old('telefono')}}"/>
@@ -186,27 +186,22 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
                     <div class="space-y-4 p-6">
                         @foreach($elementos_carrito as $key => $item)
                             <div
-                                class="flex items-center space-x-4 @if($item['en_oferta']) rounded-md bg-green-50 p-2 @endif">
-                                <div
-                                    class="h-16 w-16 overflow-hidden">
-                                    <img
-                                        src="{{isset($item['imagen']) ? (url( 'storage', $item['imagen'])) : url(asset('imagen/no-photo.jpg'))}}"
-                                        alt="{{$item['nombre']}}"
-                                        class="h-full w-full object-cover"/>
+                                class="flex items-center space-x-4 @if($item['en_oferta']) rounded-md bg-gray-100 p-2 @endif">
+                                <div class="h-16 w-16 overflow-hidden">
+                                    <img src="{{ isset($item['imagen']) ? url('storage', $item['imagen']) : asset('imagen/no-photo.png') }}"
+                                         alt="{{ $item['nombre'] }}"
+                                         class="h-full w-full object-cover"/>
                                 </div>
                                 <div class="flex-grow">
                                     <h3 class="font-medium text-blue-700">{{$item['nombre']}} @if($item['en_oferta'])
                                             (Oferta)
                                         @endif</h3>
                                     <p class="text-blue-600"> {{Number::currency($item['monto_total'],  'lps.')}}
-                                        {{--@if($item['en_oferta'])
-                                            <span class="text-gray-500 line-through">LPS 40.00</span>
-                                        @endif--}}
                                     </p>
                                 </div>
                                 @if($item['en_oferta'])
-                                    <div class="rounded bg-green-500 px-2 py-1 text-xs font-bold text-white">
-                                        -{{ number_format($item['porcentaje_oferta'], 2, '.', ',') }}%
+                                    <div class="rounded bg-red-500 px-2 py-1 text-xs font-bold text-white">
+                                        - {{ number_format($item['porcentaje_oferta'], 2, '.', ',') }}%
                                     </div>
                                 @endif
                             </div>
@@ -238,3 +233,43 @@ foreach ($municipios['municipios'] as $departamento => $mun) {
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const departamentoSelect = document.getElementById('departamento');
+        const municipioSelect = document.getElementById('municipio');
+
+        /*Función para ocultar o mostrar los municipios según el departamento seleccionado*/
+        const actualizarMunicipios = () => {
+            const selectedDepartamento = departamentoSelect.value;
+
+            /*Mostrar solo los municipios del departamento seleccionado y restablecer el municipio seleccionado*/
+            Array.from(municipioSelect.options).forEach(option => {
+                if (option.dataset.departamento === selectedDepartamento || option.value === '') {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+
+
+            municipioSelect.value = '';
+        };
+
+        /*Ejecutar al cargar el formulario y al cambiar el departamento*/
+        departamentoSelect.addEventListener('change', actualizarMunicipios);
+        actualizarMunicipios();
+    });
+    /*Actualizar contadores*/
+    function updateCounter(inputId, counterId, maxLength) {
+        const input = document.getElementById(inputId);
+        const counter = document.getElementById(counterId);
+        const currentLength = input.value.length;
+        const remainingLength = maxLength - currentLength;
+        counter.innerText = `${remainingLength}/${maxLength} caracteres restantes`;
+    }
+
+    document.getElementById('telefono').addEventListener('input', function (e) {
+        this.value = this.value.replace(/\D/g, '');
+        updateCounter('telefono', 'counterTelefono', 8);
+    });
+</script>

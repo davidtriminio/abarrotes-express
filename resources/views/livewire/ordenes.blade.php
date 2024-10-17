@@ -22,7 +22,7 @@
                 <p><strong>Subtotal:</strong> <span class="text-gray-600">{{ number_format($orden->sub_total, 2) }}</span></p>
                 <p><strong>Total Final:</strong> <span class="text-gray-600">{{ number_format($orden->total_final, 2) }}</span></p>
                 <p><strong>Costos de Envío:</strong> <span class="text-gray-600">{{ number_format($orden->costos_envio, 2) }}</span></p>
-                <p><strong>Fecha de Entrega:</strong> <span class="text-gray-600">{{ $orden->fecha_entrega ? $orden->fecha_entrega->format('d/m/Y') : 'N/A' }}</span></p>
+                <p><strong>Fecha de Entrega:</strong> <span class="text-gray-600">{{ $orden->fecha_entrega ? Carbon\Carbon::parse($orden->fecha_entrega)->format('d/m/Y') : 'N/A' }}</span></p>
             </div>
         </div>
 

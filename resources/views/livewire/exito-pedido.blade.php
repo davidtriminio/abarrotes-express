@@ -89,6 +89,72 @@
                         </div>
                         {{--Fin estado de la orden--}}{{--Estado de la orden--}}
                     </div>
+                    <div class="w-full md:w-96 p-6 bg-white rounded-lg shadow">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold">DETALLES DE LA ORDEN</h3>
+                            <span class="text-xl font-bold">#{{$orden->id}}</span>
+                        </div>
+                        {{--Detalles del enviío>--}}
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-semibold flex items-center">
+                                        <span class="icon-[bi--truck] mr-1"></span>
+                                        DIRECCIÓN DE ENVÍO
+                                    </h4>
+                                    {{--<a href="#" class="text-blue-500">Change Details</a>--}}
+                                </div>
+                                <p class="text-sm uppercase">
+                                    @if(isset($orden->direccion->direccion_completa) and isset($orden->direccion->ciudad))
+                                        {{$orden->direccion->direccion_completa . ', ' . $orden->direccion->ciudad}}
+                                    @else
+                                        No hay ninguna dirección
+                                    @endif<br>
+                                    <span
+                                        class="text-green-900 font-bold">@if(isset($orden->direccion->municipio) and isset($orden->direccion->departamento))
+                                            {{$orden->direccion->municipio . ', ' . $orden->direccion->departamento}}
+                                        @else
+                                            No hay ninguna dirección
+                                        @endif</span>
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold flex items-center mb-2 mr-1">
+                                    <span class="icon-[ph--phone]"></span>
+                                    DETALLES DE CONTACTO
+                                </h4>
+                                <p class="text-sm">
+                                    @if (auth()->user()->email and isset($orden->direccion->telefono))
+                                        {{auth()->user()->email}}<br>
+                                        {{$orden->direccion->telefono}}<br>
+                                    @else
+                                        No hay ningún dato de contacto.
+                                    @endif
+                                </p>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-semibold"><span class="icon-[lets-icons--order] mr-1"></span>RESUMEN DE
+                                        LA ORDEN ({{$orden->elementos->count()}})</h4>
+                                </div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Sub Total</span>
+                                    <span>{{Number::currency($orden->sub_total, 'lps')}}</span>
+                                </div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Envío</span>
+                                    <span>LPS 0</span>
+                                </div>
+                                <div class="flex justify-between font-bold mt-2">
+                                    <span>Total</span>
+                                    <span>{{Number::currency($orden->total_final, 'lps')}}</span>
+                                </div>
+                            </div>
+                            <button action="click" onclick="location.href='/ordenes'"
+                                    class="w-full bg-blue-500 text-white py-2 rounded mb-6">Ver mis ordenes
+                            </button>
+                        </div>
+                    </div>
                 </main>
             </div>
         </div>

@@ -1468,6 +1468,8 @@ body {
 .bg-green-500 { background-color: #22c55e; }
 .bg-gray-50 { background-color: #f9fafb; }
 .bg-gray-200 { background-color: #e5e7eb; }
+.bg-red-200 { background-color: #fef2f2; }
+.bg-red-500 { background-color: #f56565; }
 
 /* Bordes */
 .border-blue-200 { border-color: #bfdbfe; }

@@ -42,9 +42,10 @@ class Carrito extends Component
         $this->descuento_total = $descuento_data['descuento_total'];
         $this->cupones_aplicados = $descuento_data['cupones_aplicados'];
 
-        $this->total_final = $this->total_original - $this->descuento_total;
-
+        // Asegurarse de que el total final no sea negativo
+        $this->total_final = max(0, $this->total_original - $this->descuento_total);
     }
+
 
     public function eliminarElemento($producto_id)
     {
@@ -124,7 +125,6 @@ class Carrito extends Component
             return;
         }
 
-
         $this->procesarAplicacionCupon($cupon_id);
 
         $cupon = Cupon::find($cupon_id);
@@ -135,7 +135,10 @@ class Carrito extends Component
                 } else {
                     $descuento = $cupon->descuento_dinero;
                 }
-                $this->total_final -= $descuento;
+
+                // Asegurarnos de que el total final no sea negativo
+                $this->total_final = max(0, $this->total_final - $descuento);
+
                 $this->descuento_total += $descuento;
                 $this->cupones_aplicados = [$cupon_id];
             }
@@ -143,10 +146,7 @@ class Carrito extends Component
 
         $this->alert('success', 'Cupón aplicado correctamente.');
 
-
-
         CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
-
 
         $this->mostrar_menu_cupones = false;
     }
@@ -187,9 +187,12 @@ class Carrito extends Component
         if ($cupon) {
             if (($key = array_search($cupon_id, $this->cupones_aplicados)) !== false) {
                 unset($this->cupones_aplicados[$key]);
+
+                // Restablecer el total final al total original
                 $this->total_final = $this->total_original;
                 $this->descuento_total = 0;
 
+                // Recalcular los descuentos aplicados de los cupones restantes
                 foreach ($this->cupones_aplicados as $aplicado_id) {
                     $cupon_aplicado = Cupon::find($aplicado_id);
                     if ($cupon_aplicado) {
@@ -198,20 +201,21 @@ class Carrito extends Component
                         } else {
                             $descuento = $cupon_aplicado->descuento_dinero;
                         }
-                        $this->total_final -= $descuento;
+
+                        // Asegurar que el total final no sea negativo
+                        $this->total_final = max(0, $this->total_final - $descuento);
                         $this->descuento_total += $descuento;
                     }
                 }
             }
 
             $this->alert('success', 'Cupón retirado correctamente.');
-            // Guardar el descuento total actualizado en las cookies
             CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
 
             $this->mostrar_menu_cupones = false;
-
         }
     }
+
 
     public function actualizarCarrito()
     {

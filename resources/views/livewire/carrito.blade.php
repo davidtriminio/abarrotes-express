@@ -4,6 +4,16 @@
         <div class="flex flex-col md:flex-row gap-4">
             <div class="md:w-3/4">
                 <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
+                    {{--Alerta de información--}}
+                    <div class="bg-blue-50 border border-blue-200 text-gray-800 rounded-lg p-4 mb-2" role="alert" tabindex="-1" aria-labelledby="hs-actions-label">
+                        <div class="flex">
+                            <div class="ms-3">
+                                <div class="mt-2 text-lg text-gray-600 align-middle">
+                                    <span class="icon-[ph--info] text-lg text-blue-600"></span> Productos marcados con <span class="font-bold text-red-500">*</span> son productos en oferta.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <table class="w-full">
                         <thead>
                         <tr>
@@ -16,10 +26,12 @@
                         </thead>
                         <tbody>
                         @forelse($elementos_carrito as $item)
-                            <tr wire:key="{{$item['producto_id']}}">
-                                <td class="py-4">
+                            <tr class="@if($item['en_oferta']) rounded-md bg-gray-100 p-2 @endif" wire:key="{{$item['producto_id']}}">
+                                <td class="py-4 ">
                                     <div class="flex items-center">
-                                        <img class="h-16 w-16 mr-4" src="{{ isset($item['imagen']) ? asset($item['imagen']) : asset('imagen/no-photo.png') }}" alt="{{ $item['nombre'] }}">
+                                        <img class="h-16 w-16 mr-4"
+                                             src="{{ $item['imagen'] ? url('storage', $item['imagen']) : asset('imagen/no-photo.png') }}"
+                                             alt="{{ $item['nombre'] }}">@if($item['en_oferta']) <span class="inline text-red-500 font-bold text-xl"> * </span> @endif
                                         <span class="font-semibold">{{ $item['nombre'] }}</span>
                                     </div>
                                 </td>

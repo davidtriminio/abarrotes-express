@@ -1201,7 +1201,6 @@ body {
     display: block;
 }
 
-
 .texto-info {
     display: flex;
     flex-direction: column;
@@ -1227,8 +1226,6 @@ body {
     font-weight: bold;
 }
 
-
-
 .btn-editar-perfil:hover {
     background-color: #f0f8ff;
 }
@@ -1237,7 +1234,6 @@ body {
 .botones-header {
     display: flex;
     align-items: center;
-
 }
 
 .icon-large {
@@ -1255,7 +1251,7 @@ body {
     opacity: 0.8;
 }
 
-
+/*Tarjetas resumen*/
 .tarjetas-resumen {
     display: none;
     justify-content: space-between;
@@ -1317,7 +1313,6 @@ body {
     align-items: center; /* Asegura que estén alineadas en el centro verticalmente */
 }
 
-
 .menu-item {
     background-color: #fff;
     width: 30%;
@@ -1369,7 +1364,6 @@ body {
 
     .botones-header {
         margin-top: 1rem;
-
     }
 
     .tarjetas-resumen {
@@ -1427,8 +1421,6 @@ body {
     }
 }
 
-
-
 /*Animacion de shake*/
 .animate-shake {
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
@@ -1471,21 +1463,47 @@ body {
     filter: drop-shadow(2px 5px 10px gray);
 }
 
+/*Estilos detalles de ordenes*/
 
+/* Gradientes */
+.bg-gradient-to-r { background-image: linear-gradient(to right, var(--tw-gradient-stops)); }
+.from-blue-50 { --tw-gradient-from: #eff6ff; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(239, 246, 255, 0)); }
+.to-blue-100 { --tw-gradient-to: #dbeafe; }
 
+/* Colores de texto */
+.text-blue-600 { color: #2563eb; }
+.text-blue-700 { color: #1d4ed8; }
+.text-blue-800 { color: #1e40af; }
+.text-green-600 { color: #16a34a; }
+.text-red-600{ color: #DC2626; }
 
+/* Colores de fondo */
+.bg-blue-100 { background-color: #dbeafe; }
+.bg-blue-600 { background-color: #2563eb; }
+.bg-green-50 { background-color: #f0fdf4; }
+.bg-green-500 { background-color: #22c55e; }
+.bg-gray-50 { background-color: #f9fafb; }
+.bg-gray-200 { background-color: #e5e7eb; }
+.bg-red-200 { background-color: #fef2f2; }
+.bg-red-500 { background-color: #f56565; }
 
+/* Bordes */
+.border-blue-200 { border-color: #bfdbfe; }
+.border-blue-300 { border-color: #93c5fd; }
+.border-red-500 { border-color: #ff3535; }
 
+/* Efectos de hover */
+.hover\:bg-blue-700:hover { background-color: #1d4ed8; }
 
+/* Espaciado */
+.p-6 { padding: 1.5rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.space-y-2 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.5rem; }
+.space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
+.space-y-6 > :not([hidden]) ~ :not([hidden]) { margin-top: 1.5rem; }
 
-
-
-
-
-
-
-
-
-
-
-
+/*textarea*/
+.resize-none {
+    resize: none;
+}

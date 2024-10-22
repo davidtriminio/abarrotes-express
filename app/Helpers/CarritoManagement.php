@@ -100,7 +100,7 @@ class CarritoManagement
 
     static public function agregarDescuentoCookies($descuento_total, $cupones_aplicados, $nuevo_cupon_id)
     {
-        if (Auth::check()) { // Solo guarda si el usuario está autenticado
+        if (Auth::check()) {
             Cookie::queue('descuento_total', json_encode($descuento_total), 60 * 24 * 30);
             Cookie::queue('cupones_aplicados', json_encode($cupones_aplicados), 60 * 24 * 30);
             if ($nuevo_cupon_id) {

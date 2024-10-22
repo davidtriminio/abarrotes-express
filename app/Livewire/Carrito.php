@@ -46,7 +46,6 @@ class Carrito extends Component
         $this->total_final = max(0, $this->total_original - $this->descuento_total);
     }
 
-
     public function eliminarElemento($producto_id)
     {
         $this->elementos_carrito = CarritoManagement::quitarElementosCarrito($producto_id);
@@ -84,14 +83,61 @@ class Carrito extends Component
             $this->elementos_carrito = $resultado;
             $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
             $this->total_final = $this->total_original - $this->descuento_total;
-        } else {
-            $this->alert('error', $resultado, [
-                'position' => 'bottom-end',
-                'timer' => 3000,
-                'toast' => true,
-                'timerProgressBar' => true,
-                $this->skipRender()
-            ]);
+
+
+            $this->verificarCuponesAplicados();
+        }
+    }
+
+    private function verificarCuponesAplicados()
+    {
+        $cupones_a_retirar = [];
+
+        foreach ($this->cupones_aplicados as $cupon_id) {
+            if (!$this->cupónEsAplicable($cupon_id)) {
+                $cupones_a_retirar[] = $cupon_id;
+            }
+        }
+
+        // Retirar los cupones no aplicables
+        foreach ($cupones_a_retirar as $cupon_id) {
+            $this->retirarCuponAutomaticamente($cupon_id);
+        }
+
+        // Actualiza la cookie después de la verificación
+        CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
+    }
+
+    private function retirarCuponAutomaticamente($cupon_id)
+    {
+        $cupon = Cupon::find($cupon_id);
+        if ($cupon) {
+            if (($key = array_search($cupon_id, $this->cupones_aplicados)) !== false) {
+                unset($this->cupones_aplicados[$key]);
+                $this->total_final = $this->total_original;
+                $this->descuento_total = 0;
+
+                foreach ($this->cupones_aplicados as $aplicado_id) {
+                    $cupon_aplicado = Cupon::find($aplicado_id);
+                    if ($cupon_aplicado) {
+                        if ($cupon_aplicado->tipo_descuento === 'porcentaje') {
+                            $descuento = $this->total_final * ($cupon_aplicado->descuento_porcentaje / 100);
+                        } else {
+                            $descuento = $cupon_aplicado->descuento_dinero;
+                        }
+                        $this->total_final -= $descuento;
+                        $this->descuento_total += $descuento;
+                    }
+                }
+            }
+
+            // Mensaje específico para retirar por incumplimiento de restricciones
+            $this->alert('success', 'Cupón retirado porque ya no cumple restricciones ó condiciones.');
+
+            // Guardar el descuento total actualizado en las cookies
+            CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
+
+            $this->mostrar_menu_cupones = false;
         }
     }
 
@@ -118,12 +164,54 @@ class Carrito extends Component
             return;
         }
 
+        $cupon = Cupon::find($cupon_id);
+
+        if (!$cupon) {
+            $this->alert('error', 'Cupón no válido.');
+            return;
+        }
+
+        $errores = [];
+
+
+        if ($cupon->tipo_descuento === 'dinero') {
+
+            if (!is_null($cupon->compra_minima) && $this->total_final < $cupon->compra_minima) {
+                $errores[] = 'un total mínimo de ' . number_format($cupon->compra_minima, 2) . ' lempiras';
+            }
+
+
+            $cantidad_productos = array_sum(array_column($this->elementos_carrito, 'cantidad'));
+            if (!is_null($cupon->compra_cantidad) && $cantidad_productos < $cupon->compra_cantidad) {
+                $errores[] = 'una cantidad mínima de ' . $cupon->compra_cantidad . ' productos';
+            }
+
+
+            if (is_null($cupon->compra_minima) && is_null($cupon->compra_cantidad) && $this->total_final < $cupon->descuento_dinero) {
+                $errores[] = 'el total de la compra debe ser mayor o igual al descuento de ' . number_format($cupon->descuento_dinero, 2) . ' lempiras';
+            }
+        } elseif ($cupon->tipo_descuento === 'porcentaje') {
+
+            $cantidad_productos = array_sum(array_column($this->elementos_carrito, 'cantidad'));
+            if (!is_null($cupon->compra_cantidad) && $cantidad_productos < $cupon->compra_cantidad) {
+                $errores[] = 'una cantidad mínima de ' . $cupon->compra_cantidad . ' productos';
+            }
+        }
+
+
+        if (!empty($errores)) {
+            $this->alert('error', 'Este cupón solo aplica para compras con ' . implode(' y ', $errores) . '.');
+            return;
+        }
+
+
         if (count($this->cupones_aplicados) > 0) {
             $this->cupon_a_reemplazar = $this->cupones_aplicados[0];
             $this->nuevo_cupon_id = $cupon_id;
             $this->mostrar_modal_cupon = true;
             return;
         }
+
 
         $this->procesarAplicacionCupon($cupon_id);
 
@@ -146,10 +234,52 @@ class Carrito extends Component
 
         $this->alert('success', 'Cupón aplicado correctamente.');
 
+
+
         CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
+
 
         $this->mostrar_menu_cupones = false;
     }
+
+
+
+    public function cupónEsAplicable($cupon_id)
+    {
+        $cupon = Cupon::find($cupon_id);
+        $errores = [];
+
+        if (!$cupon) return false;
+
+        if ($cupon->tipo_descuento === 'dinero') {
+            if (!is_null($cupon->compra_minima) && $this->total_final < $cupon->compra_minima) {
+                return false;
+            }
+
+            $cantidad_productos = array_sum(array_column($this->elementos_carrito, 'cantidad'));
+            if (!is_null($cupon->compra_cantidad) && $cantidad_productos < $cupon->compra_cantidad) {
+                return false;
+            }
+
+            if (is_null($cupon->compra_minima) && is_null($cupon->compra_cantidad) && $this->total_final < $cupon->descuento_dinero) {
+                return false;
+            }
+        } elseif ($cupon->tipo_descuento === 'porcentaje') {
+            $cantidad_productos = array_sum(array_column($this->elementos_carrito, 'cantidad'));
+            if (!is_null($cupon->compra_cantidad) && $cantidad_productos < $cupon->compra_cantidad) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
+
+
+
+
 
     public function confirmarReemplazoCupon()
     {
@@ -210,12 +340,13 @@ class Carrito extends Component
             }
 
             $this->alert('success', 'Cupón retirado correctamente.');
+            // Guardar el descuento total actualizado en las cookies
             CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
 
             $this->mostrar_menu_cupones = false;
+
         }
     }
-
 
     public function actualizarCarrito()
     {
@@ -223,7 +354,7 @@ class Carrito extends Component
             $this->cupones = Cupon::where('estado', true)
                 ->where('fecha_inicio', '<=', now())
                 ->where('fecha_expiracion', '>', now())
-                ->where('usuario_id', Auth::id())
+                ->where('user_id', Auth::id())
                 ->get();
         } else {
             $this->cupones = [];

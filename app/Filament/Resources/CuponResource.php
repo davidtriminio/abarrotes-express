@@ -5,6 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CuponResource\Pages;
 use App\Models\Cupon;
 use App\Filament\Resources\ProductoResource\RelationManagers;
+use App\Models\User;
+use App\Models\Orden;
+use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\Group;
@@ -52,7 +55,8 @@ class CuponResource extends Resource
                             ->label('Código del Cupón')
                             ->helperText(fn ($state, $component) => 'Quedan: ' . (8 - strlen($state)) . '/8 caracteres')
                             ->live()
-                            ->unique(Cupon::class, ignoreRecord: true)                            ->validationMessages([
+                            ->unique(Cupon::class, ignoreRecord: true)
+                            ->validationMessages([
                                 'required' => 'El código es obligatorio.',
                                 'max_digits' => 'El código debe tener solamente 8 dígitos.',
                                 'mask' => 'El código debe tener solamente 8 dígitos.',
@@ -98,17 +102,19 @@ class CuponResource extends Resource
                                 'regex' => 'El descuento debe tener hasta 5 dígitos enteros y hasta 2 decimales.',
                             ]),
 
-
                         Forms\Components\DateTimePicker::make('fecha_inicio')
                             ->required()
                             ->native(false)
                             ->displayFormat('Y/m/d H:i:s')
                             ->label('Fecha y Hora de Inicio')
-                            ->afterOrEqual(now())
+                            ->afterOrEqual(now()->startOfDay())
+                            ->beforeOrEqual(now()->endOfDay())
                             ->validationMessages([
                                 'required' => 'La fecha y hora de inicio son obligatorias.',
                                 'after_or_equal' => 'La fecha y hora deben ser iguales o posteriores a la fecha y hora actuales.',
+                                'before_or_equal' => 'La fecha y hora deben ser iguales o anteriores a la fecha y hora del final del día actual.',
                             ]),
+
 
                         Forms\Components\DateTimePicker::make('fecha_expiracion')
                             ->required()
@@ -121,8 +127,8 @@ class CuponResource extends Resource
                                 'after' => 'La fecha y hora de expiración deben ser posteriores a la fecha y hora de inicio.',
                             ]),
 
-                        Forms\Components\Select::make('usuario_id')
-                            ->relationship('usuario', 'name')
+                        Forms\Components\Select::make('user_id')
+                            ->relationship('users', 'name')
                             ->required()
                             ->searchable()
                             ->preload()
@@ -134,11 +140,43 @@ class CuponResource extends Resource
                                 'exists' => 'El usuario seleccionado no es válido.'
                             ]),
 
-                        Forms\Components\Toggle::make('estado')
+
+        Forms\Components\Toggle::make('estado')
                             ->label('Estado')
                             ->default(true),
-                    ])->columns(3)
-                ])->columnSpan(2)
+                    ])->columns(3),
+
+                    Section::make('Restricciones')
+                        ->schema([
+
+
+                            Forms\Components\TextInput::make('compra_minima')
+                                ->label('Compra mínima a:')
+                                ->numeric()
+                                ->step('0.01')
+                                ->helperText('Aplica para compras mínima a la cantidad de dinero ingresada.')
+                                ->prefix('L.')
+                                ->minValue(0)
+                                ->columnSpan(1)
+                                ->disabled(fn ($get) => $get('tipo_descuento') === 'porcentaje')
+                                ->validationMessages([
+                                    'numeric' => 'Debe ser un valor numérico válido.',
+                                ]),
+
+                            Forms\Components\TextInput::make('compra_cantidad')
+                                ->label('Cantidad de Productos')
+                                ->numeric()
+                                ->helperText('Aplica para la cantidad de productos ingresada.')
+                                ->minValue(1)
+                                ->maxValue(100)
+                                ->columnSpan(1)
+                                ->validationMessages([
+                                    'numeric' => 'Debe ser un valor numérico válido.',
+                                    'min' => 'La cantidad mínima debe ser 1.',
+                                ]),
+
+                        ])->columns(2),
+                ])->columnSpan(2),
             ]);
     }
 
@@ -152,14 +190,12 @@ class CuponResource extends Resource
                     ->label('Descuento'),
                 Tables\Columns\TextColumn::make('fecha_inicio')
                     ->label('Fecha de Inicio'),
-
                 Tables\Columns\TextColumn::make('fecha_expiracion')
                     ->label('Fecha de Expiración'),
-
                 Tables\Columns\IconColumn::make('estado')
                     ->label('Estado')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('usuario.name')
+                Tables\Columns\TextColumn::make('user.name')
                     ->label('Usuario'),
             ])
             ->actions([

@@ -22,7 +22,9 @@ class Cupon extends Model
         'fecha_inicio',
         'fecha_expiracion',
         'estado',
-        'usuario_id',
+        'compra_minima',
+        'compra_cantidad',
+        'user_id',
         'producto_id',
         'categoria_id',
         'marca_id'
@@ -42,9 +44,9 @@ class Cupon extends Model
         return $value;
     }
 
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'usuario_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function producto()

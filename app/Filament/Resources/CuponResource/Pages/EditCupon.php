@@ -45,7 +45,8 @@ class EditCupon extends EditRecord
                             ->label('Código del Cupón')
                             ->helperText(fn ($state, $component) => 'Quedan: ' . (8 - strlen($state)) . '/8 caracteres')
                             ->live()
-                            ->unique(Cupon::class, ignoreRecord: true)                            ->validationMessages([
+                            ->unique(Cupon::class, ignoreRecord: true)
+                            ->validationMessages([
                                 'required' => 'El código es obligatorio.',
                                 'max_digits' => 'El código debe tener solamente 8 dígitos.',
                                 'mask' => 'El código debe tener solamente 8 dígitos.',
@@ -53,8 +54,8 @@ class EditCupon extends EditRecord
                             ]),
 
                         Select::make('tipo_descuento')
-                            ->native(false)
                             ->required()
+                            ->native(false)
                             ->label('Tipo de Descuento')
                             ->options([
                                 'porcentaje' => 'Porcentaje',
@@ -91,17 +92,19 @@ class EditCupon extends EditRecord
                                 'regex' => 'El descuento debe tener hasta 5 dígitos enteros y hasta 2 decimales.',
                             ]),
 
-
                         DateTimePicker::make('fecha_inicio')
                             ->required()
                             ->native(false)
                             ->displayFormat('Y/m/d H:i:s')
                             ->label('Fecha y Hora de Inicio')
-                            ->afterOrEqual(now())
+                            ->afterOrEqual(now()->startOfDay())
+                            ->beforeOrEqual(now()->endOfDay())
                             ->validationMessages([
                                 'required' => 'La fecha y hora de inicio son obligatorias.',
                                 'after_or_equal' => 'La fecha y hora deben ser iguales o posteriores a la fecha y hora actuales.',
+                                'before_or_equal' => 'La fecha y hora deben ser iguales o anteriores a la fecha y hora del final del día actual.',
                             ]),
+
 
                         DateTimePicker::make('fecha_expiracion')
                             ->required()
@@ -114,8 +117,8 @@ class EditCupon extends EditRecord
                                 'after' => 'La fecha y hora de expiración deben ser posteriores a la fecha y hora de inicio.',
                             ]),
 
-                        Select::make('usuario_id')
-                            ->relationship('usuario', 'name')
+                        Select::make('user_id')
+                            ->relationship('users', 'name')
                             ->required()
                             ->searchable()
                             ->preload()
@@ -128,40 +131,42 @@ class EditCupon extends EditRecord
                             ]),
 
 
-
-                        Select::make('producto_id')
-                            ->relationship('producto', 'nombre')
-                            ->nullable()
-                            ->searchable()
-                            ->preload()
-                            ->native(false)
-                            ->label('Producto')
-                            ->exists('productos', 'id'),
-
-                        Select::make('categoria_id')
-                            ->relationship('categoria', 'nombre')
-                            ->nullable()
-                            ->searchable()
-                            ->preload()
-                            ->native(false)
-                            ->label('Categoría')
-                            ->exists('categorias', 'id'),
-
-                        Select::make('marca_id')
-                            ->relationship('marca', 'nombre')
-                            ->nullable()
-                            ->searchable()
-                            ->preload()
-                            ->native(false)
-                            ->label('Marca')
-                            ->exists('marcas', 'id'),
-
-
                         Toggle::make('estado')
                             ->label('Estado')
                             ->default(true),
-                    ])->columns(3)
-                ])->columnSpan(2)
+                    ])->columns(3),
+
+                    Section::make('Restricciones')
+                        ->schema([
+
+
+                            TextInput::make('compra_minima')
+                                ->label('Compra mínima a:')
+                                ->numeric()
+                                ->step('0.01')
+                                ->helperText('Aplica para compras mínima a la cantidad de dinero ingresada.')
+                                ->prefix('L.')
+                                ->minValue(0)
+                                ->columnSpan(1)
+                                ->disabled(fn ($get) => $get('tipo_descuento') === 'porcentaje')
+                                ->validationMessages([
+                                    'numeric' => 'Debe ser un valor numérico válido.',
+                                ]),
+
+                            TextInput::make('compra_cantidad')
+                                ->label('Cantidad de Productos')
+                                ->numeric()
+                                ->helperText('Aplica para la cantidad de productos ingresada.')
+                                ->minValue(1)
+                                ->maxValue(100)
+                                ->columnSpan(1)
+                                ->validationMessages([
+                                    'numeric' => 'Debe ser un valor numérico válido.',
+                                    'min' => 'La cantidad mínima debe ser 1.',
+                                ]),
+
+                        ])->columns(2),
+                ])->columnSpan(2),
             ]);
     }
 

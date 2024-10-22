@@ -19,11 +19,11 @@ class Perfil extends Component
 
     public function exportarClaveRecuperacion()
     {
-        // Obtener la clave de recuperación del usuario autenticado
+
         $user = Auth::user();
         $recoveryKey = $user->recovery_key;
 
-        // Definir el nombre del archivo
+
         $fileName = 'CLAVE DE RECUPERACION.txt';
 
         // Crear el contenido del archivo

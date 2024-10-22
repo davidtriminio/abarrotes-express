@@ -20,7 +20,9 @@ return new class extends Migration
             $table->dateTime('fecha_inicio');
             $table->dateTime('fecha_expiracion');
             $table->boolean('estado')->default(true);
-            $table->foreignId('usuario_id')->nullable()->constrained('users')->onDelete('restrict');
+            $table->decimal('compra_minima', 10, 2)->nullable();
+            $table->integer('compra_cantidad')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('restrict');
             $table->foreignId('producto_id')->nullable()->constrained('productos')->onDelete('restrict');
             $table->foreignId('categoria_id')->nullable()->constrained('categorias')->onDelete('restrict');
             $table->foreignId('marca_id')->nullable()->constrained('marcas')->onDelete('restrict');

@@ -42,7 +42,7 @@ class Carrito extends Component
         $this->descuento_total = $descuento_data['descuento_total'];
         $this->cupones_aplicados = $descuento_data['cupones_aplicados'];
 
-        $this->total_final = $this->total_original - $this->descuento_total;
+        $this->total_final = max(0, $this->total_original - $this->descuento_total);
 
     }
 

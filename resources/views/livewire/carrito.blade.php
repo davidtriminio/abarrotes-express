@@ -104,7 +104,6 @@
                                     </button>
                                 </div>
 
-                                <!-- Lista de cupones -->
                                 <div class="space-y-2">
                                     @if(count($cupones) > 0)
                                         @foreach($cupones as $cupon)
@@ -120,6 +119,10 @@
                                                         <button wire:click="retirarCupon({{ $cupon->id }})" class="bg-red-500 text-white py-1 px-3 rounded-lg">
                                                             Retirar
                                                         </button>
+                                                    @elseif(!$this->cupónEsAplicable($cupon->id))
+                                                        <button class="bg-gray-400 text-black py-1 px-2 rounded-lg cursor-not-allowed whitespace-nowrap border border-black flex-1" disabled>
+                                                            No Aplica
+                                                        </button>
                                                     @else
                                                         <button wire:click="aplicarCupon({{ $cupon->id }})" class="bg-blue-500 text-white py-1 px-3 rounded-lg">
                                                             Aplicar
@@ -134,7 +137,6 @@
                                         </div>
                                     @endif
                                 </div>
-
                             </div>
                         </div>
                     </div>

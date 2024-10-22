@@ -7,17 +7,39 @@
             </div>
             <div class="texto-info">
                 <h1 class="nombre-usuario">{{ $nombreUsuario }}</h1>
-                <button class="btn-editar-perfil" wire:click="exportarClaveRecuperacion" type="button" id="btnExportar">
-                    <span class="i-bi-user-edit"></span> Exportar Clave de Recuperación
-                </button>
             </div>
         </div>
         <div class="botones-header">
-            <a href="#" class="btn-ajustes">
-                <span class="icon-[majesticons--bell] icon-large"></span>
-            </a>
+            <!-- Dropdown para el ícono de la campana -->
+            <div class="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] md:[--trigger:hover] md:py-4 transition ease-in-out hover:transition hover:ease-in-out">
+                <button id="hs-dropdown-notifications" type="button"
+                        class="hs-dropdown-toggle py-0.5 px-4 inline-flex items-center gap-x-2 text-sm font-medium text-white hover:text-gray-400 focus:outline-none disabled:opacity-50 disabled:pointer-events-none transition ease-in-out hover:transition hover:ease-in-out"
+                        aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                    <span class="icon-[majesticons--bell] icon-large"></span>
+                    <svg class="hs-dropdown-open:rotate-180 size-4"
+                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                </button>
+
+                <div class="hs-dropdown-menu transition-[opacity,gin] duration-[0.1ms] md:duration-[150ms] ease-in-out hs-dropdown-open:opacity-100 opacity-0 md:w-48 hidden z-10 min-w-60 bg-white shadow-md rounded-lg p-1 space-y-0.5 mt-2 divide-y divide-gray-200">
+                    <div class="py-2 first:pt-0 last:pb-0">
+                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100" href="#">
+                            <span class="icon-[material-symbols--notification-add]"></span>
+                            Notificación 1
+                        </a>
+                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100" href="#">
+                            <span class="icon-[material-symbols--notification-add]"></span>
+                            Notificación 2
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin del dropdown -->
         </div>
     </div>
+
 
     <!-- Menú de navegación estilo tarjetas -->
     <div class="perfil-menu-nuevo">
@@ -32,6 +54,7 @@
             </a>
         </div>
     </div>
+
 
     <div class="tarjetas-resumen" id="tarjetasResumen"></div>
 </div>
@@ -59,10 +82,10 @@
                     <p>Métodos de pago</p>
                 </div>
             </a>
-            <a href="#" class="tarjeta">
+            <a href="#" class="tarjeta" wire:click="exportarClaveRecuperacion">
                 <div class="texto-tarjeta" style="text-align: center;">
                     <span class="icon-[charm--padlock]"></span>
-                    <p>Métodos de seguridad</p>
+                    <p>Clave de Recuperación</p>
                 </div>
             </a>
             <a href="/favoritos" class="tarjeta">
@@ -105,18 +128,18 @@
         `
     };
 
-    // Función para mostrar el contenido de las tarjetas
+
     function mostrarContenido(tipo) {
         tarjetasResumen.innerHTML = contenidoTarjetas[tipo];
         tarjetasResumen.style.display = 'flex';
     }
 
-    // Evento para simular el clic en "Mi Cuenta" al cargar la página
+
     document.addEventListener('DOMContentLoaded', function () {
-        mostrarContenido('miCuenta'); // Muestra el contenido de "Mi Cuenta"
+        mostrarContenido('miCuenta');
     });
 
-    // Añadir event listeners a los botones del menú
+
     menuItems.miCuenta.addEventListener('click', function (event) {
         event.preventDefault();
         mostrarContenido('miCuenta');

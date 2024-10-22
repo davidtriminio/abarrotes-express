@@ -15,12 +15,12 @@ class DetalleCupon extends Component
     {
         $userId = Auth::id();
 
-        // Aplicar los mismos filtros que en el método actualizarCarrito
-        $cupones = Cupon::where('estado', true)  // Solo cupones activos
+
+        $cupones = Cupon::where('estado', true)
         ->where('fecha_inicio', '<=', now())
-        ->where('fecha_expiracion', '>', now())  // Solo cupones no caducados
-        ->where('usuario_id', $userId)  // Solo los cupones del usuario autenticado
-        ->paginate($this->perPage);
+            ->where('fecha_expiracion', '>', now())
+            ->where('user_id', $userId)
+            ->paginate($this->perPage);
 
         return view('livewire.detalle-cupon', [
             'cupones' => $cupones,

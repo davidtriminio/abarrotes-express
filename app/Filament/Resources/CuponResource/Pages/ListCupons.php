@@ -47,7 +47,7 @@ class ListCupons extends ListRecords
                 Tables\Columns\IconColumn::make('estado')
                     ->label('Estado')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('usuario.name')
+                Tables\Columns\TextColumn::make('user.name')
                     ->label('Usuario'),
             ])
             ->paginated([10, 25, 50, 100,])

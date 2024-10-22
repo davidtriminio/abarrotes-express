@@ -128,7 +128,7 @@ class CuponResource extends Resource
                             ]),
 
                         Forms\Components\Select::make('user_id')
-                            ->relationship('users', 'name')
+                            ->relationship('user', 'name')
                             ->required()
                             ->searchable()
                             ->preload()

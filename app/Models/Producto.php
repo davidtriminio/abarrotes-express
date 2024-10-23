@@ -66,6 +66,12 @@ class Producto extends Model
         return $this->hasMany(Favorito::class);
     }
 
+    public function promociones()
+{
+    return $this->hasMany(Promocion::class);
+}
+
+
 
 
 

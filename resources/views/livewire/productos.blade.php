@@ -15,6 +15,7 @@
                             <option value="tiempo" selected>Producto Reciente</option>
                             <option value="caro">Precio más Alto</option>
                             <option value="barato">Precio más Bajo</option>
+                            <option value="promocion">Promociones</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center px-2">

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('promociones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('producto_id')->nullable()->constrained('producto')->onDelete('restrict');
+            $table->foreignId('producto_id');
             $table->boolean('estado');
             $table->dateTime('fecha_inicio');
             $table->dateTime('fecha_expiracion');
+            $table->decimal('promocion');
             $table->timestamps();
         });
     }

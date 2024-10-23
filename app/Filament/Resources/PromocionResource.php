@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class PromocionResource extends Resource
 {
     protected static ?string $model = Promocion::class;
+    protected static ?string $slug = 'promociones';
+    protected static ?string $modelLabel = 'promociones';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

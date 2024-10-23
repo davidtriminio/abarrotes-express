@@ -9,6 +9,7 @@ use Livewire\Component;
 use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
+use App\Models\Promocion;
 use Livewire\WithPagination;
 
 class Productos extends Component
@@ -22,6 +23,7 @@ class Productos extends Component
     public $precioMaximo;
     public $precioMinimo;
     public $categorias;
+    public $promociones;
     public $orden = '';
     public $marcas;
     public $perPage = 12;
@@ -117,6 +119,7 @@ class Productos extends Component
     {
         $this->categorias = Categoria::all();
         $this->marcas = Marca::all();
+        $this->promociones = Promocion::all();
         $this->mostrarTodasCategorias = false; // Asegúrate de inicializar esto
         $this->precioMaximo = Producto::where('disponible','=', true)->max('precio');
         $this->precioMinimo= Producto::where('disponible','=', true)->min('precio');
@@ -157,6 +160,9 @@ class Productos extends Component
             case 'tiempo':
                 $query->orderBy('created_at', 'desc');
                 break;
+                case 'promocion':
+                    $query->whereHas('promociones');
+                    break;
 
 
         }
@@ -167,6 +173,8 @@ class Productos extends Component
             'productos' => $productos,
             'categorias' => $this->categorias,
             'marcas' => $this->marcas,
+            'promociones' => $this->promociones,
+
         ]);
     }
 }

@@ -133,51 +133,35 @@
                 </div>
             </div>
         </div>
-
-        <!-- Paginación con divisoria superior -->
         @if ($ordenes->isNotEmpty())
-            <hr class="my-6 border-gray-300"> <!-- Línea divisoria -->
+    <div class="mt-4 text-right"> <!-- Alinea a la derecha -->
+        <nav aria-label="Page navigation">
+            <ul class="flex justify-center space-x-2"> <!-- Flexbox para alinear los números -->
+                @if ($ordenes->onFirstPage())
+                    <li class="disabled"><span class="px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed">Anterior</span></li>
+                @else
+                    <li><a href="{{ $ordenes->previousPageUrl() }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Anterior</a></li>
+                @endif
 
-            <div class="mt-4 text-right">
-                <nav aria-label="Page navigation">
-                    <ul class="flex justify-center space-x-2">
-                        @if ($ordenes->onFirstPage())
-                            <li class="disabled">
-                                <span class="px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed">Anterior</span>
-                            </li>
+                @for ($i = 1; $i <= $ordenes ->lastPage(); $i++)
+                    <li>
+                        @if ($i == $ordenes->currentPage())
+                            <span class="px-4 py-2 bg-blue-500 text-white rounded">{{ $i }}</span> <!-- Página actual -->
                         @else
-                            <li>
-                                <a href="{{ $ordenes->previousPageUrl() }}"
-                                   class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">Anterior</a>
-                            </li>
+                            <a href="{{ $ordenes->url($i) }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-blue-500 hover:text-white">{{ $i }}</a>
                         @endif
+                    </li>
+                @endfor
 
-                        @for ($i = 1; $i <= $ordenes->lastPage(); $i++)
-                            <li>
-                                @if ($i == $ordenes->currentPage())
-                                    <span class="px-4 py-2 bg-blue-500 text-white rounded">{{ $i }}</span>
-                                @else
-                                    <a href="{{ $ordenes->url($i) }}"
-                                       class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-blue-500 hover:text-white transition duration-300">{{ $i }}</a>
-                                @endif
-                            </li>
-                        @endfor
-
-                        @if ($ordenes->hasMorePages())
-                            <li>
-                                <a href="{{ $ordenes->nextPageUrl() }}"
-                                   class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">Siguiente</a>
-                            </li>
-                        @else
-                            <li class="disabled">
-                                <span class="px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed">Siguiente</span>
-                            </li>
-                        @endif
-                    </ul>
-                </nav>
-            </div>
-        @endif
-
+                @if ($ordenes->hasMorePages())
+                    <li><a href="{{ $ordenes->nextPageUrl() }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Siguiente</a></li>
+                @else
+                    <li class="disabled"><span class="px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed">Siguiente</span></li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+@endif
     </div>
     <script>
         function printTable() {

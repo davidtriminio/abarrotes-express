@@ -1514,3 +1514,48 @@ body {
 .resize-none {
     resize: none;
 }
+
+.bg-tarjeta {
+    background-color: #bfdbfe; /* bg-blue-100 */
+    color: #1d4ed8; /* text-blue-800 */
+}
+.bg-efectivo {
+    background-color: #d1fae5; /* bg-green-100 */
+    color: #065f46; /* text-green-800 */
+}
+.bg-pago-al-recibir {
+    background-color: #fef3c7; /* bg-yellow-100 */
+    color: #78350f; /* text-yellow-800 */
+}
+.bg-procesando {
+    background-color: #fef3c7; /* bg-yellow-100 */
+    color: #78350f; /* text-yellow-800 */
+}
+.bg-error {
+    background-color: #fee2e2; /* bg-red-100 */
+    color: #b91c1c; /* text-red-800 */
+}
+.bg-pagado {
+    background-color: #d1fae5; /* bg-green-100 */
+    color: #065f46; /* text-green-800 */
+}
+.bg-nuevo {
+    background-color: #e9d5ff; /* bg-purple-100 */
+    color: #6d28d9; /* text-purple-800 */
+}
+.bg-en-proceso {
+    background-color: #bfdbfe; /* bg-blue-100 */
+    color: #1d4ed8; /* text-blue-800 */
+}
+.bg-enviado {
+    background-color: #fef3c7; /* bg-yellow-100 */
+    color: #78350f; /* text-yellow-800 */
+}
+.bg-entregado {
+    background-color: #d1fae5; /* bg-green-100 */
+    color: #065f46; /* text-green-800 */
+}
+.bg-cancelado {
+    background-color: #fee2e2; /* bg-red-100 */
+    color: #b91c1c; /* text-red-800 */
+}

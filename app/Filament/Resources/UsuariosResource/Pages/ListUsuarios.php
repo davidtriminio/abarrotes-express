@@ -6,6 +6,7 @@ use App\Filament\Resources\UsuarioResource;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -40,38 +41,31 @@ class ListUsuarios extends ListRecords
             ->columns([
                 TextColumn::make('id')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
 
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
-                    ->alignCenter()
+                    ->alignLeft()
                     ->label('Nombre de Usuario'),
 
                 TextColumn::make('email')
                     ->searchable()
                     ->sortable()
-                    ->alignCenter()
-                    ->label('Correo Electrónico'),
+                    ->label('Correo Electrónico')
+                    ->alignLeft(),
 
                 TextColumn::make('roles.name') ->sortable()->searchable()
-                ->alignCenter(),
-
-                TextColumn::make('email_verified_at')
-                    ->label('Verificación de Correo')
-                    ->alignCenter()
-                    ->date(),
-                TextColumn::make('deleted_at')
-                ->date()
-                ->label('Fecha de borrado')
-
+                    ->alignLeft()
+                    ->label('Rol'),
             ])
             ->paginated([10, 25, 50, 100,])
             ->actions([
+                RestoreAction::make()
+                    ->label('Restaurar'),
                 ViewAction::make()
                     ->hiddenLabel(),
-                RestoreAction::make()
-                    ->label('Restaurar')
             ])
             ->selectable(false)
             ->filters([

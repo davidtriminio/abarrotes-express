@@ -40,7 +40,8 @@ class ListCategorias extends ListRecords
             ->columns([
                 TextColumn::make('nombre')->label('Nombre'),
                 IconColumn::make('disponible')->label('Disponible')
-                    ->boolean(),
+                    ->boolean()
+                ->alignCenter(),
             ])
             ->paginated([10, 25, 50, 100,])
             ->actions([

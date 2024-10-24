@@ -46,7 +46,8 @@ class ListCupons extends ListRecords
                     ->label('Fecha de Expiración'),
                 Tables\Columns\IconColumn::make('estado')
                     ->label('Estado')
-                    ->boolean(),
+                    ->boolean()
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('usuario.name')
                     ->label('Usuario'),
             ])

@@ -1514,3 +1514,135 @@ body {
 .resize-none {
     resize: none;
 }
+
+
+
+/* Contenedor principal */
+.contenedor-editar-perfil {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8fafc; /* bg-gray-50 */
+    padding: 2rem; /* Espaciado alrededor del formulario */
+}
+
+/* Tarjeta del formulario */
+.tarjeta-formulario {
+    background-color: #ffffff; /* bg-white */
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* sombra elegante */
+    padding: 2.5rem; /* p-10 */
+    width: 100%;
+    max-width: 32rem; /* max-w-xl */
+    border-top: 4px solid #3b82f6; /* borde superior en azul */
+    animation: fadeIn 0.5s ease-in-out; /* Animación de aparición */
+}
+
+/* Título del formulario */
+.titulo-formulario {
+    font-size: 2rem; /* text-4xl */
+    font-weight: 700; /* font-bold */
+    margin-bottom: 2rem; /* mb-8 */
+    text-align: center;
+    color: #1e293b; /* text-gray-800 */
+    position: relative;
+}
+
+/* Input de formulario */
+.input-formulario {
+    width: 100%;
+    padding: 0.75rem; /* py-3 */
+    color: #1f2937; /* text-gray-900 */
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* shadow-sm */
+    margin-top: 0.5rem; /* mt-2 */
+    transition: all 0.3s ease;
+}
+
+.input-formulario:focus {
+    border-color: #3b82f6; /* focus:border-blue-500 */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* focus:ring */
+    outline: none;
+}
+
+/* Mensajes de error */
+.texto-error {
+    color: #dc2626; /* text-red-600 */
+    font-size: 0.875rem; /* text-sm */
+    margin-top: 0.25rem; /* mt-1 */
+    font-style: italic;
+}
+
+/* Botón */
+.boton-guardar {
+    background-color: #3b82f6; /* bg-blue-500 */
+    color: #ffffff;
+    padding: 0.75rem 1.5rem; /* px-6 py-3 */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-size: 1rem; /* text-base */
+    font-weight: 600; /* font-semibold */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem; /* mt-6 */
+    min-width: 120px; /* Ancho mínimo para el botón */
+    height: 50px; /* Altura fija para evitar reducción */
+}
+
+/* Efecto hover para el botón */
+.boton-guardar:hover {
+    background-color: #2563eb; /* hover:bg-blue-600 */
+    transform: translateY(-2px);
+}
+
+.boton-guardar:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* focus:ring */
+}
+
+/* Icono de carga */
+.icono-carga {
+    margin-left: 0.5rem;
+    width: 1rem; /* w-4 */
+    height: 1rem; /* h-4 */
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Animación de carga */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Enlace volver al perfil */
+.enlace-perfil {
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    color: #3b82f6; /* text-blue-500 */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.enlace-perfil:hover {
+    color: #2563eb; /* hover:text-blue-600 */
+}
+
+/* Espaciado de entradas */
+.espaciado-entrada {
+    margin-bottom: 1.5rem; /* mb-6 */
+}
+

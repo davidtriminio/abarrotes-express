@@ -15,16 +15,17 @@ class CambiarContrasena extends Component
 
     public $new_password;
     public $confirm_password;
-    public $email;
-    public $new_email;
+    public $user_id;
+    public $token;
 
-    public function mount()
+    public function mount($token = null)
     {
-        // Recuperar el email desde la sesión
-        $this->email = session('email');
+        // Establecer el token desde la URL o desde la clave de recuperación
+        $this->token = $token;
+        $this->user_id = session('user_id');
 
-        if (!$this->email) {
-            // Si no hay email en la sesión, redirigir de vuelta a la vista de verificar clave
+        // Si no se proporciona un token y no hay user_id, redirigir
+        if (!$this->token && !$this->user_id) {
             return redirect()->route('verificarclave');
         }
     }
@@ -36,42 +37,55 @@ class CambiarContrasena extends Component
 
     public function cambiarContrasena()
     {
-
+        // Validación de los campos de la nueva contraseña
         $this->validate([
             'new_password' => 'required|min:8|max:30|regex:/[A-Z]/|regex:/[a-z]/|regex:/[\W]+/',
             'confirm_password' => 'required|same:new_password',
-            'new_email' => 'nullable|email|unique:users,email',
         ], [
             'new_password.regex' => 'La contraseña debe contener al menos una mayúscula, una minúscula y un carácter especial.',
             'confirm_password.same' => 'La confirmación de la contraseña no coincide.',
-            'new_email.unique' => 'El correo electrónico ya está en uso.',
         ]);
 
+        $user = null;
 
-        $user = User::where('email', $this->email)->first();
+        // Manejo de recuperación por token de correo
+        if ($this->token) {
+            $user = User::where('password_reset_token', $this->token)
+                ->where('token_expires_at', '>', now()) // Verifica si el token no ha expirado
+                ->first();
 
+            // Verificar si el token ha expirado
+            if (!$user) {
+                // Si no se encuentra al usuario o el token ha expirado, eliminar el token
+                return redirect()->route('verificarclave')->with('error', 'El token ha expirado o es inválido. Por favor, solicita un nuevo enlace de recuperación.');
+            }
+        }
+        // Manejo de recuperación por clave de recuperación
+        elseif ($this->user_id) {
+            $user = User::find($this->user_id);
+            if (!$user || $user->recovery_key !== $this->recovery_key) {
+                return redirect()->route('verificarclave')->with('error', 'Clave de recuperación incorrecta.');
+            }
+        }
+
+        // Verificar si el usuario fue encontrado
         if (!$user) {
-
-            return redirect()->route('verificarclave');
+            return redirect()->route('verificarclave')->with('error', 'El token o la clave de recuperación son inválidos o han expirado.');
         }
 
-
+        // Actualizar la contraseña
         $user->password = Hash::make($this->new_password);
-
-
-        if ($this->new_email) {
-            $user->email = $this->new_email;
-        }
-
-        // Guardar los cambios en la base de datos
+        $user->password_reset_token = null;
+        $user->token_expires_at = null;
         $user->save();
 
-        // Mostrar alerta de éxito con LivewireAlert
-        $this->alert('success', 'Datos actualizados con éxito');
+        // Iniciar sesión
+        auth()->login($user);
 
-        // Redirigir al login (o puedes optar por no redirigir)
-        return redirect()->route('login');
+        $this->alert('success', 'Contraseña actualizada con éxito');
+        return redirect()->route('inicio');
     }
+
 
 
 

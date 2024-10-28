@@ -26,13 +26,13 @@ class Perfil extends Component
 
         $fileName = 'CLAVE DE RECUPERACION.txt';
 
-        // Crear el contenido del archivo
+
         $fileContent = "Tu clave de recuperación es: " . $recoveryKey;
 
-        // Crear el archivo temporal en el sistema
+
         Storage::put($fileName, $fileContent);
 
-        // Retornar la respuesta para la descarga
+
         return response()->download(storage_path("app/{$fileName}"))->deleteFileAfterSend(true);
 
     }

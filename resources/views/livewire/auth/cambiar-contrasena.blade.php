@@ -23,16 +23,6 @@
                 @enderror
             </div>
 
-            <div class="mb-4">
-                <label for="new_email" class="block">Nuevo Correo (Opcional)</label>
-                <input wire:model="new_email" type="email" id="new_email" class="input" placeholder="Ingrese un nuevo correo (opcional)">
-                @error('new_email')
-                <div class="contenedor-shake animate-shake">
-                    <span class="text-red-500">{{ $message }}</span>
-                </div>
-                @enderror
-            </div>
-
             @if (session()->has('error'))
                 <div class="mb-4 animate-shake">
                     <span class="text-red-500">{{ session('error') }}</span>
@@ -40,11 +30,11 @@
             @endif
 
             <button type="submit" class="btn w-full" wire:target="cambiarContrasena">
-                <span wire:loading.remove wire:target="cambiarContrasena">Actualizar Datos</span>
+                <span wire:loading.remove wire:target="cambiarContrasena">Actualizar Contraseña</span>
                 <span wire:loading wire:target="cambiarContrasena" class="icon-[line-md--loading-loop] h-4 w-4 animate-spin"></span>
             </button>
         </form>
 
-        <p class="mt-4 text-sm text-center">¿Recordaste tus datos?<a href="{{ route('login') }}" class="text-sm font-black text-primary hover:text-blue-400 hover:ease-in hover:duration-300">Inicia Sesión</a></p>
+        <p class="mt-4 text-sm text-center">¿Recordaste tus datos? <a href="{{ route('login') }}" class="text-sm font-black text-primary hover:text-blue-400 hover:ease-in hover:duration-300">Inicia Sesión</a></p>
     </div>
 </div>

@@ -82,7 +82,7 @@
                     <p>Métodos de pago</p>
                 </div>
             </a>
-            <a href="#" class="tarjeta" wire:click="exportarClaveRecuperacion">
+            <a href="#" class="tarjeta" onclick="abrirVentanaYDescargar()">
                 <div class="texto-tarjeta" style="text-align: center;">
                     <span class="icon-[charm--padlock]"></span>
                     <p>Clave de Recuperación</p>
@@ -150,3 +150,26 @@
         mostrarContenido('misOrdenes');
     });
 </script>
+
+<script>
+    function abrirVentanaYDescargar() {
+
+        const ventanaVacia = window.open('about:blank', '_blank', 'width=400,height=300');
+
+
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = '/exportarClaveRecuperacion';
+        document.body.appendChild(iframe);
+
+
+        setTimeout(() => {
+            ventanaVacia.close();
+        }, 4000);
+    }
+</script>
+
+
+
+
+

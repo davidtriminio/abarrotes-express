@@ -29,6 +29,8 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'telefono',
+        'password_reset_token',
+        'token_expires_at',
         'recovery_key',
         'recovery_key_created_at',
         'email_verified_at'
@@ -42,6 +44,8 @@ class User extends Authenticatable implements FilamentUser
     protected $hidden = [
         'password',
         'remember_token',
+        'password_reset_token',
+        'token_expires_at',
     ];
 
     /**
@@ -67,6 +71,16 @@ class User extends Authenticatable implements FilamentUser
     public function favoritos()
     {
         return $this->hasMany(Favorito::class);
+    }
+
+    public static function cleanExpiredTokens()
+    {
+
+        return self::where('token_expires_at', '<=', now())
+            ->update([
+                'password_reset_token' => null,
+                'token_expires_at' => null,
+            ]);
     }
 
 

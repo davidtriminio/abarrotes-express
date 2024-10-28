@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Perfil;
+use App\Livewire\Auth\CambiarContrasena;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Livewire\Inicio::class)->name('inicio');
@@ -20,6 +22,7 @@ Route::get('/producto/{id}', \App\Livewire\DetalleProducto::class)->name('produc
 Route::get('/carrito', \App\Livewire\Carrito::class)->name('carrito');
 Route::get('/ordenes/{estado?}', \App\Livewire\ListaOrdenes::class)->name('ordenes');
 Route::get('/mi_orden/{id}', \App\Livewire\Ordenes::class)->name('mi_orden');
+Route::get('/exportarClaveRecuperacion', [Perfil::class, 'exportarClaveRecuperacion']);
 
 Route::middleware('auth')->group(function () {
     Route::get('logout', function () {
@@ -32,7 +35,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/registro', \App\Livewire\Auth\Registro::class)->name('registro');
     Route::get('/login', \App\Livewire\Auth\Login::class)->name('login');
     Route::get('/verificarclave', \App\Livewire\Auth\VerificarClave::class)->name('verificarclave');
-    Route::get('/cambiarcontrasena', \App\Livewire\Auth\CambiarContrasena::class)->name('cambiarcontrasena');
+    Route::get('/cambiarcontrasena/{token?}', CambiarContrasena::class)->name('cambiarcontrasena');
     Route::get('/admin/login', function () {
         return redirect()->route('login');
     });

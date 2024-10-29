@@ -7,6 +7,20 @@
                 <div class="cupon-header">
                     <h2 class="cupon-descuento">Descuento: {{ $cupon->descuento }}</h2>
                     <p class="cupon-expiracion">Expira: {{ $cupon->fecha_expiracion }}</p>
+                    <!-- Agregar restricciones de compra debajo de la fecha de expiración -->
+                    <div class="cupon-restricciones">
+                        @if($cupon->compra_minima || $cupon->compra_cantidad)
+                            @if($cupon->compra_minima)
+                                <p class="restriccion">Válido para compras mínimas a L. {{ $cupon->compra_minima }}</p>
+                            @endif
+                            @if($cupon->compra_cantidad)
+                                <p class="restriccion">Válido para la compra de {{ $cupon->compra_cantidad }} productos</p>
+                            @endif
+                        @else
+                            <p class="restriccion">Válido únicamente si el total del carrito es mayor o igual al descuento.</p>
+                        @endif
+                    </div>
+                    <!-- Fin de restricciones de compra -->
                 </div>
 
                 <div class="cupon-body">
@@ -14,20 +28,6 @@
                     <button class="cupon-usar-btn">Usar</button>
                 </div>
 
-                <!-- Agregar restricciones de compra debajo de la fecha de expiración -->
-                <div class="cupon-restricciones">
-                    @if($cupon->compra_minima || $cupon->compra_cantidad)
-                        @if($cupon->compra_minima)
-                            <p class="restriccion">Válido para compras mínimas a L. {{ $cupon->compra_minima }}</p>
-                        @endif
-                        @if($cupon->compra_cantidad)
-                            <p class="restriccion">Válido para la compra de {{ $cupon->compra_cantidad }} productos</p>
-                        @endif
-                    @else
-                        <p class="restriccion">Válido únicamente si el total del carrito es mayor o igual al descuento.</p>
-                    @endif
-                </div>
-                <!-- Fin de restricciones de compra -->
 
             </div>
         @empty

@@ -46,9 +46,8 @@ class ListCupons extends ListRecords
                     ->label('Fecha de Expiración'),
                 Tables\Columns\IconColumn::make('estado')
                     ->label('Estado')
-                    ->boolean()
-                    ->alignCenter(),
-                Tables\Columns\TextColumn::make('usuario.name')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('user.name')
                     ->label('Usuario'),
             ])
             ->paginated([10, 25, 50, 100,])

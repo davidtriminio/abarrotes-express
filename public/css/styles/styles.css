@@ -239,8 +239,11 @@
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 300px; /* Fija el ancho de las tarjetas */
+    width: 350px; /* Aumenta el ancho de las tarjetas */
+    height: 230px; /* Altura fija de las tarjetas */
 }
+
+
 
 .cupon-card:hover {
     transform: translateY(-5px);
@@ -265,6 +268,12 @@
     color: #a3c4f3; /* Azul claro */
 }
 
+
+.cupon-restricciones {
+    min-height: 50px; /* Ajusta este valor según sea necesario para que se acomode una o dos restricciones */
+    margin-bottom: 15px; /* Añade espacio entre las restricciones y el cuerpo del cupón */
+}
+
 .cupon-body {
     padding: 15px;
     text-align: left; /* Alinea el contenido a la izquierda */
@@ -272,7 +281,9 @@
     display: flex; /* Utilizamos flexbox para alinear los elementos horizontalmente */
     align-items: center; /* Alinea verticalmente en el centro */
     justify-content: space-between; /* Distribuye el espacio entre el código y el botón */
+    min-height: 50px; /* Asegúrate de que la altura mínima se mantenga constante */
 }
+
 
 .cupon-codigo {
     font-size: 18px;
@@ -304,6 +315,9 @@
     display: flex;
     justify-content: center;
 }
+
+
+
 
 /*Estilos usados*/
 .rounded {
@@ -1188,6 +1202,17 @@ body {
     border-radius: 50%;
     margin-right: 20px;
     border: 4px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e293b;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.inicial-avatar {
+    display: block;
 }
 
 .texto-info {
@@ -1225,6 +1250,10 @@ body {
     align-items: center;
 }
 
+.icon-large {
+    font-size: 2em; /* Ajusta el tamaño según sea necesario */
+}
+
 .botones-header a {
     color: white;
     margin-left: 15px;
@@ -1236,9 +1265,9 @@ body {
     opacity: 0.8;
 }
 
-
+/*Tarjetas resumen*/
 .tarjetas-resumen {
-    display: flex;
+    display: none;
     justify-content: space-between;
     padding: 20px 30px;
     background-color: #f9f9f9;
@@ -1294,6 +1323,8 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    align-items: center; /* Asegura que estén alineadas en el centro verticalmente */
 }
 
 .menu-item {
@@ -1404,7 +1435,6 @@ body {
     }
 }
 
-
 /*Animacion de shake*/
 .animate-shake {
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
@@ -1491,3 +1521,195 @@ body {
 .resize-none {
     resize: none;
 }
+
+.bg-tarjeta {
+    background-color: #bfdbfe; /* bg-blue-100 */
+    color: #1d4ed8; /* text-blue-800 */
+}
+.bg-efectivo {
+    background-color: #d1fae5; /* bg-green-100 */
+    color: #065f46; /* text-green-800 */
+}
+.bg-pago-al-recibir {
+    background-color: #fef3c7; /* bg-yellow-100 */
+    color: #78350f; /* text-yellow-800 */
+}
+.bg-procesando {
+    background-color: #fef3c7; /* bg-yellow-100 */
+    color: #78350f; /* text-yellow-800 */
+}
+.bg-error {
+    background-color: #fee2e2; /* bg-red-100 */
+    color: #b91c1c; /* text-red-800 */
+}
+.bg-pagado {
+    background-color: #d1fae5; /* bg-green-100 */
+    color: #065f46; /* text-green-800 */
+}
+.bg-nuevo {
+    background-color: #e9d5ff; /* bg-purple-100 */
+    color: #6d28d9; /* text-purple-800 */
+}
+.bg-en-proceso {
+    background-color: #bfdbfe; /* bg-blue-100 */
+    color: #1d4ed8; /* text-blue-800 */
+}
+.bg-enviado {
+    background-color: #fef3c7; /* bg-yellow-100 */
+    color: #78350f; /* text-yellow-800 */
+}
+.bg-entregado {
+    background-color: #d1fae5; /* bg-green-100 */
+    color: #065f46; /* text-green-800 */
+}
+.bg-cancelado {
+    background-color: #fee2e2; /* bg-red-100 */
+    color: #b91c1c; /* text-red-800 */
+}
+
+
+
+/* Contenedor principal */
+.contenedor-editar-perfil {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8fafc; /* bg-gray-50 */
+    padding: 2rem; /* Espaciado alrededor del formulario */
+}
+
+/* Tarjeta del formulario */
+.tarjeta-formulario {
+    background-color: #ffffff; /* bg-white */
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* sombra elegante */
+    padding: 2.5rem; /* p-10 */
+    width: 100%;
+    max-width: 32rem; /* max-w-xl */
+    border-top: 4px solid #3b82f6; /* borde superior en azul */
+    animation: fadeIn 0.5s ease-in-out; /* Animación de aparición */
+}
+
+/* Título del formulario */
+.titulo-formulario {
+    font-size: 2rem; /* text-4xl */
+    font-weight: 700; /* font-bold */
+    margin-bottom: 2rem; /* mb-8 */
+    text-align: center;
+    color: #1e293b; /* text-gray-800 */
+    position: relative;
+}
+
+/* Input de formulario */
+.input-formulario {
+    width: 100%;
+    padding: 0.75rem; /* py-3 */
+    color: #1f2937; /* text-gray-900 */
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* shadow-sm */
+    margin-top: 0.5rem; /* mt-2 */
+    transition: all 0.3s ease;
+}
+
+.input-formulario:focus {
+    border-color: #3b82f6; /* focus:border-blue-500 */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* focus:ring */
+    outline: none;
+}
+
+/* Mensajes de error */
+.texto-error {
+    color: #dc2626; /* text-red-600 */
+    font-size: 0.875rem; /* text-sm */
+    margin-top: 0.25rem; /* mt-1 */
+    font-style: italic;
+}
+
+/* Botón */
+.boton-guardar {
+    background-color: #3b82f6; /* bg-blue-500 */
+    color: #ffffff;
+    padding: 0.75rem 1.5rem; /* px-6 py-3 */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-size: 1rem; /* text-base */
+    font-weight: 600; /* font-semibold */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem; /* mt-6 */
+    min-width: 120px; /* Ancho mínimo para el botón */
+    height: 50px; /* Altura fija para evitar reducción */
+}
+
+/* Efecto hover para el botón */
+.boton-guardar:hover {
+    background-color: #2563eb; /* hover:bg-blue-600 */
+    transform: translateY(-2px);
+}
+
+.boton-guardar:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* focus:ring */
+}
+
+/* Icono de carga */
+.icono-carga {
+    margin-left: 0.5rem;
+    width: 1rem; /* w-4 */
+    height: 1rem; /* h-4 */
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Animación de carga */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Enlace volver al perfil */
+.enlace-perfil {
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    color: #3b82f6; /* text-blue-500 */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.enlace-perfil:hover {
+    color: #2563eb; /* hover:text-blue-600 */
+}
+
+/* Espaciado de entradas */
+.espaciado-entrada {
+    margin-bottom: 1.5rem; /* mb-6 */
+}
+
+
+
+.etiqueta-disponibilidad {
+    background-color: #ffcc00; /* Color de fondo llamativo */
+    color: #fff;
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+

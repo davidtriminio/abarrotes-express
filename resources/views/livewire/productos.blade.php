@@ -15,6 +15,7 @@
                             <option value="tiempo" selected>Producto Reciente</option>
                             <option value="caro">Precio más Alto</option>
                             <option value="barato">Precio más Bajo</option>
+                            <option value="promocion">Promociones</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center px-2">
@@ -94,45 +95,52 @@
                 </div>
                 <!-- Products List -->
                 <div class="flex flex-wrap -mx-3 w-6/10 dim">
-                    @forelse ($productos ?? [] as $producto)
-                        @if($producto->disponible)
-                            <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-8">
-                                <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-100">
-                                    <!-- Hacer toda la tarjeta clicable -->
-                                    <a href="{{ route('producto', ['id' => $producto->id]) }}" class="block">
-
-                                        <img src="{{ isset($producto->imagenes[0]) ? url('storage' , $producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
-                                             class="w-full object-cover mb-4 rounded-lg tamanoCard" alt="{{$producto->nombre}}">
-                                        <h3 class="text-lg font-semibold mb-2 text-primary">{{$producto->nombre}}</h3>
-                                    </a>
-                                    <div class="flex items-center justify-center mb-4">
-                                        <span
-                                            class="text-lg font-bold text-primary">L. @if($producto->en_oferta){{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}@else{{ $producto->precio }}@endif</span>
-                                        @if($producto->en_oferta)
-                                            <span class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
-                                        @endif
-                                    </div>
-
-                                    <!-- Botón de Añadir al Carrito -->
-                                    <button wire:click="agregarAlCarrito({{$producto->id}})"
-                                            class="bg-primary border border-transparent hover:bg-transparent hover:border-primary text-white hover:text-primary font-semibold py-2 px-4 rounded-full">
-                                        <span wire:loading.remove wire:target="agregarAlCarrito({{$producto->id}})">Añadir al carrito</span>
-                                        <span wire:loading wire:target="agregarAlCarrito({{$producto->id}})">Agregando...</span>
-                                    </button>
-                                    <div class="flex justify-end items-center mt-3 text-ddd">
-                                        <a href="{{ route('producto', ['id' => $producto->id]) }}"
-                                           class="text-ddd flex items-center" style="color: #BBB;">
-                                            <span class="mr-2">Ver producto</span>
-                                            <span class="icon-[lucide--eye]"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+    @forelse ($productos ?? [] as $producto)
+        @if($producto->disponible)
+            <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-8">
+                <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-100">
+                    <!-- Hacer toda la tarjeta clicable -->
+                    <a href="{{ route('producto', ['id' => $producto->id]) }}" class="block">
+                        <img src="{{ isset($producto->imagenes[0]) ? url('storage', $producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
+                             class="w-full object-cover mb-4 rounded-lg tamanoCard" alt="{{$producto->nombre}}">
+                        <h3 class="text-lg font-semibold mb-2 text-primary">{{$producto->nombre}}</h3>
+                    </a>
+                    <div class="flex items-center justify-center mb-4">
+                        <span class="text-lg font-bold text-primary">L. @if($producto->en_oferta){{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}@else{{ $producto->precio }}@endif</span>
+                        @if($producto->en_oferta)
+                            <span class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
                         @endif
-                    @empty
-                        <p>No se encontraron productos.</p>
-                    @endforelse
+                    </div>
+
+                    <!-- Etiqueta de promoción -->
+                    @if($producto->promociones->where('estado', true)->isNotEmpty()) <!-- Verifica si tiene promociones activas -->
+                    <marquee behavior="scroll" direction="left" scrollamount="3" class="bg-blue-500 text-white p-1">
+                        <span>
+                            En Promoción
+                        </span>
+                    </marquee>
+                    @endif
+
+                    <!-- Botón de Añadir al Carrito -->
+                    <button wire:click="agregarAlCarrito({{$producto->id}})"
+                            class="bg-primary border border-transparent hover:bg-transparent hover:border-primary text-white hover:text-primary font-semibold py-2 px-4 rounded-full">
+                        <span wire:loading.remove wire:target="agregarAlCarrito({{$producto->id}})">Añadir al carrito</span>
+                        <span wire:loading wire:target="agregarAlCarrito({{$producto->id}})">Agregando...</span>
+                    </button>
+                    <div class="flex justify-end items-center mt-3 text-ddd">
+                        <a href="{{ route('producto', ['id' => $producto->id]) }}"
+                           class="text-ddd flex items-center" style="color: #BBB;">
+                            <span class="mr-2">Ver producto</span>
+                            <span class="icon-[lucide--eye]"></span>
+                        </a>
+                    </div>
                 </div>
+            </div>
+        @endif
+    @empty
+        <p>No se encontraron productos.</p>
+    @endforelse
+</div>
 
 
 

@@ -16,9 +16,11 @@ class Ordenes extends Component
     {
         $orden = Orden::findOrFail($this->id);
         $user = User::all();
+        $productos = Producto::all();
         return view('livewire.ordenes', [
             'orden' => $orden,
             'user' => $user,
+            'productos'=>$productos,
         ]);
     }
 }

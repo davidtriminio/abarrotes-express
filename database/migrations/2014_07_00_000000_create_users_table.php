@@ -17,10 +17,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-           $table->softDeletes();
+            $table->string('recovery_key', 30)->unique();
+            $table->timestamp('recovery_key_created_at')->nullable();
+            $table->string('telefono', 8)->unique()->nullable();
+            $table->string('password_reset_token')->nullable();
+            $table->timestamp('token_expires_at')->nullable(); // Para manejar la expiración del token
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
+
     }
 
     public function down(): void

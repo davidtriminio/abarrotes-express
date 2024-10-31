@@ -219,7 +219,7 @@ class Carrito extends Component
 
     public function actualizarCarrito()
     {
-        if ($this->usuario_autenticado) {
+        if ($this->usuario_autenticado && $this->cupones) {
             $this->cupones = Cupon::where('estado', true)
                 ->where('fecha_inicio', '<=', now())
                 ->where('fecha_expiracion', '>', now())

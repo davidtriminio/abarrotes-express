@@ -190,11 +190,11 @@
                         <span class="font-semibold">{{ Number::currency($total_final, 'LPS') }}</span> <!-- Total con el cupón aplicado -->
                     </div>
                     @if($elementos_carrito)
-                        <a href="/pedido" class="bg-blue-500 text-white py-2 px-4 block rounded-lg mt-4 w-full text-center">
-                            Proceder al pago
-                        </a>
+                        <button wire:click="realizarPedido" wire:loading.attr="disabled"
+                                class="bg-blue-500 text-white py-2 px-4 block rounded-lg mt-4 w-full text-center">
+                            Proceder a pagar
+                        </button>
                     @endif
-
                     @guest
                         <div class="mt-4">
                             <p>Para agregar un cupón, por favor inicie sesión <a href="/login" class="text-blue-500 underline">aquí</a>.</p>

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Helpers\CarritoManagement;
 use App\Livewire\Complementos\Navbar;
+use App\Models\Orden;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Title;
@@ -358,6 +359,31 @@ class Carrito extends Component
                 ->get();
         } else {
             $this->cupones = [];
+        }
+    }
+
+    public function realizarPedido(){
+        $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
+        $linea_items = [];
+        $elementos_carrito = array_filter($elementos_carrito, function ($elemento) {
+            return isset($elemento['producto_id']);
+        });
+        if (empty($elementos_carrito)) {
+            return redirect()->back()->withErrors('El carrito está vacío o hay elementos sin producto_id.');
+        }
+        $orden = new Orden();
+        $orden->user_id = auth()->user()->id;
+        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito);
+        $orden->metodo_pago = 'efectivo';
+        $orden->estado_pago = 'procesando';
+        $orden->estado_entrega = 'nuevo';
+        $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
+        $orden->save();
+        $orden->elementos()->createMany($elementos_carrito);
+        if ($orden->save()) {
+            CarritoManagement::quitarElementosCookies();
+            session(['orden_id' => $orden->id]);
+            return redirect()->route('mi_orden', $orden->id);
         }
     }
 

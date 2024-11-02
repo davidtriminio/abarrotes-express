@@ -214,6 +214,15 @@ class RolesPermisosSeeder extends Seeder
         ])->assignRole($superAdministradorRole);
 
         User::create([
+            'name' => 'Abarrotes Express Admin',
+            'email' => 'equipo.abarrotes.express@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('admin'),
+            'recovery_key' => Str::random(30),
+            'remember_token' => Str::random(10),
+        ])->assignRole($superAdministradorRole);
+
+        User::create([
             'name' => 'Admin',
             'email' => 'admin@ae.com',
             'email_verified_at' => now(),

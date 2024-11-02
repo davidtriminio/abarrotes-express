@@ -6,6 +6,7 @@ use App\Helpers\CarritoManagement;
 use App\Livewire\Complementos\Navbar;
 use App\Models\Orden;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -243,8 +244,6 @@ class Carrito extends Component
         $this->mostrar_menu_cupones = false;
     }
 
-
-
     public function cupónEsAplicable($cupon_id)
     {
         $cupon = Cupon::find($cupon_id);
@@ -271,16 +270,8 @@ class Carrito extends Component
                 return false;
             }
         }
-
         return true;
     }
-
-
-
-
-
-
-
 
     public function confirmarReemplazoCupon()
     {
@@ -382,6 +373,7 @@ class Carrito extends Component
         $orden->elementos()->createMany($elementos_carrito);
         if ($orden->save()) {
             CarritoManagement::quitarElementosCookies();
+            Mail::to($orden->user->email)->send(new \App\Mail\pedidoRealizado($orden));
             session(['orden_id' => $orden->id]);
             return redirect()->route('mi_orden', $orden->id);
         }

@@ -8,7 +8,7 @@
                 <p class="mt-2"><strong>Nombre de Usuario:</strong> <span class="text-gray-600">{{ $orden->user->name }}</span></p>
                 <p class="mt-2"><strong>Correo:</strong> <span class="text-gray-600">{{ $orden->user->email }}</span></p>
             </div>
-            <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
+            <div class="bg-gray-110 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
                 <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Detalles de la Factura</h3>
                 <p class="mt-2"><strong>Método de Pago:</strong> <span class="text-gray-600">{{ strpos($orden->metodo_pago, 'par') !== false ? 'Pago a recibir' : $orden->metodo_pago }}</span></p>
                 <p class="mt-2"><strong>Estado de Pago:</strong> <span class="text-gray-600">{{ ucfirst($orden->estado_pago) }}</span></p>
@@ -19,9 +19,13 @@
         <div class="mt-8">
             <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Resumen de la Orden</h3>
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 mt-2 shadow-md">
-            @foreach ($orden->productos ?? [] as $producto)
-            <p><strong>Productos:</strong> <span class="text-gray-600">{{ $producto->nombre}}</span></p>
-            @endforeach
+            @if($orden->producto)
+    @foreach([$orden->producto] as $producto)
+        <p><strong><b>Producto:</b></strong> <span class="text-gray-600">{{ $producto->nombre }}</span></p>
+    @endforeach
+@else
+    <p>No hay productos.</p>
+@endif
                 <p><strong>Subtotal:</strong> <span class="text-gray-600">{{ number_format($orden->sub_total, 2) }}</span></p>
                 <p><strong>Total Final:</strong> <span class="text-gray-600">{{ number_format($orden->total_final, 2) }}</span></p>
                 <p><strong>Costos de Envío:</strong> <span class="text-gray-600">{{ number_format($orden->costos_envio, 2) }}</span></p>

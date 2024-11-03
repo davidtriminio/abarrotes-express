@@ -19,58 +19,58 @@ class RolesPermisosSeeder extends Seeder
         $permisoGeneral = Permission::create(['name' => 'N/A']);
 
         // PERMISOS USUARIOS
-        $permisoUsuarioC = Permission::create(['name' => 'crear:usuario']);
-        $permisoUsuarioR = Permission::create(['name' => 'ver:usuario']);
-        $permisoUsuarioU = Permission::create(['name' => 'actualizar:usuario']);
-        $permisoUsuarioD = Permission::create(['name' => 'borrar:usuario']);
+        $permisoUsuarioC = Permission::create(['name' => 'crear:usuarios']);
+        $permisoUsuarioR = Permission::create(['name' => 'ver:usuarios']);
+        $permisoUsuarioU = Permission::create(['name' => 'editar:usuarios']);
+        $permisoUsuarioD = Permission::create(['name' => 'borrar:usuarios']);
 
         // PERMISOS ROLES
-        $permisoRolC = Permission::create(['name' => 'crear:rol']);
-        $permisoRolR = Permission::create(['name' => 'ver:rol']);
-        $permisoRolU = Permission::create(['name' => 'actualizar:rol']);
-        $permisoRolD = Permission::create(['name' => 'borrar:rol']);
+        $permisoRolC = Permission::create(['name' => 'crear:roles']);
+        $permisoRolR = Permission::create(['name' => 'ver:roles']);
+        $permisoRolU = Permission::create(['name' => 'editar:roles']);
+        $permisoRolD = Permission::create(['name' => 'borrar:roles']);
 
         //  PERMISOS PERMISOS
-        $permisoPermisoC = Permission::create(['name' => 'crear:permiso']);
-        $permisoPermisoR = Permission::create(['name' => 'ver:permiso']);
-        $permisoPermisoU = Permission::create(['name' => 'actualizar:permiso']);
-        $permisoPermisoD = Permission::create(['name' => 'borrar:permiso']);
+        $permisoPermisoC = Permission::create(['name' => 'crear:permisos']);
+        $permisoPermisoR = Permission::create(['name' => 'ver:permisos']);
+        $permisoPermisoU = Permission::create(['name' => 'editar:permisos']);
+        $permisoPermisoD = Permission::create(['name' => 'borrar:permisos']);
 
         /* PERMISOS ORDENES */
-        $permisoOrdenC = Permission::create(['name' => 'crear:orden']);
-        $permisoOrdenR = Permission::create(['name' => 'ver:orden']);
-        $permisoOrdenU = Permission::create(['name' => 'actualizar:orden']);
-        $permisoOrdenD = Permission::create(['name' => 'borrar:orden']);
+        $permisoOrdenC = Permission::create(['name' => 'crear:ordenes']);
+        $permisoOrdenR = Permission::create(['name' => 'ver:ordenes']);
+        $permisoOrdenU = Permission::create(['name' => 'editar:ordenes']);
+        $permisoOrdenD = Permission::create(['name' => 'borrar:ordenes']);
 
         /* PERMISOS SUCURSALES*/
-        $permisoSucursalC = Permission::create(['name' => 'crear:sucursal']);
-        $permisoSucursalR = Permission::create(['name' => 'ver:sucursal']);
-        $permisoSucursalU = Permission::create(['name' => 'actualizar:sucursal']);
-        $permisoSucursalD = Permission::create(['name' => 'borrar:sucursal']);
+        $permisoSucursalC = Permission::create(['name' => 'crear:sucursales']);
+        $permisoSucursalR = Permission::create(['name' => 'ver:sucursales']);
+        $permisoSucursalU = Permission::create(['name' => 'editar:sucursales']);
+        $permisoSucursalD = Permission::create(['name' => 'borrar:sucursales']);
 
         /* PERMISOS  PRODUCTOS*/
-        $permisoProductoC = Permission::create(['name' => 'crear:producto']);
-        $permisoProductoR = Permission::create(['name' => 'ver:producto']);
-        $permisoProductoU = Permission::create(['name' => 'actualizar:producto']);
-        $permisoProductoD = Permission::create(['name' => 'borrar:producto']);
+        $permisoProductoC = Permission::create(['name' => 'crear:productos']);
+        $permisoProductoR = Permission::create(['name' => 'ver:productos']);
+        $permisoProductoU = Permission::create(['name' => 'editar:productos']);
+        $permisoProductoD = Permission::create(['name' => 'borrar:productos']);
 
         /* PERMISOS MARCAS*/
-        $permisoMarcaC = Permission::create(['name' => 'crear:marca']);
-        $permisoMarcaR = Permission::create(['name' => 'ver:marca']);
-        $permisoMarcaU = Permission::create(['name' => 'actualizar:marca']);
-        $permisoMarcaD = Permission::create(['name' => 'borrar:marca']);
+        $permisoMarcaC = Permission::create(['name' => 'crear:marcas']);
+        $permisoMarcaR = Permission::create(['name' => 'ver:marcas']);
+        $permisoMarcaU = Permission::create(['name' => 'editar:marcas']);
+        $permisoMarcaD = Permission::create(['name' => 'borrar:marcas']);
 
         /* PERMISOS CATEGORIAS*/
-        $permisoCategoriaC = Permission::create(['name' => 'crear:categoria']);
-        $permisoCategoriaR = Permission::create(['name' => 'ver:categoria']);
-        $permisoCategoriaU = Permission::create(['name' => 'actualizar:categoria']);
-        $permisoCategoriaD = Permission::create(['name' => 'borrar:categoria']);
+        $permisoCategoriaC = Permission::create(['name' => 'crear:categorias']);
+        $permisoCategoriaR = Permission::create(['name' => 'ver:categorias']);
+        $permisoCategoriaU = Permission::create(['name' => 'editar:categorias']);
+        $permisoCategoriaD = Permission::create(['name' => 'borrar:categorias']);
 
         /* PERMISOS CUPONES */
-        $permisoCuponC = Permission::create(['name' => 'crear:cupon']);
-        $permisoCuponR = Permission::create(['name' => 'ver:cupon']);
-        $permisoCuponU = Permission::create(['name' => 'actualizar:cupon']);
-        $permisoCuponD = Permission::create(['name' => 'borrar:cupon']);
+        $permisoCuponC = Permission::create(['name' => 'crear:cupones']);
+        $permisoCuponR = Permission::create(['name' => 'ver:cupones']);
+        $permisoCuponU = Permission::create(['name' => 'editar:cupones']);
+        $permisoCuponD = Permission::create(['name' => 'borrar:cupones']);
 
         // ADMINS
         $permisoAdmin1 = Permission::create(['name' => 'ver:admin']);

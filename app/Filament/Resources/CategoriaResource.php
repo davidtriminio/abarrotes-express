@@ -130,6 +130,6 @@ class CategoriaResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:categoria');
+        return $usuario->hasPermissionTo('ver:categorias');
     }
 }

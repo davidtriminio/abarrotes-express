@@ -99,6 +99,6 @@ class RolResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:rol');
+        return $usuario->hasPermissionTo('ver:roles');
     }
 }

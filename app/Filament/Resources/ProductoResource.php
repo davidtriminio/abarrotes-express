@@ -362,6 +362,6 @@ class ProductoResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:producto');
+        return $usuario->hasPermissionTo('ver:productos');
     }
 }

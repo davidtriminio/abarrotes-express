@@ -36,7 +36,7 @@ class ViewUsuario extends ViewRecord
                 ->visible(function () {
                     $usuarioActual = auth()->user();
                     $usuarioSeleccionado = $this->record;
-                    if ($usuarioActual->hasPermissionTo('actualizar:usuario')) {
+                    if ($usuarioActual->hasPermissionTo('editar:usuarios')) {
                         if ($usuarioActual->hasRole('SuperAdmin')) {
                             if ($usuarioSeleccionado->hasRole('SuperAdmin') === true) {
                                 return false;

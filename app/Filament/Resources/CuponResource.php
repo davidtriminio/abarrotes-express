@@ -231,6 +231,6 @@ class CuponResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:cupon');
+        return $usuario->hasPermissionTo('ver:cupones');
     }
 }

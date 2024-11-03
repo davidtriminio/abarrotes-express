@@ -440,7 +440,7 @@ class OrdenResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:orden');
+        return $usuario->hasPermissionTo('ver:ordenes');
     }
 
 }

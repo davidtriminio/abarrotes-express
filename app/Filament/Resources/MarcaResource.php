@@ -131,7 +131,7 @@ class MarcaResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:marca');
+        return $usuario->hasPermissionTo('ver:marcas');
     }
 
 }

@@ -146,6 +146,29 @@
                                             </svg>
                                             Perfil
                                         </a>
+                                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                           href="/quejasugerencia">
+                                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                                                 width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <!-- Icono de comentario para Quejas y Sugerencias -->
+                                                <path d="M21 15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4l5 5v-5h7z"/>
+                                            </svg>
+                                            Quejas y sugerencias
+                                        </a>
+                                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                           href="/reporteproblema">
+                                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                                                 width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <!-- Icono de advertencia para Reportar un problema -->
+                                                <path d="M12 2L2 22h20L12 2z"/>
+                                                <line x1="12" y1="16" x2="12" y2="12"/>
+                                                <line x1="12" y1="20" x2="12" y2="20"/>
+                                            </svg>
+                                            Reportar un problema
+                                        </a>
+
                                     </div>
                                     @if(auth()->user()->hasPermissionTo('ver:admin'))
                                         <div class="py-2 first:pt-0 last:pb-0">

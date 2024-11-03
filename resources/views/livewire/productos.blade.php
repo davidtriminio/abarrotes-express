@@ -99,6 +99,16 @@
         @if($producto->disponible)
             <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-8">
                 <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-100">
+                    <!-- Etiqueta de promoción -->
+                    @if($producto->promociones->where('estado', true)->isNotEmpty()) <!-- Verifica si tiene promociones activas -->
+                    <marquee behavior="scroll" direction="left" scrollamount="3" class="bg-blue-500 text-white p-1">
+                        <span>
+                            En Promoción    L @foreach ($producto->promociones as $promo)
+                               {{$promo->promocion}}
+                            @endforeach 
+                        </span>
+                    </marquee>
+                    @endif
                     <!-- Hacer toda la tarjeta clicable -->
                     <a href="{{ route('producto', ['id' => $producto->id]) }}" class="block">
                         <img src="{{ isset($producto->imagenes[0]) ? url('storage', $producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
@@ -112,14 +122,7 @@
                         @endif
                     </div>
 
-                    <!-- Etiqueta de promoción -->
-                    @if($producto->promociones->where('estado', true)->isNotEmpty()) <!-- Verifica si tiene promociones activas -->
-                    <marquee behavior="scroll" direction="left" scrollamount="3" class="bg-blue-500 text-white p-1">
-                        <span>
-                            En Promoción
-                        </span>
-                    </marquee>
-                    @endif
+                    
 
                     <!-- Botón de Añadir al Carrito -->
                     <button wire:click="agregarAlCarrito({{$producto->id}})"

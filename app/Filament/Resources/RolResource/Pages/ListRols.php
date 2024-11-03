@@ -23,7 +23,7 @@ class ListRols extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
+            CreateAction::make('Crear')
                 ->label('Crear Rol')
                 ->icon('heroicon-o-plus-circle'),
         ];

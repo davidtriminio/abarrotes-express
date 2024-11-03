@@ -25,7 +25,7 @@ class EditUsuarios extends EditRecord
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
 
-            DeleteAction::make()
+            DeleteAction::make('Borrar')
                 ->visible(function () {
                     $usuarioActual = auth()->user();
                     $usuarioSeleccionado = $this->record;

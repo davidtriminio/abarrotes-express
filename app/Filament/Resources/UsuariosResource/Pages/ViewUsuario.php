@@ -32,7 +32,7 @@ class ViewUsuario extends ViewRecord
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
 
-            Actions\EditAction::make()
+            Actions\EditAction::make('Editar')
                 ->visible(function () {
                     $usuarioActual = auth()->user();
                     $usuarioSeleccionado = $this->record;
@@ -53,7 +53,7 @@ class ViewUsuario extends ViewRecord
                 })
                 ->icon('heroicon-o-pencil-square'),
 
-            Actions\DeleteAction::make()
+            Actions\DeleteAction::make('Borrar')
                 ->visible(function () {
                     $usuarioActual = auth()->user();
                     $usuarioSeleccionado = $this->record;

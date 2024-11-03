@@ -30,7 +30,7 @@ class ListSucursales extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
+            CreateAction::make('Crear')
                 ->label('Crear Sucursal')
                 ->icon('heroicon-o-plus-circle'),
         ];

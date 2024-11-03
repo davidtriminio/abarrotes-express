@@ -379,8 +379,8 @@ class OrdenResource extends Resource
                 //
             ])
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make('Editar'),
+                DeleteAction::make('Borrar'),
             ])
             ->bulkActions([
                 BulkActionGroup::make([

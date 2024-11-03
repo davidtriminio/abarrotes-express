@@ -21,7 +21,7 @@ class ListMarcas extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            Actions\CreateAction::make('Crear')
                 ->label('Crear Marca')
                 ->icon('heroicon-o-plus-circle'),
         ];

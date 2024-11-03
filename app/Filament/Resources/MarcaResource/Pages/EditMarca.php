@@ -36,7 +36,7 @@ class EditMarca extends EditRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            Actions\DeleteAction::make()
+            Actions\DeleteAction::make('Borrar')
             ->icon('heroicon-o-trash'),
         ];
     }

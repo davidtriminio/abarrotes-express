@@ -28,7 +28,7 @@ class ListUsuarios extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
+            CreateAction::make('Crear')
                 ->label('Crear Usuario')
                 ->icon('heroicon-o-plus-circle'),
         ];

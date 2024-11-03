@@ -38,7 +38,7 @@ class ViewCategoria extends ViewRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            Actions\EditAction::make()
+            Actions\EditAction::make('Editar')
                 ->visible(function () {
                     if (auth()->user()->hasPermissionTo('actualizar:categoria')) {
                         return true;
@@ -46,7 +46,7 @@ class ViewCategoria extends ViewRecord
                     return false;
                 })
                 ->icon('heroicon-o-pencil-square'),
-            Actions\DeleteAction::make()
+            Actions\DeleteAction::make('Borrar')
                 ->visible(function () {
                     if (auth()->user()->hasPermissionTo('borrar:categoria')) {
                         return true;

@@ -29,7 +29,7 @@ class ListCupons extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            Actions\CreateAction::make('Crear')
                 ->label('Crear Cupón')
                 ->icon('heroicon-o-plus-circle'),
         ];

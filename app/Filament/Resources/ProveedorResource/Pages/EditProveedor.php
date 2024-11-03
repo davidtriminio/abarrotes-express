@@ -31,7 +31,7 @@ class EditProveedor extends EditRecord
             ->button()
             ->icon('heroicon-o-chevron-left')
             ->color('gray'),
-        DeleteAction::make()
+        DeleteAction::make('Borrar')
             ->icon('heroicon-o-trash'),
         ];
     }
@@ -123,7 +123,7 @@ class EditProveedor extends EditRecord
                                 'required' => 'Debe seleccionar un productos.',
                                 'exists' => 'Los productos seleccionada no es válida.',
                             ]),
-                           
+
                         Toggle::make('estado')
                             ->label('Estado de contrato')
                             ->default(false)

@@ -11,7 +11,7 @@ class CreateProducto extends CreateRecord
 {
     protected static string $resource = ProductoResource::class;
     protected ?string $heading = '';
-    protected static string $view = 'filament.resources.custom.crear-record';
+    protected static string $view = 'filament.resources.custom.crear-registro';
     public static function canAccess(array $parameters = []): bool
     {
         $slug = self::getResource()::getSlug();

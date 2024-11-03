@@ -14,13 +14,9 @@ class Ordenes extends Component
     public $id;
     public function render()
     {
-        $orden = Orden::findOrFail($this->id);
-        $user = User::all();
-        $productos = Producto::all();
+        $orden = Orden::with(['producto', 'user'])->findOrFail($this->id);
         return view('livewire.ordenes', [
-            'orden' => $orden,
-            'user' => $user,
-            'productos'=>$productos,
-        ]);
+        'orden' => $orden,
+    ]);
     }
 }

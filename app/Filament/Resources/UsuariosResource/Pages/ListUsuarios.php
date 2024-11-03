@@ -24,13 +24,23 @@ use Illuminate\Database\Eloquent\Model;
 class ListUsuarios extends ListRecords
 {
     protected static string $resource = UsuarioResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
 
     protected function getHeaderActions(): array
     {
         return [
             CreateAction::make('Crear')
                 ->label('Crear Usuario')
-                ->icon('heroicon-o-plus-circle'),
+                ->icon('heroicon-o-plus-circle')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                }),
         ];
     }
 

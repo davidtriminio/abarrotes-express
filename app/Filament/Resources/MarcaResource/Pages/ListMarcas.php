@@ -17,13 +17,23 @@ use Filament\Tables\Table;
 class ListMarcas extends ListRecords
 {
     protected static string $resource = MarcaResource::class;
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
+    protected ?string $heading = '';
 
     protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make('Crear')
                 ->label('Crear Marca')
-                ->icon('heroicon-o-plus-circle'),
+                ->icon('heroicon-o-plus-circle')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                }),
         ];
     }
 

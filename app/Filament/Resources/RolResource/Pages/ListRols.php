@@ -19,6 +19,8 @@ use Filament\Tables\Table;
 class ListRols extends ListRecords
 {
     protected static string $resource = RolResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
 
     protected function getHeaderActions(): array
     {

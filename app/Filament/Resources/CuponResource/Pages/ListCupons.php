@@ -26,12 +26,22 @@ use Filament\Tables;
 class ListCupons extends ListRecords
 {
     protected static string $resource = CuponResource::class;
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
+    protected ?string $heading = '';
     protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make('Crear')
                 ->label('Crear Cupón')
-                ->icon('heroicon-o-plus-circle'),
+                ->icon('heroicon-o-plus-circle')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                }),
         ];
     }
     public  function table(Table $table): Table

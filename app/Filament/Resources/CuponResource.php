@@ -31,6 +31,7 @@ class CuponResource extends Resource
 
     protected static ?int $navigationSort = 5;
     protected static ?string $recordTitleAttribute = 'codigo';
+    protected static ?string $slug = 'cupones';
     protected function getHeaderActions(): array
     {
         return [

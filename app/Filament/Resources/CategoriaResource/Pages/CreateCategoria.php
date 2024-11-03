@@ -10,7 +10,19 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateCategoria extends CreateRecord
 {
     protected static string $resource = CategoriaResource::class;
-    protected ?string $heading = 'Crear Categoría';
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.crear-record';
+    public static function canAccess(array $parameters = []): bool
+    {
+        $slug = self::getResource()::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('crear:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [

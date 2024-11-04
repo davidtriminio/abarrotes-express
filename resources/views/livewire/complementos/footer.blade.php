@@ -34,6 +34,14 @@
                             <a href="{{ url('/login') }}" class="hover:text-primary hover:underline"
                                style="transition: color 0.3s ease;">Iniciar Sesión</a>
                         </li>
+                        <li>
+                            <a href="{{ url('/quejasugerencia') }}" class="hover:text-primary hover:underline"
+                               style="transition: color 0.3s ease;">Quejas y Sugerencias</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/reporteproblema') }}" class="hover:text-primary hover:underline"
+                               style="transition: color 0.3s ease;">Reportar un problema</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Social Media -->

@@ -7,7 +7,10 @@
     <div class="cards-container flex flex-wrap">
         @forelse ($categorias as $categoria)
             <div class="my-2 mx-auto p-relative bg-white shadow-1 blue-hover" style="width: 360px; overflow: hidden; border-radius: 1px;">
-                <div class="card-bg" style="background-image: url('{{ isset($categoria->imagen) ? url(asset('storage/' . $categoria->imagen)) : 'https://images.pexels.com/photos/442559/pexels-photo-442559.jpeg?auto=compress&cs=tinysrgb' }}'); width: 100%; height: 200px; background-size: cover; background-position: center;"></div>
+                <div class="card-bg">
+                    <img src="{{ isset($categoria->imagen) ? url(asset('storage/' . $categoria->imagen)) : asset('imagen/no-photo.png') }}" alt="{{ $categoria->nombre }}" class="image-full">
+                </div>
+
 
                 <div class="px-4 py-2 flex-grow">
                     <p class="mb-0 small font-weight-medium text-uppercase mb-1 text-muted lts-2px">

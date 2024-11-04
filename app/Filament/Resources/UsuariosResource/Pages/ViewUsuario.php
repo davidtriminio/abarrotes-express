@@ -20,7 +20,8 @@ class ViewUsuario extends ViewRecord
 {
     protected static string $resource = UsuarioResource::class;
     protected static ?string $title = 'Detalles de Usuario';
-    protected ?string $heading = 'Detalles de Usuario';
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.ver-registro';
 
     protected function getHeaderActions(): array
     {

@@ -32,6 +32,7 @@ class ProductoFactory extends Factory
             'updated_at' => Carbon::now(),
             'marca_id' => Marca::inRandomOrder()->first(),
             'categoria_id' => Categoria::inRandomOrder()->first(),
+           'fecha_expiracion' => $this->faker->dateTimeBetween('2024-11-04', '2024-12-30')->format('Y-m-d'),
         ];
     }
 }

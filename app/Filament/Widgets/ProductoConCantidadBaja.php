@@ -19,7 +19,7 @@ class ProductoConCantidadBaja extends BaseWidget
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('ID'),
                 Tables\Columns\TextColumn::make('nombre')->label('Nombre'),
-                Tables\Columns\TextColumn::make('cantidad_disponible')->label('Precio'),
+                Tables\Columns\TextColumn::make('cantidad_disponible')->label('Cantidad'),
             ]);
     }
 }

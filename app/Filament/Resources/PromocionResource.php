@@ -20,7 +20,7 @@ class PromocionResource extends Resource
     protected static ?string $slug = 'promociones';
     protected static ?string $modelLabel = 'promociones';
 
-    protected static ?string $navigationIcon = 'heroicon-o-cube';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
     {

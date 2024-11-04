@@ -37,7 +37,9 @@ class InventarioResource extends Resource
     
     protected static ?string $model = null;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $modelLabel = 'Inventario Avanzado';
+    protected static ?string $slug = 'Inventarios Avanzado';
 
     public static function canCreate() : bool{
         return false;

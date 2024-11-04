@@ -141,7 +141,7 @@ class ViewCupon extends ViewRecord
                             ]),
 
                         Forms\Components\Select::make('user_id')
-                            ->relationship('users', 'name')
+                            ->relationship('user', 'name')
                             ->required()
                             ->searchable()
                             ->preload()

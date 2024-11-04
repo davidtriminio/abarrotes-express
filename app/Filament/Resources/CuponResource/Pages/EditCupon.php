@@ -17,7 +17,8 @@ use Filament\Resources\Pages\EditRecord;
 class EditCupon extends EditRecord
 {
     protected static string $resource = CuponResource::class;
-
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.editar-registro';
 
     protected function getHeaderActions(): array
     {
@@ -28,6 +29,14 @@ class EditCupon extends EditRecord
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
             Actions\DeleteAction::make('Borrar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('borrar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
                 ->icon('heroicon-o-trash'),
         ];
     }
@@ -118,7 +127,7 @@ class EditCupon extends EditRecord
                             ]),
 
                         Select::make('user_id')
-                            ->relationship('users', 'name')
+                            ->relationship('user', 'name')
                             ->required()
                             ->searchable()
                             ->preload()

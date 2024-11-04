@@ -11,9 +11,10 @@ use Filament\Support\Exceptions\Cancel;
 
 class EditUsuarios extends EditRecord
 {
-    protected ?string $heading = 'Editar Usuario';
-    protected static ?string $title = 'Editar Usuario';
     protected static string $resource = UsuarioResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.editar-registro';
+    protected static ?string $title = 'Editar Usuario';
 
     protected function getHeaderActions(): array
     {

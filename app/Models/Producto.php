@@ -23,6 +23,7 @@ class Producto extends Model
         'imagen5',
         'descripcion',
         'precio',
+        'fecha_expiracion',
         'disponible',
         'cantidad_disponible',
         'en_oferta',
@@ -71,6 +72,11 @@ class Producto extends Model
     return $this->hasMany(Promocion::class);
 }
 
+
+public function ordenes(): hasMany
+    {
+        return $this->hasMany(Orden::class, 'producto_id');
+    }
 
 
 

@@ -185,6 +185,7 @@ class OrdenResource extends Resource
                                     ->required()
                                     ->distinct()
                                     ->reactive()
+                                    ->rules(['exists:productos,id'])
                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         $producto = Producto::find($state);

@@ -37,6 +37,7 @@ class ListProductos extends ListRecords
                 ->alignCenter(),
                 Tables\Columns\TextColumn::make('marca.nombre')->label('Marca'),
                 Tables\Columns\TextColumn::make('categoria.nombre')->label('Categoría'),
+                Tables\Columns\TextColumn::make('fecha_expiracion')->label('Fecha'),
 
             ])
             ->paginated([10, 25, 50, 100,])

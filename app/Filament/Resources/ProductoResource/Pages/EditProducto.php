@@ -338,6 +338,17 @@ class EditProducto extends EditRecord
                                 'exists' => 'La categoría seleccionada no es válida.',
                             ]),
 
+                            DateTimePicker::make('fecha_expiracion')
+                            ->required()
+                            ->native(false)
+                            ->displayFormat('Y/m/d H:i:s')
+                            ->label('Fecha y Hora de Expiración')
+                            ->after('fecha_inicio')
+                            ->validationMessages([
+                                'required' => 'La fecha y hora de expiración son obligatorias.',
+                                'after' => 'La fecha y hora de expiración deben ser posteriores a la fecha y hora de inicio.',
+                            ]),
+
                     ])->columnSpan(1)
                 ])->columns(3)
             ])->columns(1);

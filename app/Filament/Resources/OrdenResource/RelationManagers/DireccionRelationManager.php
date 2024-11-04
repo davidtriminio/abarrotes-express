@@ -127,11 +127,11 @@ class DireccionRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make('Crear'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make('Editar'),
+                Tables\Actions\DeleteAction::make('Borrar'),
             ]);
     }
 

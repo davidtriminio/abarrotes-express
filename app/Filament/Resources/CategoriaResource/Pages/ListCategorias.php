@@ -24,13 +24,23 @@ use Illuminate\Testing\Constraints\SoftDeletedInDatabase;
 class ListCategorias extends ListRecords
 {
     protected static string $resource = CategoriaResource::class;
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
+    protected ?string $heading = '';
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            Actions\CreateAction::make('Crear')
                 ->label('Crear Categoría')
-                ->icon('heroicon-o-plus-circle'),
+                ->icon('heroicon-o-plus-circle')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                }),
         ];
     }
 
@@ -40,7 +50,8 @@ class ListCategorias extends ListRecords
             ->columns([
                 TextColumn::make('nombre')->label('Nombre'),
                 IconColumn::make('disponible')->label('Disponible')
-                    ->boolean(),
+                    ->boolean()
+                ->alignCenter(),
             ])
             ->paginated([10, 25, 50, 100,])
             ->actions([

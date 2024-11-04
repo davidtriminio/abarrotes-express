@@ -5,6 +5,10 @@ namespace App\Providers;
 use App\Models\User;
 use App\Observers\UsuarioObserver;
 use DB;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -61,5 +65,23 @@ class AppServiceProvider extends ServiceProvider
                 \Log::error('Error al conectar a la base de datos: ' . $e->getMessage());
             }
         }
+
+        /*Estilos de render hooks*/
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::TOPBAR_START,
+            function (): string {
+                // Verificamos si estamos en la página de inicio
+                $isHome = Route::currentRouteName() === 'home';
+
+                // Si estamos en el Dashboard (Inicio), asignamos 'Inicio'
+                $variable = $isHome ? 'Inicio' : session('titulo_pagina', 'Inicio');
+
+                return view('filament.resources.components.topbar.index', ['titulo_pagina' => $variable])->render();
+            }
+        );
+
+// Compartimos el valor de la sesión con todas las vistas
+        $variable = Route::currentRouteName() === 'home' ? 'Inicio' : session('titulo_pagina', 'Inicio');
+        View::share('titulo_pagina', $variable);
     }
 }

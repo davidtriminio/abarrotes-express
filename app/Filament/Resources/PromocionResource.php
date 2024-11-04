@@ -98,7 +98,7 @@ class PromocionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

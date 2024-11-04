@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class EditMarca extends EditRecord
 {
     protected static string $resource = MarcaResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.editar-registro';
 
     protected function getHeaderActions(): array
     {
@@ -36,8 +38,16 @@ class EditMarca extends EditRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            Actions\DeleteAction::make()
-            ->icon('heroicon-o-trash'),
+            Actions\DeleteAction::make('Borrar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('borrar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->icon('heroicon-o-trash'),
         ];
     }
 

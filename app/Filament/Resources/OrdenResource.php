@@ -380,8 +380,8 @@ class OrdenResource extends Resource
                 //
             ])
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make('Editar'),
+                DeleteAction::make('Borrar'),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
@@ -441,7 +441,7 @@ class OrdenResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:orden');
+        return $usuario->hasPermissionTo('ver:ordenes');
     }
 
 }

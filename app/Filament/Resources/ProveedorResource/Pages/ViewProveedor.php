@@ -31,8 +31,8 @@ class ViewProveedor extends ViewRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            Actions\EditAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make('Editar'),
+            Actions\DeleteAction::make('Borrar'),
         ];
     }
 

@@ -72,6 +72,6 @@ class PermissionResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:permiso');
+        return $usuario->hasPermissionTo('ver:permisos');
     }
 }

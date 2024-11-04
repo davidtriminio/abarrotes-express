@@ -33,6 +33,8 @@ use Illuminate\Http\Request;
 class EditProducto extends EditRecord
 {
     protected static string $resource = ProductoResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.editar-registro';
 
     protected function getHeaderActions(): array
     {
@@ -42,7 +44,15 @@ class EditProducto extends EditRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            DeleteAction::make()
+            DeleteAction::make('Borrar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('borrar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
                 ->icon('heroicon-o-trash'),
         ];
     }

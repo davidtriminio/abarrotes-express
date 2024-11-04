@@ -19,13 +19,23 @@ use Filament\Tables\Table;
 class ListPermissions extends ListRecords
 {
     protected static string $resource = PermissionResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
 
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
+            CreateAction::make('Crear')
                 ->label('Crear Permiso')
-                ->icon('heroicon-o-plus-circle'),
+                ->icon('heroicon-o-plus-circle')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                }),
         ];
     }
 

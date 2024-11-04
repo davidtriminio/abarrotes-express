@@ -153,7 +153,7 @@ class UsuarioResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:usuario');
+        return $usuario->hasPermissionTo('ver:usuarios');
     }
 
 }

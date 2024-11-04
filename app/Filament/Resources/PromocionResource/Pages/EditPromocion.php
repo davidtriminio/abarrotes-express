@@ -4,6 +4,8 @@ namespace App\Filament\Resources\PromocionResource\Pages;
 
 use App\Filament\Resources\PromocionResource;
 use Filament\Actions;
+use App\Models\Promocion;
+use App\Models\Producto;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Group;
@@ -48,7 +50,8 @@ class EditPromocion extends EditRecord
                             ->validationMessages([
                                 'required' => 'Debe seleccionar un productos.',
                                 'exists' => 'Los productos seleccionada no es válida.',
-                            ]),
+                            ])
+                            ->options(self::getAvailableProducts()), // Llama al método estático para obtener productos disponibles
 
                            Toggle::make('estado')
                             ->label('Estado de la promocion')
@@ -99,6 +102,15 @@ class EditPromocion extends EditRecord
     protected function getRedirectUrl(): string
     {
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
+
+    public static function getAvailableProducts(): array
+    {
+        // Obtén los IDs de los productos que ya están relacionados con promociones
+        $productosRelacionados = Promocion::pluck('producto_id')->toArray();
+
+        // Filtra los productos que no están en la lista de productos relacionados
+        return Producto::whereNotIn('id', $productosRelacionados)->pluck('nombre', 'id')->toArray();
     }
 
     protected function getFormActions(): array

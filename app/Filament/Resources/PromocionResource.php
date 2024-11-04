@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PromocionResource\Pages;
 use App\Filament\Resources\PromocionResource\RelationManagers;
 use App\Models\Promocion;
+use App\Models\Producto;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -19,12 +20,13 @@ class PromocionResource extends Resource
     protected static ?string $slug = 'promociones';
     protected static ?string $modelLabel = 'promociones';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+
                 Forms\Components\Select::make('producto_id')
                             ->relationship('producto', 'nombre')
                             ->required()
@@ -35,7 +37,8 @@ class PromocionResource extends Resource
                             ->validationMessages([
                                 'required' => 'Debe seleccionar un productos.',
                                 'exists' => 'Los productos seleccionada no es válida.',
-                            ]),
+                            ])
+                            ->options(self::getAvailableProducts()), // Llama al método para obtener productos disponibles,,
 
                             Forms\Components\Toggle::make('estado')
                             ->label('Estado de la promocion')
@@ -109,6 +112,15 @@ class PromocionResource extends Resource
         return [
             //
         ];
+    }
+    
+    public static function getAvailableProducts(): array
+    {
+        // Obtén los IDs de los productos que ya están relacionados con promociones
+        $productosRelacionados = Promocion::pluck('producto_id')->toArray();
+
+        // Filtra los productos que no están en la lista de productos relacionados
+        return Producto::whereNotIn('id', $productosRelacionados)->pluck('nombre', 'id')->toArray();
     }
 
     public static function getPages(): array

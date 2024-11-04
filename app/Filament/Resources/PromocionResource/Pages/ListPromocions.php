@@ -50,4 +50,27 @@ class ListPromocions extends ListRecords
                 ])
             ]);
     }
+
+    public  function tables(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('producto.nombre')->label('producto'),
+                TextColumn::make('promocion')->label('promocion'),
+            ])
+            ->paginated([10, 25, 50, 100,])
+            ->actions([
+                ViewAction::make()
+                    ->hiddenLabel(),
+                RestoreAction::make()
+                    ->label('Restaurar')
+            ])
+
+            ->bulkActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
+                ])
+            ]);
+    }
 }

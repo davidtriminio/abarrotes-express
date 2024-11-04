@@ -118,7 +118,7 @@ class EditCupon extends EditRecord
                             ]),
 
                         Select::make('user_id')
-                            ->relationship('users', 'name')
+                            ->relationship('user', 'name')
                             ->required()
                             ->searchable()
                             ->preload()

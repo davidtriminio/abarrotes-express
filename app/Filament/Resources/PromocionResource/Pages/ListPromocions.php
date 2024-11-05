@@ -20,11 +20,25 @@ use Filament\Tables\Table;
 class ListPromocions extends ListRecords
 {
     protected static string $resource = PromocionResource::class;
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
+    protected ?string $heading = '';
+    protected static ?string $title = 'Promociones';
+    protected static ?string $slug = 'promociones';
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make('Crear'),
+            Actions\CreateAction::make('Crear')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->label('Crear Promocion')
+                ->icon('heroicon-o-plus-circle'),
         ];
     }
 

@@ -72,6 +72,32 @@ class RolesPermisosSeeder extends Seeder
         $permisoCuponU = Permission::create(['name' => 'editar:cupones']);
         $permisoCuponD = Permission::create(['name' => 'borrar:cupones']);
 
+        /*Permisos Promociones*/
+        $permisoPromocionC = Permission::create(['name' => 'crear:promociones']);
+        $permisoPromocionR = Permission::create(['name' => 'ver:promociones']);
+        $permisoPromocionU = Permission::create(['name' => 'editar:promociones']);
+        $permisoPromocionD = Permission::create(['name' => 'borrar:promociones']);
+
+
+    /* Permisos Proveedores */
+        $permisoProveedorC = Permission::create(['name' => 'crear:proveedores']);
+        $permisoProveedorR = Permission::create(['name' => 'ver:proveedores']);
+        $permisoProveedorU = Permission::create(['name' => 'editar:proveedores']);
+        $permisoProveedorD = Permission::create(['name' => 'borrar:proveedores']);
+
+        /*Permisos Quejas y Sugerencias*/
+        $permisoQySC = Permission::create(['name' => 'crear:quejas_sugerencias']);
+        $permisoQySR = Permission::create(['name' => 'ver:quejas_sugerencias']);
+        $permisoQySU = Permission::create(['name' => 'editar:quejas_sugerencias']);
+        $permisoQySD = Permission::create(['name' => 'borrar:quejas_sugerencias']);
+
+            /*Permisos Reportes de Problemas*/
+        $permisoRpSC = Permission::create(['name' => 'crear:reportes_problemas']);
+        $permisoRpSR = Permission::create(['name' => 'ver:reportes_problemas']);
+        $permisoRpSU = Permission::create(['name' => 'editar:reportes_problemas']);
+        $permisoRpSD = Permission::create(['name' => 'borrar:reportes_problemas']);
+
+
         // ADMINS
         $permisoAdmin1 = Permission::create(['name' => 'ver:admin']);
 
@@ -116,6 +142,26 @@ class RolesPermisosSeeder extends Seeder
             $permisoCuponU,
             $permisoCuponD,
             $permisoAdmin1,
+            $permisoPromocionC,
+            $permisoPromocionR,
+            $permisoPromocionU,
+            $permisoPromocionD,
+            $permisoPromocionC,
+            $permisoPromocionR,
+            $permisoPromocionU,
+            $permisoPromocionD,
+            $permisoRpSC,
+            $permisoRpSR,
+            $permisoRpSU,
+            $permisoRpSD,
+            $permisoProveedorC,
+            $permisoProveedorR,
+            $permisoProveedorU,
+            $permisoProveedorD,
+            $permisoQySC,
+            $permisoQySR,
+            $permisoQySU,
+            $permisoQySD,
         ]);
 
 
@@ -149,6 +195,10 @@ class RolesPermisosSeeder extends Seeder
             $permisoCuponU,
             $permisoCuponD,
             $permisoAdmin1,
+            $permisoPromocionC,
+            $permisoPromocionR,
+            $permisoPromocionU,
+            $permisoPromocionD,
         ]);
         $adminRole = Role::create(['name' => 'Gerente'])->syncPermissions([
             $permisoUsuarioC,

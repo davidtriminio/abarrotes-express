@@ -30,6 +30,7 @@ class MarcaResource extends Resource
     protected static ?string $activeNavigationIcon = 'heroicon-s-cube';
     protected static ?int $navigationSort = 3;
     protected static ?string $recordTitleAttribute = 'nombre';
+    protected static ?string $slug = 'marcas';
     protected function getHeaderActions(): array
     {
         return [
@@ -131,7 +132,7 @@ class MarcaResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:marca');
+        return $usuario->hasPermissionTo('ver:marcas');
     }
 
 }

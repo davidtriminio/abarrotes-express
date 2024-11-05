@@ -21,6 +21,19 @@ class PromocionResource extends Resource
     protected static ?string $modelLabel = 'promociones';
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-tag';
+    protected static ?string $navigationLabel = 'Promociones';
+    protected static ?string $navigationGroup = 'Tienda';
+    protected static ?int $navigationSort = 5;
+    protected static ?string $recordTitleAttribute = 'id';
+    public static function canAccess(): bool
+    {
+        $usuarioActual = auth()->user();
+        if ($usuarioActual->hasPermissionTo('ver:promociones')) {
+            return true;
+        }
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
@@ -98,7 +111,7 @@ class PromocionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -113,7 +126,7 @@ class PromocionResource extends Resource
             //
         ];
     }
-    
+
     public static function getAvailableProducts(): array
     {
         // Obtén los IDs de los productos que ya están relacionados con promociones

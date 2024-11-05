@@ -22,6 +22,9 @@ use Filament\Forms\Components\Select;
 class ViewProveedor extends ViewRecord
 {
     protected static string $resource = ProveedorResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.ver-registro';
+    protected static ?string $title = 'Detalles de Proveedor';
 
     protected function getHeaderActions(): array
     {
@@ -31,8 +34,26 @@ class ViewProveedor extends ViewRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            Actions\EditAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make('Editar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('editar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->icon('heroicon-o-pencil-square'),
+            Actions\DeleteAction::make('Borrar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('borrar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->icon('heroicon-o-trash'),
         ];
     }
 

@@ -19,7 +19,7 @@ class EditDireccion extends EditRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            DeleteAction::make()
+            DeleteAction::make('Borrar')
                 ->icon('heroicon-o-trash'),
         ];
     }

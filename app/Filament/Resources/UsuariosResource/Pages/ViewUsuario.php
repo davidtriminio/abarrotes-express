@@ -20,7 +20,8 @@ class ViewUsuario extends ViewRecord
 {
     protected static string $resource = UsuarioResource::class;
     protected static ?string $title = 'Detalles de Usuario';
-    protected ?string $heading = 'Detalles de Usuario';
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.ver-registro';
 
     protected function getHeaderActions(): array
     {
@@ -32,11 +33,11 @@ class ViewUsuario extends ViewRecord
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
 
-            Actions\EditAction::make()
+            Actions\EditAction::make('Editar')
                 ->visible(function () {
                     $usuarioActual = auth()->user();
                     $usuarioSeleccionado = $this->record;
-                    if ($usuarioActual->hasPermissionTo('actualizar:usuario')) {
+                    if ($usuarioActual->hasPermissionTo('editar:usuarios')) {
                         if ($usuarioActual->hasRole('SuperAdmin')) {
                             if ($usuarioSeleccionado->hasRole('SuperAdmin') === true) {
                                 return false;
@@ -53,7 +54,7 @@ class ViewUsuario extends ViewRecord
                 })
                 ->icon('heroicon-o-pencil-square'),
 
-            Actions\DeleteAction::make()
+            Actions\DeleteAction::make('Borrar')
                 ->visible(function () {
                     $usuarioActual = auth()->user();
                     $usuarioSeleccionado = $this->record;

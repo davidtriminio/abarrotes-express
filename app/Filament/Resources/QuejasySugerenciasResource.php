@@ -20,10 +20,14 @@ class QuejasySugerenciasResource extends Resource
 {
     protected static ?string $model = QuejaSugerencia::class;
 
-    protected static ?string $slug = 'ViewQuejasySugerencias';
+    protected static ?string $slug = 'quejas_sugerencias';
     protected static ?string $modelLabel = 'Quejas y sugerencias';
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-chat-bubble-left-right';
+    protected static ?string $navigationLabel = 'Quejas y sugerencias';
+    protected static ?string $navigationGroup = 'Soporte';
+    protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
     {

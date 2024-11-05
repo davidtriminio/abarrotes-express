@@ -29,6 +29,9 @@ use Filament\Forms\Components\Select;
 class ViewCategoria extends ViewRecord
 {
     protected static string $resource = CategoriaResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.ver-registro';
+    protected static ?string $title = 'Detalles de Categoria';
 
     protected function getHeaderActions(): array
     {
@@ -38,17 +41,21 @@ class ViewCategoria extends ViewRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            Actions\EditAction::make()
+            Actions\EditAction::make('Editar')
                 ->visible(function () {
-                    if (auth()->user()->hasPermissionTo('actualizar:categoria')) {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if (auth()->user()->hasPermissionTo('editar:' . $slug)) {
                         return true;
                     }
                     return false;
                 })
                 ->icon('heroicon-o-pencil-square'),
-            Actions\DeleteAction::make()
+            Actions\DeleteAction::make('Borrar')
                 ->visible(function () {
-                    if (auth()->user()->hasPermissionTo('borrar:categoria')) {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if (auth()->user()->hasPermissionTo('borrar:' . $slug)) {
                         return true;
                     }
                     return false;

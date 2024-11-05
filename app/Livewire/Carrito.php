@@ -4,7 +4,9 @@ namespace App\Livewire;
 
 use App\Helpers\CarritoManagement;
 use App\Livewire\Complementos\Navbar;
+use App\Models\Orden;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -242,8 +244,6 @@ class Carrito extends Component
         $this->mostrar_menu_cupones = false;
     }
 
-
-
     public function cupónEsAplicable($cupon_id)
     {
         $cupon = Cupon::find($cupon_id);
@@ -270,16 +270,8 @@ class Carrito extends Component
                 return false;
             }
         }
-
         return true;
     }
-
-
-
-
-
-
-
 
     public function confirmarReemplazoCupon()
     {
@@ -350,7 +342,7 @@ class Carrito extends Component
 
     public function actualizarCarrito()
     {
-        if ($this->usuario_autenticado) {
+        if ($this->usuario_autenticado && $this->cupones) {
             $this->cupones = Cupon::where('estado', true)
                 ->where('fecha_inicio', '<=', now())
                 ->where('fecha_expiracion', '>', now())
@@ -358,6 +350,32 @@ class Carrito extends Component
                 ->get();
         } else {
             $this->cupones = [];
+        }
+    }
+
+    public function realizarPedido(){
+        $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
+        $linea_items = [];
+        $elementos_carrito = array_filter($elementos_carrito, function ($elemento) {
+            return isset($elemento['producto_id']);
+        });
+        if (empty($elementos_carrito)) {
+            return redirect()->back()->withErrors('El carrito está vacío o hay elementos sin producto_id.');
+        }
+        $orden = new Orden();
+        $orden->user_id = auth()->user()->id;
+        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito);
+        $orden->metodo_pago = 'efectivo';
+        $orden->estado_pago = 'procesando';
+        $orden->estado_entrega = 'nuevo';
+        $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
+        $orden->save();
+        $orden->elementos()->createMany($elementos_carrito);
+        if ($orden->save()) {
+            CarritoManagement::quitarElementosCookies();
+            Mail::to($orden->user->email)->send(new \App\Mail\pedidoRealizado($orden));
+            session(['orden_id' => $orden->id]);
+            return redirect()->route('mi_orden', $orden->id);
         }
     }
 

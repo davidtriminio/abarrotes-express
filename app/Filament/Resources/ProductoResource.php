@@ -29,6 +29,7 @@ class ProductoResource extends Resource
     protected static ?string $activeNavigationIcon = 'heroicon-s-shopping-cart';
     protected static ?int $navigationSort = 2;
     protected static ?string $recordTitleAttribute = 'nombre';
+    protected static ?string $slug = 'productos';
     protected function getHeaderActions(): array
     {
         return [
@@ -373,6 +374,6 @@ class ProductoResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:producto');
+        return $usuario->hasPermissionTo('ver:productos');
     }
 }

@@ -13,7 +13,7 @@ class ListDireccions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
+            CreateAction::make('Crear')
                 ->label('Crear Dirección')
                 ->icon('heroicon-o-plus-circle'),
         ];

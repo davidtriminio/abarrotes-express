@@ -22,13 +22,23 @@ use Filament\Tables\Table;
 class ListOrdenes extends ListRecords
 {
     protected static string $resource = OrdenResource::class;
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
+    protected ?string $heading = '';
 
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
+            CreateAction::make('Crear')
                 ->label('Crear Orden')
-                ->icon('heroicon-o-plus-circle'),
+                ->icon('heroicon-o-plus-circle')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                }),
         ];
     }
 

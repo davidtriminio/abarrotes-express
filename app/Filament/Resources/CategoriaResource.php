@@ -31,6 +31,8 @@ class CategoriaResource extends Resource
     protected static ?string $activeNavigationIcon = 'heroicon-s-queue-list';
     protected static ?int $navigationSort = 4;
     protected static ?string $recordTitleAttribute = 'nombre';
+    protected static ?string $slug = 'categorias';
+
 
     protected function getHeaderActions(): array
     {
@@ -39,7 +41,15 @@ class CategoriaResource extends Resource
                 ->url($this->previousUrl ?? $this->getResource()::getUrl('index'))
                 ->button()
                 ->icon('heroicon-o-chevron-left')
-                ->color('gray'),
+                ->color('gray')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                }),
         ];
     }
 
@@ -130,6 +140,6 @@ class CategoriaResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:categoria');
+        return $usuario->hasPermissionTo('ver:categorias');
     }
 }

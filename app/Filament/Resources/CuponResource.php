@@ -31,6 +31,7 @@ class CuponResource extends Resource
 
     protected static ?int $navigationSort = 5;
     protected static ?string $recordTitleAttribute = 'codigo';
+    protected static ?string $slug = 'cupones';
     protected function getHeaderActions(): array
     {
         return [
@@ -199,7 +200,7 @@ class CuponResource extends Resource
                     ->label('Usuario'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -231,6 +232,6 @@ class CuponResource extends Resource
     public static function canAccess(): bool
     {
         $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:cupon');
+        return $usuario->hasPermissionTo('ver:cupones');
     }
 }

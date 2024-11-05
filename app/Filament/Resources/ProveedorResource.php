@@ -24,7 +24,12 @@ class ProveedorResource extends Resource
     protected static ?string $slug = 'proveedores';
     protected static ?string $modelLabel = 'proveedores';
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-americas';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-globe-americas';
+    protected static ?string $navigationLabel = 'Proveedores';
+    protected static ?string $navigationGroup = 'Tienda';
+    protected static ?int $navigationSort =4;
+    protected static ?string $recordTitleAttribute = 'id';
 
 
     protected function getHeaderActions(): array
@@ -157,7 +162,7 @@ class ProveedorResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

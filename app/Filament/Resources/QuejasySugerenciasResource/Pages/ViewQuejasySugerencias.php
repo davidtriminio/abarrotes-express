@@ -13,6 +13,9 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewQuejasySugerencias extends ViewRecord
 {
     protected static string $resource = QuejasySugerenciasResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.ver-registro';
+    protected static ?string $title = 'Detalles de la Queja/Sugerencia';
 
     public function form(Form $form): Form
     {
@@ -42,11 +45,31 @@ class ViewQuejasySugerencias extends ViewRecord
     {
         return [
             Actions\Action::make('Regresar')
-                ->label('Volver a la Lista')
+                ->label('Regresar')
                 ->url($this->previousUrl ?? $this->getResource()::getUrl('index'))
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
+            Actions\EditAction::make('Editar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('editar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->icon('heroicon-o-pencil-square'),
+            Actions\DeleteAction::make('Borrar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('borrar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->icon('heroicon-o-trash'),
         ];
     }
 }

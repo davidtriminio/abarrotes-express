@@ -22,8 +22,12 @@ class ReportesProblemasResource extends Resource
     protected static ?string $model = ReporteProblema::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-exclamation-triangle';
-    protected static ?string $slug = 'Reporte de Problemas';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-exclamation-triangle';
+    protected static ?string $slug = 'reportes_problemas';
     protected static ?string $modelLabel = 'Reporte de Problemas';
+    protected static ?string $navigationLabel = 'Reporte de Problemas';
+    protected static ?string $navigationGroup = 'Soporte';
+    protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
     {

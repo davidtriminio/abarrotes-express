@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 class ListReportesProblemas extends ListRecords
 {
     protected static string $resource = ReportesProblemasResource::class;
-
-
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
+    protected ?string $heading = '';
+    protected static ?string $title = 'Reportes de Problemas';
 }

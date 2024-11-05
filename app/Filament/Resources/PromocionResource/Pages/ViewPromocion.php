@@ -23,7 +23,9 @@ use Filament\Forms\Components\Select;
 class ViewPromocion extends ViewRecord
 {
     protected static string $resource = PromocionResource::class;
-
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.ver-registro';
+    protected static ?string $title = 'Detalles de Promocion';
 
     protected function getHeaderActions(): array
     {
@@ -33,8 +35,26 @@ class ViewPromocion extends ViewRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            Actions\EditAction::make('Editar'),
-            Actions\DeleteAction::make('Borrar'),
+            Actions\EditAction::make('Editar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('editar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->icon('heroicon-o-pencil-square'),
+            Actions\DeleteAction::make('Borrar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('borrar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->icon('heroicon-o-trash'),
         ];
     }
 

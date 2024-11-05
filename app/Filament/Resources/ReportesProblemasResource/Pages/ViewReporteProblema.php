@@ -13,6 +13,9 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewReporteProblema extends ViewRecord
 {
     protected static string $resource = ReportesProblemasResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.ver-registro';
+    protected static ?string $title = 'Detalles delProblemas';
 
     public function form(Form $form): Form
     {

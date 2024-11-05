@@ -22,6 +22,9 @@ use Filament\Actions\Action;
 class EditProveedor extends EditRecord
 {
     protected static string $resource = ProveedorResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.editar-registro';
+    protected static ?string $title = 'Detalles del Proveedor';
 
     protected function getHeaderActions(): array
     {
@@ -32,6 +35,14 @@ class EditProveedor extends EditRecord
             ->icon('heroicon-o-chevron-left')
             ->color('gray'),
         DeleteAction::make('Borrar')
+            ->visible(function () {
+                $slug = self::getResource()::getSlug();
+                $usuario = auth()->user();
+                if ($usuario->hasPermissionTo('borrar:' . $slug)) {
+                    return true;
+                }
+                return false;
+            })
             ->icon('heroicon-o-trash'),
         ];
     }

@@ -34,12 +34,17 @@ use Filament\Tables\Filters\TrashedFilter;
 
 class InventarioResource extends Resource
 {
-    
+
     protected static ?string $model = null;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-clipboard-document-list';
     protected static ?string $modelLabel = 'Inventario Avanzado';
-    protected static ?string $slug = 'Inventarios Avanzado';
+    protected static ?string $navigationLabel = 'Inventario Avanzado';
+    protected static ?string $navigationGroup = 'Tienda';
+    protected static ?int $navigationSort = 5;
+    protected static ?string $recordTitleAttribute = 'id';
+    protected static ?string $slug = 'inventario';
 
     public static function canCreate() : bool{
         return false;
@@ -50,25 +55,6 @@ class InventarioResource extends Resource
         return $form
             ->schema([
                 //
-            ]);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 

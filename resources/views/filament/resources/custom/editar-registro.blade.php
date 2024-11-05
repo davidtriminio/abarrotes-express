@@ -44,6 +44,14 @@
              $titulo_recurso = 'Editando Usuario: ' . $this->getRecord()->name;
              $titulo_bread = $this->getRecord()->name;
             }
+            else if ($slug == 'proveedores'){
+             $titulo_recurso = 'Editando Proveedor: ' . $this->getRecord()->nombre;
+             $titulo_bread = $this->getRecord()->nombre;
+            }
+            else if($slug == 'promociones'){
+             $titulo_recurso = 'Editando Promocion: ' . $this->getRecord()->id;
+             $titulo_bread = $this->getRecord()->id;
+            }
             else{
              $titulo_recurso = 'Editando: ' . $this->getRecord()->nombre;
              $titulo_bread = $this->getRecord()->nombre;

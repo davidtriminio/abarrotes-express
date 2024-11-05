@@ -29,6 +29,9 @@ use App\Filament\Widgets\UsuarioConMasCompras;
 class ListInventarios extends ListRecords
 {
     protected static string $resource = InventarioResource::class;
+    protected static ?string $title = 'Inventario Avanzado';
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
 
     protected function getHeaderActions(): array
     {

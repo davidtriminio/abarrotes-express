@@ -25,7 +25,7 @@
     $slug => $this->getResource()::getSlug()
     ]"/>
         </div>
-    @if($this->getAction('Crear')->isVisible())
+    @if($this->getAction('Crear') && $this->getAction('Crear')->isVisible())
         <div class="flex h-10 justify-content-end justify-end">{{$this->getAction('Crear')}}
         </div>
     @endif

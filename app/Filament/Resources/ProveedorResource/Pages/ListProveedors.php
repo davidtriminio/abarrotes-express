@@ -21,11 +21,24 @@ use Filament\Tables\Table;
 class ListProveedors extends ListRecords
 {
     protected static string $resource = ProveedorResource::class;
+    protected ?string $heading = '';
+    protected static string $view = 'filament.resources.custom.lista_personalizada';
+    protected static ?string $title = 'Proveedores';
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make('Crear'),
+            Actions\CreateAction::make('Crear')
+            ->visible(function () {
+                $slug = self::getResource()::getSlug();
+                $usuario = auth()->user();
+                if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                    return true;
+                }
+                return false;
+            })
+            ->label('Crear Proveedor')
+            ->icon('heroicon-o-plus-circle'),
         ];
     }
 

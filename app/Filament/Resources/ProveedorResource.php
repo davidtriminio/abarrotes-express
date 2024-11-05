@@ -31,7 +31,6 @@ class ProveedorResource extends Resource
     protected static ?int $navigationSort =4;
     protected static ?string $recordTitleAttribute = 'id';
 
-
     protected function getHeaderActions(): array
     {
         return [
@@ -162,7 +161,7 @@ class ProveedorResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make('Editar'),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

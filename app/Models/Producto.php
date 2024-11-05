@@ -75,7 +75,7 @@ class Producto extends Model
 
 public function ordenes(): hasMany
     {
-        return $this->hasMany(Orden::class, 'producto_id');
+        return $this->hasMany(Orden::class);
     }
 
 

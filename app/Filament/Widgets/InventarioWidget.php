@@ -11,7 +11,7 @@ use App\Models\Categoria;
 use Illuminate\Support\Carbon;
 use App\Models\Ordenes;
 
-class InventarioWidget extends BaseWidget
+class ProductosQueVanAVencer extends BaseWidget
 {
     protected static bool $isLazy=false;
     
@@ -28,7 +28,7 @@ class InventarioWidget extends BaseWidget
         
                     Tables\Columns\TextColumn::make('id')->label('ID'),
                     Tables\Columns\TextColumn::make('nombre')->label('Nombre'),
-                    Tables\Columns\TextColumn::make('precio')->label('Precio'),
+                    Tables\Columns\TextColumn::make('fecha_expiracion')->label('fecha de vencimiento'),
             ]);
     }
 }

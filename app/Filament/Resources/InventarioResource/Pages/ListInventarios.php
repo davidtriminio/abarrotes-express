@@ -21,9 +21,10 @@ use App\Filament\Resources\OrdenResource\Widgets\OrdenesTotales;
 use App\Filament\Resources\OrdenResource\Widgets\ProductosMasVendidos;
 use App\Filament\Resources\OrdenResource\Widgets\UltimasOrdenes;
 use App\Filament\Widgets\EstadisticasVentas;
-use App\Filament\Widgets\InventarioWidget;
+use App\Filament\Widgets\ProductosQueVanAVencer;
 use App\Filament\Widgets\ProductoConCantidadBaja;
 use App\Filament\Widgets\UsuarioConMasCompras;
+use App\Filament\Widgets\ProductosConMasCompradas;
 
 
 class ListInventarios extends ListRecords
@@ -42,9 +43,10 @@ class ListInventarios extends ListRecords
 
     protected function getHeaderWidgets(): array {
         return [
-            InventarioWidget::class,
+            ProductosQueVanAVencer::class,
             ProductoConCantidadBaja::class,
             UsuarioConMasCompras::class,
+            ProductosConMasCompradas::class,
         ];
     }
 }

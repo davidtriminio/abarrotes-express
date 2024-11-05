@@ -30,7 +30,7 @@ class Orden extends Model
 
     public function producto(): BelongsTo
     {
-        return $this->belongsTo(Producto::class); 
+        return $this->belongsTo(Producto::class, 'producto_id'); 
     }
 
     public function direccion(): HasOne

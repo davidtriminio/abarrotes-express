@@ -9,7 +9,8 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Producto;
 use App\Models\User;
-use App\Models\Ordenes;
+use App\Models\ElementoOrden;
+use App\Models\Orden;
 
 class ProductosConMasCompradas extends BaseWidget
 {
@@ -17,19 +18,18 @@ class ProductosConMasCompradas extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(
-                Producto::withCount('ordenes')
-                ->orderBy('ordenes_count', 'desc')
+        ->query(
+            Producto::withCount('elementosOrden') // Nota: cambiado a plural
+                ->orderBy('elementos_orden_count', 'desc')
                 ->limit(5)
-                
-            )
-            ->columns([
-                Tables\Columns\TextColumn::make('nombre')
+        )
+        ->columns([
+            Tables\Columns\TextColumn::make('nombre')
                 ->label('Nombre del Producto'),
-            Tables\Columns\TextColumn::make('ordenes_count')
+            Tables\Columns\TextColumn::make('elementos_orden_count')
                 ->label('Total de Órdenes'),
-            ])
-            ->paginated([5,10 ,50]);
+        ])
+        ->paginated([5, 10, 50]);
     }
 
     

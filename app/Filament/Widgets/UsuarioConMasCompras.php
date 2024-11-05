@@ -4,7 +4,7 @@ namespace App\Filament\Widgets;
 
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Models\Ordenes;
+use App\Models\Orden;
 use App\Models\Producto;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;

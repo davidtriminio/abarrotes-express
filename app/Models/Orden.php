@@ -28,15 +28,15 @@ class Orden extends Model
         return $this->hasMany(ElementoOrden::class, 'orden_id');
     }
 
-    public function producto(): BelongsTo
-    {
-        return $this->belongsTo(Producto::class, 'producto_id'); 
-    }
 
     public function direccion(): HasOne
     {
         return $this->hasOne(Direccion::class);
     }
-
+     
+    public function producto(): HasMany
+    {
+        return $this->hasMany(Producto::class);
+    }
 
 }

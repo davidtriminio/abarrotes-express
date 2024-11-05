@@ -10,7 +10,6 @@ return new class extends Migration {
         Schema::create('ordenes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
-            $table->foreignId('producto_id');
             $table->decimal('sub_total', 10,2)->default(0);
             $table->decimal('total_final', 10,2);
             $table->string('metodo_pago');

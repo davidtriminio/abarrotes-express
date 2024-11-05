@@ -73,11 +73,6 @@ class Producto extends Model
 }
 
 
-public function ordenes(): hasMany
-    {
-        return $this->hasMany(Orden::class);
-    }
-
 
 
 

@@ -26,7 +26,6 @@ class OrdenFactory extends Factory
             'updated_at' => Carbon::now(),
             'user_id' => User::inRandomOrder()->first(),
             'sub_total' => $this->faker->numberBetween(10, 100),
-            'producto_id' => $this->faker->numberBetween(1, 12),
             'total_final' => $this->faker->numberBetween(0, 10000),
             'metodo_pago' => $this->faker->randomElement(['par', 'efectivo', 'tarjeta']),
             'estado_pago' => $estado_pago,

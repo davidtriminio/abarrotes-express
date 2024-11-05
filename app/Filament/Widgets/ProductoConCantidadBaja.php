@@ -9,6 +9,8 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class ProductoConCantidadBaja extends BaseWidget
 {
+    protected static bool $isLazy=false;
+    
     public function table(Table $table): Table
     {
         return $table

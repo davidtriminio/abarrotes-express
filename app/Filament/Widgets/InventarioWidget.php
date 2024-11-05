@@ -13,6 +13,8 @@ use App\Models\Ordenes;
 
 class InventarioWidget extends BaseWidget
 {
+    protected static bool $isLazy=false;
+    
     public function table(Table $table): Table
     {
         $hoy = Carbon::now(); // Obtiene la fecha actual

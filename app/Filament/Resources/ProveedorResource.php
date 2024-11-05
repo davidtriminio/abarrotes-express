@@ -73,6 +73,13 @@ class ProveedorResource extends Resource
                             ])
                             ->columnSpan(2),
 
+                        /*Forms\Components\Select::make('id_producto')
+                        ->relationship('producto', 'nombre')
+                        ->multiple()
+                        ->preload()
+                        ->rules(['exists:productos,id'])
+                        ->label('Productos'),*/
+
                     ])->columns(2)
                         ->columnSpan(2),
 
@@ -113,11 +120,12 @@ class ProveedorResource extends Resource
                                 'min' => 'La cantidad disponible debe ser al menos 1.',
                             ]),
 
-                            Forms\Components\Select::make('id_producto')
+                           Forms\Components\Select::make('id_producto')
                             ->relationship('producto', 'nombre')
                             ->required()
                             ->searchable()
                             ->preload()
+                            //->multiple()
                             ->label('Productos')
                             ->rules(['exists:productos,id'])
                             ->validationMessages([

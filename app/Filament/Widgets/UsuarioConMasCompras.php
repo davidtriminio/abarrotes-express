@@ -13,8 +13,11 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class UsuarioConMasCompras extends BaseWidget
 {
+    protected static bool $isLazy=false;
+    
     public function table(Table $table): Table
     {
+    
         return $table
             ->query(
                 User::withCount('ordenes as total_productos') // Contar las órdenes por usuario

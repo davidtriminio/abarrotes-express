@@ -180,12 +180,12 @@ class OrdenResource extends Resource
                             ->schema([
                                 Select::make('producto_id')
                                     ->preload()
-                                    ->relationship('producto', 'nombre')
+                                    ->relationship('productos', 'nombre')
                                     ->searchable()
                                     ->required()
                                     ->distinct()
                                     ->reactive()
-                                    ->rules(['exists:productos,id'])
+                                    ->rules(['exists:producto,id'])
                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         $producto = Producto::find($state);

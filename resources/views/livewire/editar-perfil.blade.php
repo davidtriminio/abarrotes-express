@@ -75,7 +75,7 @@
 
             <!-- Acciones -->
             <div class="flex justify-between items-center mt-8">
-                <a href="/perfil" class="enlace-perfil">Volver al perfil</a>
+                <a href="{{ route('perfil') }}" class="enlace-perfil">Volver al perfil</a>
                 <button type="submit" class="boton-guardar" wire:loading.attr="disabled">
                     <span wire:loading.remove wire:target="actualizarPerfil">Guardar Cambios</span>
                     <div wire:loading wire:target="actualizarPerfil" class="icono-carga"></div>

@@ -25,7 +25,7 @@
 
             <!-- Enlace de "¿Olvidaste tu contraseña?" alineado a la derecha -->
             <div class="mb-4 flex justify-end">
-                <a href="/verificarclave" class="text-sm text-primary hover:text-blue-400 hover:ease-in hover:duration-300">¿Olvidaste tu contraseña?</a>
+                <a href="{{route('verificarclave')}}" class="text-sm text-primary hover:text-blue-400 hover:ease-in hover:duration-300">¿Olvidaste tu contraseña?</a>
             </div>
 
             @if (session()->has('error'))

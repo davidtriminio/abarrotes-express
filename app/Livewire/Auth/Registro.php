@@ -3,13 +3,16 @@
 namespace App\Livewire\Auth;
 
 use Illuminate\Support\Str;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth; // Asegúrate de importar Auth
 
 class Registro extends Component
 {
+    use LivewireAlert;
     public $id;
     public $name;
     public $email;
@@ -28,7 +31,7 @@ class Registro extends Component
         $this->validate([
             'name' => 'required|regex:/^[a-zA-Z0-9_ áéíóúñÑ]+$/',
             'email' => 'required|email|unique:users,email|max:255',
-            'telefono' => 'nullable|string|size:8|unique:users,telefono', // Telefono es opcional
+            'telefono' => 'nullable|string|size:8|unique:users,telefono', // Teléfono es opcional
             'password' => 'required|min:8|max:30|regex:/[A-Z]/|regex:/[a-z]/|regex:/[\W]+$/',
         ],
             [
@@ -57,9 +60,18 @@ class Registro extends Component
         $user->assignRole('Cliente');
         $user->save();
 
+
+        Auth::login($user);
+
         $this->reset();
-        // Mostrar un mensaje de éxito
-        session()->flash('mensaje', '¡Registro exitoso!');
+
+        $this->alert('success', '¡Registro exitoso!', [
+            'timer' => 3000,
+        ]);
+
+
+
         return redirect()->route('inicio');
     }
 }
+

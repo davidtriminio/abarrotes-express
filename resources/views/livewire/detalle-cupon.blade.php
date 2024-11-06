@@ -25,7 +25,7 @@
 
                 <div class="cupon-body">
                     <p class="cupon-codigo">Código: <span>{{ $cupon->codigo }}</span></p>
-                    <button class="cupon-usar-btn">Usar</button>
+                    <a class="cupon-usar-btn" href="{{ route('carrito') }}">Ir al Carrito</a>
                 </div>
 
 

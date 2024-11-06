@@ -85,7 +85,7 @@
                             <div class="pt-3 md:pt-0">
                                 <a wire:navigate
                                    class="py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                   href="/login">
+                                   href="{{ route('login') }}">
                                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                          height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -121,7 +121,7 @@
                 Ajustes
             </span>
                                         <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                           href="/ordenes">
+                                           href="{{ route('ordenes') }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
                                             </svg>
@@ -129,7 +129,7 @@
                                             Ordenes
                                         </a>
                                         <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                           href="/perfil">
+                                           href="{{ route('perfil') }}">
                                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
                                                  width="24"
                                                  height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -142,7 +142,7 @@
                                             Perfil
                                         </a>
                                         <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                           href="/quejasugerencia">
+                                           href="{{ route('quejasugerencia') }}">
                                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
                                                  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -152,7 +152,7 @@
                                             Quejas y sugerencias
                                         </a>
                                         <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                                           href="/reporteproblema">
+                                           href="{{ route('reporteproblema') }}">
                                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
                                                  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -187,7 +187,7 @@
         Sesión
       </span>
                                             <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500"
-                                               href="/logout">
+                                               href="{{ route('logout') }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                      fill="current"
                                                      class="size-6">

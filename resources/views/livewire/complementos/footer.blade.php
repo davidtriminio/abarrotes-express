@@ -2,48 +2,69 @@
     <!-- Footer -->
     <footer class="border-t border-gray-line">
         <!-- Top part -->
-        <div class="container mx-auto px-4 py-10  ">
+        <div class="container mx-auto px-4 py-10">
             <div class="flex flex-wrap place-content-between mx-4 w-full">
                 <!-- Menu 2 -->
                 <div class="lg:w-1/4 sm:w-1/3 px-4 mb-8">
                     <h3 class="text-lg font-semibold mb-4">Paginas</h3>
                     <ul>
-                        <li><a href="{{ url('/categorias') }}" class="hover:text-primary hover:underline"
-                               style="transition: color 0.3s ease;">Categorias</a></li>
-                        <li><a href="{{ url('/marcas') }}" class="hover:text-primary hover:underline"
-                               style="transition: color 0.3s ease;">Marcas</a></li>
-                        <li><a href="{{ url('/productos') }}" class="hover:text-primary hover:underline"
-                               style="transition: color 0.3s ease;">Productos</a></li>
-                        <li><a href="/404.html" class="hover:text-primary hover:underline"
-                               style="transition: color 0.3s ease;">Promociones</a></li>
-                        <li><a href="/404.html" class="hover:text-primary hover:underline"
-                               style="transition: color 0.3s ease;">Descuentos</a></li>
-                        <li><a href="/404.html" class="hover:text-primary hover:underline"
-                               style="transition: color 0.3s ease;">Cupones</a></li>
+                        <li class="mb-2"><a href="{{ route('inicio') }}" class="hover:text-primary hover:underline"
+                                            style="transition: color 0.3s ease;">Inicio</a></li>
+                        <li class="mb-2"><a href="{{ route('categorias') }}" class="hover:text-primary hover:underline"
+                                            style="transition: color 0.3s ease;">Categorias</a></li>
+                        <li class="mb-2"><a href="{{ route('marcas') }}" class="hover:text-primary hover:underline"
+                                            style="transition: color 0.3s ease;">Marcas</a></li>
+                        <li class="mb-2"><a href="{{ route('productos') }}" class="hover:text-primary hover:underline"
+                                            style="transition: color 0.3s ease;">Productos</a></li>
+                        @auth
+                            <li class="mb-2"><a href="{{ route('cupones') }}" class="hover:text-primary hover:underline" style="transition: color 0.3s ease;">Cupones</a></li>
+                        @endauth
                     </ul>
                 </div>
+
                 <!-- Menu 3 -->
                 <div class="lg:w-1/4 sm:w-1/3 px-4 mb-8">
                     <h3 class="text-lg font-semibold mb-4">Cuenta</h3>
                     <ul>
-                        <li>
-                            <a href="{{ url('/carrito') }}" class="hover:text-primary hover:underline"
+                        <li class="mb-2">
+                            <a href="{{ route('carrito') }}" class="hover:text-primary hover:underline"
                                style="transition: color 0.3s ease;">Carrito</a>
                         </li>
-                        <li>
-                            <a href="{{ url('/login') }}" class="hover:text-primary hover:underline"
-                               style="transition: color 0.3s ease;">Iniciar Sesión</a>
-                        </li>
-                        <li>
-                            <a href="{{ url('/quejasugerencia') }}" class="hover:text-primary hover:underline"
+                        @guest
+                            <li class="mb-2">
+                                <a href="{{ route('login') }}" class="hover:text-primary hover:underline" style="transition: color 0.3s ease;">
+                                    Iniciar Sesión
+                                </a>
+                            </li>
+                        @endguest
+
+                        @auth
+                            <li class="mb-2">
+                                <a href="{{ route('ordenes') }}" class="hover:text-primary hover:underline" style="transition: color 0.3s ease;">
+                                    Órdenes
+                                </a>
+                            </li>
+                        @endauth
+
+                        @auth
+                            <li class="mb-2">
+                                <a href="{{ route('perfil') }}" class="hover:text-primary hover:underline" style="transition: color 0.3s ease;">
+                                    Perfil
+                                </a>
+                            </li>
+                        @endauth
+
+                        <li class="mb-2">
+                            <a href="{{ route('quejasugerencia') }}" class="hover:text-primary hover:underline"
                                style="transition: color 0.3s ease;">Quejas y Sugerencias</a>
                         </li>
-                        <li>
-                            <a href="{{ url('/reporteproblema') }}" class="hover:text-primary hover:underline"
+                        <li class="mb-2">
+                            <a href="{{ route('reporteproblema') }}" class="hover:text-primary hover:underline"
                                style="transition: color 0.3s ease;">Reportar un problema</a>
                         </li>
                     </ul>
                 </div>
+
                 <!-- Social Media -->
                 <div class="lg:w-1/4 sm:w-1/3 px-4 mb-8">
                     <h3 class="text-lg font-semibold mb-4">Siguenos</h3>
@@ -70,6 +91,7 @@
                         </li>
                     </ul>
                 </div>
+
                 <!-- Contact Information -->
                 <div class="lg:w-1/4 sm:w-full px-4 mb-8">
                     <h3 class="text-lg font-semibold mb-4">Contactanos</h3>
@@ -77,9 +99,8 @@
                         <img src="/imagen/logo1.jpeg" alt="Logo" width="80px" height="80px" class="rounded-2xl">
                         <p class="ml-4">Barrio El Carmelo, Frente al Marchante N°2, Danlí El Paraíso</p>
                     </div>
-
-                    <p class="text-xl font-bold my-4">Telefono: +504 9326-5241</p>
-                    <a href="mailto:info@company.com" class="underline">Email: Abarrotes.Express@gmail.com</a>
+                    <p class="text-xl font-bold my-4" style="white-space: nowrap;">Telefono: +504 3333 9999</p>
+                    <a href="#"  style="white-space: nowrap;">Email: equipo.abarrotes.express@gmail.com</a>
                 </div>
             </div>
         </div>

@@ -44,11 +44,11 @@
     <!-- Menú de navegación estilo tarjetas -->
     <div class="perfil-menu-nuevo">
         <div class="menu-tarjetas">
-            <a href="#" class="menu-item" id="miCuenta">
+            <a class="menu-item" id="miCuenta"> <!-- Elimina href="#" -->
                 <span class="icon-[ph--user]"></span>
                 <p>Mi Cuenta</p>
             </a>
-            <a href="#" class="menu-item" id="misOrdenes">
+            <a class="menu-item" id="misOrdenes">
                 <span class="icon-[bi--truck]"></span>
                 <p>Mis Ordenes</p>
             </a>
@@ -70,7 +70,7 @@
     // Contenido de las tarjetas para "Mi Cuenta" y "Mis Ordenes"
     const contenidoTarjetas = {
         miCuenta: `
-            <a href="/editarperfil" class="tarjeta">
+            <a href="{{ route('editarperfil') }}" class="tarjeta">
                 <div class="texto-tarjeta" style="text-align: center;">
                     <span class="icon-[material-symbols--edit-square-outline-sharp]"></span>
                     <p>Editar mis datos</p>
@@ -82,13 +82,13 @@
                     <p>Métodos de pago</p>
                 </div>
             </a>
-            <a href="#" class="tarjeta" onclick="abrirVentanaYDescargar()">
+            <a  class="tarjeta" onclick="abrirVentanaYDescargar()">
                 <div class="texto-tarjeta" style="text-align: center;">
                     <span class="icon-[charm--padlock]"></span>
                     <p>Clave de Recuperación</p>
                 </div>
             </a>
-            <a href="/favoritos" class="tarjeta">
+            <a href="{{ route('favoritos') }}" class="tarjeta">
                 <div class="texto-tarjeta" style="text-align: center;">
                     <span class="icon-[bi--heart]"></span>
                     <p>Mis favoritos</p>
@@ -96,28 +96,28 @@
             </a>
         `,
         misOrdenes: `
-         <a href="#" class="tarjeta" wire:click="redirigirOrdenes('nuevo')">
+         <a  class="tarjeta" wire:click="redirigirOrdenes('nuevo')">
             <div class="texto-tarjeta" style="text-align: center;">
                 <span class="icon-[hugeicons--package-moving]"></span>
                 <p>Nuevo</p>
                 <h3>{{ $contadorNuevo }}</h3>
             </div>
         </a>
-        <a href="#" class="tarjeta" wire:click="redirigirOrdenes('procesado')">
+        <a  class="tarjeta" wire:click="redirigirOrdenes('procesado')">
             <div class="texto-tarjeta" style="text-align: center;">
                 <span class="icon-[hugeicons--package-process]"></span>
                 <p>En proceso</p>
                 <h3>{{ $contadorProceso }}</h3>
             </div>
         </a>
-        <a href="#" class="tarjeta" wire:click="redirigirOrdenes('enviado')">
+        <a  class="tarjeta" wire:click="redirigirOrdenes('enviado')">
             <div class="texto-tarjeta" style="text-align: center;">
                 <span class="icon-[hugeicons--package-open]"></span>
                 <p>Enviado</p>
                 <h3>{{ $contadorEnviado }}</h3>
             </div>
         </a>
-        <a href="#" class="tarjeta" wire:click="redirigirOrdenes('entregado')">
+        <a  class="tarjeta" wire:click="redirigirOrdenes('entregado')">
             <div class="texto-tarjeta" style="text-align: center;">
                 <span class="icon-[hugeicons--package-delivered]"></span>
                 <p>Entregado</p>

@@ -24,8 +24,8 @@
                     <option value="Cupones">Cupones</option>
                     <option value="Carrito">Carrito</option>
                     <option value="Perfil">Perfil</option>
-                    <!-- Mostrar "Panel Administrativo" solo para Administrador y Superadmin -->
-                    @if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Superadmin'))
+                    <!-- Verificar si el usuario está autenticado y si tiene el rol adecuado -->
+                    @if(auth()->check() && (auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Superadmin')))
                         <option value="Panel Administrativo">Panel Administrativo</option>
                     @endif
                 </select>

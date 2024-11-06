@@ -4,62 +4,69 @@
         <div class="flex flex-col md:flex-row gap-4">
             <div class="md:w-3/4">
                 <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
-                    {{--Alerta de información--}}
-                    <div class="bg-blue-50 border border-blue-200 text-gray-800 rounded-lg p-4 mb-2" role="alert" tabindex="-1" aria-labelledby="hs-actions-label">
-                        <div class="flex">
-                            <div class="ms-3">
-                                <div class="mt-2 text-lg text-gray-600 align-middle">
-                                    <span class="icon-[ph--info] text-lg text-blue-600"></span> Productos marcados con <span class="font-bold text-red-500">*</span> son productos en oferta.
+                    @if($elementos_carrito)
+                        {{--Alerta de información--}}
+                        <div class="bg-blue-50 border border-blue-200 text-gray-800 rounded-lg p-4 mb-2" role="alert" tabindex="-1" aria-labelledby="hs-actions-label">
+                            <div class="flex">
+                                <div class="ms-3">
+                                    <div class="mt-2 text-lg text-gray-600 align-middle">
+                                        <span class="icon-[ph--info] text-lg text-blue-600"></span> Productos marcados con <span class="font-bold text-red-500">*</span> son productos en oferta.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <table class="w-full">
-                        <thead>
-                        <tr>
-                            <th class="text-left font-semibold">Producto</th>
-                            <th class="text-left font-semibold">Precio</th>
-                            <th class="text-left font-semibold">Cantidad</th>
-                            <th class="text-left font-semibold">Total</th>
-                            <th class="text-left font-semibold">Quitar</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($elementos_carrito as $item)
-                            <tr class="@if($item['en_oferta']) rounded-md bg-gray-100 p-2 @endif" wire:key="{{$item['producto_id']}}">
-                                <td class="py-4 ">
-                                    <div class="flex items-center">
-                                        <img class="h-16 w-16 mr-4"
-                                             src="{{ $item['imagen'] ? url('storage', $item['imagen']) : asset('imagen/no-photo.png') }}"
-                                             alt="{{ $item['nombre'] }}">@if($item['en_oferta']) <span class="inline text-red-500 font-bold text-xl"> * </span> @endif
-                                        <span class="font-semibold">{{ $item['nombre'] }}</span>
-                                    </div>
-                                </td>
-                                <td class="py-4">{{ Number::currency($item['monto_unitario'], 'LPS') }}</td>
-                                <td class="py-4">
-                                    <div class="flex items-center">
-                                        <button wire:click="decrementarCantidad({{$item['producto_id']}})" class="border rounded-md py-2 px-4 mr-2">-</button>
-                                        <span class="text-center w-8">{{$item['cantidad']}}</span>
-                                        <button wire:click="incrementarCantidad({{$item['producto_id']}})" class="border rounded-md py-2 px-4 ml-2">+</button>
-                                    </div>
-                                </td>
-                                <td class="py-4">{{ Number::currency($item['monto_total'], 'LPS') }}</td>
-                                <td>
-                                    <div class="container mx-auto w-full">
-                                        <button wire:click="eliminarElemento({{$item['producto_id']}})" class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700 w-full">
-                                            <span wire:loading.remove wire:target='eliminarElemento({{$item['producto_id']}})'>Eliminar</span>
-                                            <span wire:target="eliminarElemento({{$item['producto_id']}})" wire:loading class="icon-[line-md--loading-loop] h-4 w-4 animate-spin"></span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
+                        <table class="w-full">
+                            <thead>
                             <tr>
-                                <td colspan="5" class="text-center py-4 text-4xl font-semibold text-sky-500">No hay items en el carrito</td>
+                                <th class="text-left font-semibold">Producto</th>
+                                <th class="text-left font-semibold">Precio</th>
+                                <th class="text-left font-semibold">Cantidad</th>
+                                <th class="text-left font-semibold">Total</th>
+                                <th class="text-left font-semibold">Quitar</th>
                             </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @forelse($elementos_carrito as $item)
+                                <tr class="@if($item['en_oferta']) rounded-md bg-gray-100 p-2 @endif" wire:key="{{$item['producto_id']}}">
+                                    <td class="py-4 ">
+                                        <div class="flex items-center">
+                                            <img class="h-16 w-16 mr-4"
+                                                 src="{{ $item['imagen'] ? url('storage', $item['imagen']) : asset('imagen/no-photo.png') }}"
+                                                 alt="{{ $item['nombre'] }}">@if($item['en_oferta']) <span class="inline text-red-500 font-bold text-xl"> * </span> @endif
+                                            <span class="font-semibold">{{ $item['nombre'] }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">{{ Number::currency($item['monto_unitario'], 'LPS') }}</td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <button wire:click="decrementarCantidad({{$item['producto_id']}})" class="border rounded-md py-2 px-4 mr-2">-</button>
+                                            <span class="text-center w-8">{{$item['cantidad']}}</span>
+                                            <button wire:click="incrementarCantidad({{$item['producto_id']}})" class="border rounded-md py-2 px-4 ml-2">+</button>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">{{ Number::currency($item['monto_total'], 'LPS') }}</td>
+                                    <td>
+                                        <div class="container mx-auto w-full">
+                                            <button wire:click="eliminarElemento({{$item['producto_id']}})" class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700 w-full">
+                                                <span wire:loading.remove wire:target='eliminarElemento({{$item['producto_id']}})'>Eliminar</span>
+                                                <span wire:target="eliminarElemento({{$item['producto_id']}})" wire:loading class="icon-[line-md--loading-loop] h-4 w-4 animate-spin"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-4xl font-semibold text-sky-500">No hay items en el carrito</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+
+                    @else
+                        <div class="mt-4 flex justify-center">
+                            <p class="text-center">No hay productos en el carrito.</p>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="md:w-1/3">
@@ -189,11 +196,21 @@
                         <span class="font-semibold">Total</span>
                         <span class="font-semibold">{{ Number::currency($total_final, 'LPS') }}</span> <!-- Total con el cupón aplicado -->
                     </div>
-                    @if($elementos_carrito)
-                        <button wire:click="realizarPedido" wire:loading.attr="disabled"
-                                class="bg-blue-500 text-white py-2 px-4 block rounded-lg mt-4 w-full text-center">
-                            Proceder a pagar
-                        </button>
+                    @if(auth()->user())
+                       @if($elementos_carrito)
+                            <button wire:click="realizarPedido" wire:loading.attr="disabled"
+                                    class="bg-blue-500 text-white py-2 px-4 block rounded-lg mt-4 w-full text-center">
+                                Proceder a pagar
+                            </button>
+                        @endif
+                    @else
+                        <div class="mt-4 flex justify-center">
+                            <a wire:navigate
+                               class="py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                               href="/login">
+                                Iniciar Sesión
+                            </a>
+                        </div>
                     @endif
                     @guest
                         <div class="mt-4">

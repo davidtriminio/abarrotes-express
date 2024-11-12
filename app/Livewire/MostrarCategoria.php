@@ -8,7 +8,7 @@ use Livewire\WithoutUrlPagination;
 
 class MostrarCategoria extends Component
 {
-    public $perPage = 9;
+    public $perPage = 12;
 
 
     public function render()

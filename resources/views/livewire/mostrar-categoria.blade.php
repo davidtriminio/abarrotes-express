@@ -1,35 +1,33 @@
 <div class="container mx-auto max-w-screen-xl px-4 categories">
-    <div class="text-center title-container mb-12 lg:mb-20">
-        <h2 class="text-5xl font-weight-medium mb-4">Explora <span class="text-primary">Nuestras Categorías</span></h2>
-        <p class="my-7 text-sky-950">Sumérgete en nuestra variada colección de categorías y descubre productos seleccionados especialmente para ti. ¡Encuentra lo que necesitas y mucho más!</p>
+    <div class="text-center mb-12 lg:mb-20 mt-16">
+        <h2 class="text-5xl font-bold mb-4"><span class="text-primary">Explora </span><span class="text-primary">Nuestras Categorías</span></h2>
+        <p class="my-7">Sumérgete en nuestra variada colección de categorías y descubre productos seleccionados especialmente para ti. ¡Encuentra lo que necesitas y mucho más!</p>
     </div>
 
-    <div class="cards-container flex flex-wrap">
+    <div class="flex flex-wrap -mx-4 bg-gray-50 p-4">
         @forelse ($categorias as $categoria)
-            <div class="my-2 mx-auto p-relative bg-white shadow-1 blue-hover" style="width: 360px; overflow: hidden; border-radius: 1px;">
-                <div class="card-bg">
-                    <img src="{{ isset($categoria->imagen) ? url(asset('storage/' . $categoria->imagen)) : asset('imagen/no-photo.png') }}" alt="{{ $categoria->nombre }}" class="image-full">
-                </div>
-
-
-                <div class="px-4 py-2 flex-grow">
-                    <p class="mb-0 small font-weight-medium text-uppercase mb-1 text-muted lts-2px">
-                        {{ $categoria->nombre }}
-                    </p>
-
-                    <h1 class="font-weight-normal text-black card-heading mt-0 mb-1" style="line-height: 1.25;">
-                        {{ $categoria->nombre }}
-                    </h1>
-
-                    <p class="card-description mb-1">
-                        {{ $categoria->descripcion }}
-                    </p>
-                </div>
-
-                <div class="px-4 py-4">
-                    <a href="{{ route('productos', ['categoria' => $categoria->id]) }}" class="text-uppercase d-inline-block font-weight-medium lts-2px text-center styled-link">
-                        Ver más
+            <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-8">
+                <!-- Flex con justify-between para alinear contenido y botón -->
+                <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-50 flex flex-col h-full justify-between">
+                    <a href="{{ route('productos', ['categoria' => $categoria->id]) }}" class="block">
+                        <img src="{{ isset($categoria->imagen) ? url('storage/' . $categoria->imagen) : asset('imagen/no-photo.png') }}"
+                             class="w-full h-auto mx-auto mb-4 rounded-lg tamanoCard"
+                             alt="{{ $categoria->nombre }}">
+                        <h3 class="text-lg font-semibold mb-2 text-primary truncate-title">{{ $categoria->nombre }}</h3>
                     </a>
+
+                    <!-- Limitar altura de la descripción -->
+                    <div class="mb-4 overflow-hidden" style="max-height: 4em;">
+                        <p class="text-sm text-muted truncate-description">{{ $categoria->descripcion }}</p>
+                    </div>
+
+                    <!-- Botón Ver Más alineado al final -->
+                    <div class="mt-auto px-4 py-4">
+                        <a href="{{ route('productos', ['categoria' => $categoria->id]) }}"
+                           class="bg-primary border border-transparent hover:bg-transparent hover:border-primary text-white hover:text-primary font-semibold py-2 px-4 rounded-full">
+                            Ver más
+                        </a>
+                    </div>
                 </div>
             </div>
         @empty
@@ -39,9 +37,47 @@
         @endforelse
     </div>
 
+    <!-- Paginación con divisoria superior para Categorías -->
     @if ($categorias->isNotEmpty())
-        <div class="text-center mt-4">
-            {{ $categorias->links() }}
+        <hr class="my-6 border-gray-300"> <!-- Línea divisoria -->
+
+        <div class="mt-4 text-right">
+            <nav aria-label="Page navigation">
+                <ul class="flex justify-center space-x-2">
+                    @if ($categorias->onFirstPage())
+                        <li class="disabled">
+                            <span class="px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed">Anterior</span>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ $categorias->previousPageUrl() }}"
+                               class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">Anterior</a>
+                        </li>
+                    @endif
+
+                    @for ($i = 1; $i <= $categorias->lastPage(); $i++)
+                        <li>
+                            @if ($i == $categorias->currentPage())
+                                <span class="px-4 py-2 bg-blue-500 text-white rounded">{{ $i }}</span>
+                            @else
+                                <a href="{{ $categorias->url($i) }}"
+                                   class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-blue-500 hover:text-white transition duration-300">{{ $i }}</a>
+                            @endif
+                        </li>
+                    @endfor
+
+                    @if ($categorias->hasMorePages())
+                        <li>
+                            <a href="{{ $categorias->nextPageUrl() }}"
+                               class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">Siguiente</a>
+                        </li>
+                    @else
+                        <li class="disabled">
+                            <span class="px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed">Siguiente</span>
+                        </li>
+                    @endif
+                </ul>
+            </nav>
         </div>
     @endif
 </div>

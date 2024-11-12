@@ -1702,26 +1702,26 @@ body {
 
 /* Enlace volver al perfil */
 .enlace-perfil {
-    font-size: 0.875rem; /* text-sm */
-    font-weight: 500; /* font-medium */
-    color: #3b82f6; /* text-blue-500 */
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3b82f6;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .enlace-perfil:hover {
-    color: #2563eb; /* hover:text-blue-600 */
+    color: #2563eb;
 }
 
 /* Espaciado de entradas */
 .espaciado-entrada {
-    margin-bottom: 1.5rem; /* mb-6 */
+    margin-bottom: 1.5rem;
 }
 
 
 
 .etiqueta-disponibilidad {
-    background-color: #ffcc00; /* Color de fondo llamativo */
+    background-color: #ffcc00;
     color: #fff;
     font-weight: bold;
     padding: 0.5rem;
@@ -1741,16 +1741,16 @@ body {
 }
 
 .qsrp-header-title {
-    font-size: 2.5rem; /* Tamaño de fuente más grande */
+    font-size: 2.5rem;
     font-weight: bold;
-    text-align: center; /* Centrado */
-    text-transform: uppercase; /* Texto en mayúsculas */
+    text-align: center;
+    text-transform: uppercase;
     margin-bottom: 20px;
 }
 
 .qsrp-success-message {
-    background-color: #d1fae5; /* Color de fondo verde claro */
-    color: #065f46; /* Color de texto verde oscuro */
+    background-color: #d1fae5;
+    color: #065f46;
     padding: 10px;
     border-radius: 5px;
     margin-top: 15px;
@@ -1762,7 +1762,7 @@ body {
 
 .qsrp-form-label {
     display: block;
-    color: #4a5568; /* Color gris para el texto */
+    color: #4a5568; /
     margin-bottom: 5px;
 }
 
@@ -1776,15 +1776,15 @@ body {
 }
 
 .qsrp-form-input {
-    height: 40px; /* Aumenta la altura del campo de entrada */
+    height: 40px;
 }
 
 .qsrp-form-textarea {
-    height: 120px; /* Aumenta la altura del área de texto */
+    height: 120px;
 }
 
 .qsrp-submit-button {
-    background-color: #4299e1; /* Color azul */
+    background-color: #4299e1;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -1794,7 +1794,35 @@ body {
 }
 
 .qsrp-submit-button:hover {
-    background-color: #3182ce; /* Azul más oscuro al pasar el mouse */
+    background-color: #3182ce;
 }
+
+
+.truncate-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.truncate-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 

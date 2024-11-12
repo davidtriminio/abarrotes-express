@@ -8,15 +8,11 @@ use App\Models\Marca;
 
 class MostrarMarca extends Component
 {
-    #[Url]
-    public $perPage = 9;
-    public $search = '';
+    public $perPage = 12;
 
     public function render()
     {
-        $marcas = Marca::where('nombre', 'like', '%' . $this->search . '%')
-            ->where('disponible', 1)
-            ->paginate($this->perPage);
+        $marcas = Marca::where('disponible', 1)->paginate($this->perPage);
 
         return view('livewire.mostrar-marca', [
             'marcas' => $marcas,

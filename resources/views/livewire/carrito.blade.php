@@ -197,7 +197,7 @@
                     @endif
                     @guest
                         <div class="mt-4">
-                            <p>Para agregar un cupón, por favor inicie sesión <a href="/login" class="text-blue-500 underline">aquí</a>.</p>
+                            <p>Para agregar un cupón, por favor inicie sesión <a href="{{ route('login') }}" class="text-blue-500 underline">aquí</a>.</p>
                         </div>
                     @endguest
                 </div>

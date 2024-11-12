@@ -12,6 +12,9 @@ class Perfil extends Component
     public $nombreUsuario;
 
 
+    public $notificaciones = [];
+
+
     public $contadorNuevo = 0;
     public $contadorProceso = 0;
     public $contadorEnviado = 0;
@@ -37,6 +40,24 @@ class Perfil extends Component
 
     }
 
+    public function obtenerNotificaciones()
+    {
+        $userId = Auth::id();
+
+        // Obtener las órdenes con estado cambiado recientemente
+        $this->notificaciones = Orden::where('user_id', $userId)
+            ->whereIn('estado_entrega', ['procesado', 'enviado', 'entregado'])
+            ->orderBy('updated_at', 'desc')
+            ->take(5)
+            ->get()
+            ->map(function ($orden) {
+                return [
+                    'mensaje' => "La orden #{$orden->id} ha cambiado a estado '{$orden->estado_entrega}'",
+                    'fecha' => $orden->updated_at->diffForHumans(),
+                ];
+            });
+    }
+
     public function redirigirOrdenes($estado)
     {
         return redirect()->route('ordenes', ['estado' => $estado]);
@@ -48,9 +69,8 @@ class Perfil extends Component
     {
 
         $this->nombreUsuario = Auth::user()->name;
-
-
         $this->actualizarContadores();
+        $this->obtenerNotificaciones();
     }
 
     public function actualizarContadores()

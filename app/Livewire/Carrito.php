@@ -38,7 +38,6 @@ class Carrito extends Component
         $this->actualizarCarrito();
         $this->elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
         $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
-
         // Obtener descuento y cupones aplicados de las cookies
         $descuento_data = CarritoManagement::obtenerDescuentoDeCookies();
         $this->descuento_total = $descuento_data['descuento_total'];
@@ -342,7 +341,7 @@ class Carrito extends Component
 
     public function actualizarCarrito()
     {
-        if ($this->usuario_autenticado && $this->cupones) {
+        if ($this->usuario_autenticado) {
             $this->cupones = Cupon::where('estado', true)
                 ->where('fecha_inicio', '<=', now())
                 ->where('fecha_expiracion', '>', now())
@@ -352,6 +351,7 @@ class Carrito extends Component
             $this->cupones = [];
         }
     }
+
 
     public function realizarPedido(){
         $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();

@@ -32,8 +32,8 @@
                     <div class="py-2 first:pt-0 last:pb-0">
                         <!-- Mostrar las notificaciones aquí -->
                         @forelse($notificaciones as $notificacion)
-                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
-                                <span class="icon-[material-symbols--notification-add] text-black text-3xl"></span>
+                            <a href="{{ route('mi_orden', ['id' => $notificacion['id']]) }}" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                                <span class="icon-[material-symbols--notification-add] text-black text-5xl"></span>
                                 <div class="text-sm text-black text-justify">
                                     <p>{{ $notificacion['mensaje'] }}</p>
                                     <span class="text-xs text-gray-500">{{ $notificacion['fecha'] }}</span>

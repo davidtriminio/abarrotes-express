@@ -44,7 +44,6 @@ class Perfil extends Component
     {
         $userId = Auth::id();
 
-        // Obtener las órdenes con estado cambiado recientemente
         $this->notificaciones = Orden::where('user_id', $userId)
             ->whereIn('estado_entrega', ['procesado', 'enviado', 'entregado'])
             ->orderBy('updated_at', 'desc')
@@ -52,11 +51,13 @@ class Perfil extends Component
             ->get()
             ->map(function ($orden) {
                 return [
+                    'id' => $orden->id,
                     'mensaje' => "La orden #{$orden->id} ha cambiado a estado '{$orden->estado_entrega}'",
                     'fecha' => $orden->updated_at->diffForHumans(),
                 ];
             });
     }
+
 
     public function redirigirOrdenes($estado)
     {

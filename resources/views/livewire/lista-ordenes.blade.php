@@ -36,7 +36,7 @@
                             </thead>
 
                             <tbody class="[&_tr:last-child]:border-0">
-                            @foreach($ordenes as $orden)
+                            @forelse($ordenes as $orden)
                                 @php
                                     $estado_orden = '';
                                      if($orden->estado_entrega == 'nuevo'){
@@ -121,11 +121,13 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $estado_orden !!}</td>
                                     <td class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right">
                                         <a href="{{ route('mi_orden', ['id' => $orden->id]) }}"
-                                           class="bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-500">Ver
+                                           class="bg-tarjeta text-white py-2 px-4 rounded-md hover:bg-blue-500">Ver
                                             Orden</a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                      <p>No hay ordenes aun hecha</p>
+                            @endforelse
 
                             </tbody>
                         </table>

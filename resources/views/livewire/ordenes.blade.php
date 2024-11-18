@@ -1,6 +1,7 @@
 <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" id="ordenDetalles">
+    <div>
     <h2 class="text-4xl font-bold text-gray-800 mb-4 text-center">Detalles de la Orden </h2>
-
+    <button class="mt-4 bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700">Devolucion</button></div>
     <div class="bg-white shadow-xl rounded-lg p-8 border border-gray-300">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
@@ -16,10 +17,25 @@
             </div>
         </div>
 
+
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Listado de los Producto de la orden</h3>
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 mt-2 shadow-md">
+            
+        @forelse ($orden->elementos as $elemento)
+        <li>
+        Producto: {{ $elemento->producto->nombre }} - Cantidad: {{ $elemento->cantidad }} , precio unitario L. {{$elemento->monto_unitario }}
+        </li>
+        @empty
+            <p>no hay productos registrado</p>
+        @endforelse
+            </div>
+        </div>
+
         <div class="mt-8">
             <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Resumen de la Orden</h3>
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 mt-2 shadow-md">
-            
+
                 <p><strong>Subtotal:</strong> <span class="text-gray-600">{{ number_format($orden->sub_total, 2) }}</span></p>
                 <p><strong>Total Final:</strong> <span class="text-gray-600">{{ number_format($orden->total_final, 2) }}</span></p>
                 <p><strong>Costos de Envío:</strong> <span class="text-gray-600">{{ number_format($orden->costos_envio, 2) }}</span></p>

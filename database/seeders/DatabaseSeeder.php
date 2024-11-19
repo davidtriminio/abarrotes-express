@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             ProductoTableSeeder::class,
             OrdenTableSeeder::class,
             ElementoOrdenTableSeeder::class,
-            LogSeeder::class,
         ]);
     }
 }

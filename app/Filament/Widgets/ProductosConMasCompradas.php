@@ -21,15 +21,14 @@ class ProductosConMasCompradas extends BaseWidget
         ->query(
             Producto::withCount('elementosOrden') // Nota: cambiado a plural
                 ->orderBy('elementos_orden_count', 'desc')
-                ->limit(5)
+                ->take(5)
         )
         ->columns([
             Tables\Columns\TextColumn::make('nombre')
                 ->label('Nombre del Producto'),
             Tables\Columns\TextColumn::make('elementos_orden_count')
-                ->label('Total de Órdenes'),
-        ])
-        ->paginated([5, 10, 50]);
+                ->label('Productos mas venido'),
+        ]);
     }
 
     

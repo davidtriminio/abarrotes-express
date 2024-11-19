@@ -38,6 +38,7 @@ class Carrito extends Component
         $this->actualizarCarrito();
         $this->elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
         $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
+
         // Obtener descuento y cupones aplicados de las cookies
         $descuento_data = CarritoManagement::obtenerDescuentoDeCookies();
         $this->descuento_total = $descuento_data['descuento_total'];
@@ -341,7 +342,7 @@ class Carrito extends Component
 
     public function actualizarCarrito()
     {
-        if ($this->usuario_autenticado) {
+        if ($this->usuario_autenticado && $this->cupones) {
             $this->cupones = Cupon::where('estado', true)
                 ->where('fecha_inicio', '<=', now())
                 ->where('fecha_expiracion', '>', now())
@@ -351,7 +352,6 @@ class Carrito extends Component
             $this->cupones = [];
         }
     }
-
 
     public function realizarPedido(){
         $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
@@ -371,12 +371,20 @@ class Carrito extends Component
         $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
         $orden->save();
         $orden->elementos()->createMany($elementos_carrito);
-        if ($orden->save()) {
-            CarritoManagement::quitarElementosCookies();
-            Mail::to($orden->user->email)->send(new \App\Mail\pedidoRealizado($orden));
-            session(['orden_id' => $orden->id]);
-            return redirect()->route('mi_orden', $orden->id);
-        }
+        /*$receptor_notificaciones = auth()->user()->hasPermissionTo('ver:notificaciones') ? auth()->user() : null;
+        if ($receptor_notificaciones) {
+            Notification::make('Orden creada correctamente.')->success()
+                ->title('Nueva orden')
+                ->body(\auth()->user()->name . ' ha creado una nueva orden.')
+                ->icon('heroicon-o-sparkles')
+                ->iconColor('info')
+                ->actions([
+                    ActionNotification::make('View')
+                        ->label('Ver Orden')
+                        ->url(OrdenResource::getUrl('view', ['record' => $orden])),
+                ])
+                ->sendToDatabase($receptor_notificaciones);
+        }*/
     }
 
 

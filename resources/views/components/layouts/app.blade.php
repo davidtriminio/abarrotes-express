@@ -9,13 +9,21 @@
     @livewireStyles
     <link rel="stylesheet" href="{{url(asset('css/styles/custom.css'))}}">
     <link rel="stylesheet" href="{{url(asset('css/styles/styles.css'))}}">
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+    @filamentStyles
 </head>
-<body>
+<body class="antialiased">
+@livewire('notifications')
 @livewire('complementos.navbar')
 <main>
     {{ $slot }}
 </main>
 @livewire('complementos.footer')
+@filamentScripts
 @livewireScripts
 <script src="{{url(asset('js/sweetalert2@11.js'))}}"></script>
 <x-livewire-alert::scripts />

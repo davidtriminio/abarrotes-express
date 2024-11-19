@@ -100,6 +100,8 @@ class RolesPermisosSeeder extends Seeder
 
         // ADMINS
         $permisoAdmin1 = Permission::create(['name' => 'ver:admin']);
+        /*Permisos Notificaciones*/
+        $permisoNotificaciones = Permission::create(['name' => 'ver:notificaciones']);
 
 
         // CREACIÓN DE ROLES
@@ -162,6 +164,7 @@ class RolesPermisosSeeder extends Seeder
             $permisoQySR,
             $permisoQySU,
             $permisoQySD,
+            $permisoNotificaciones,
         ]);
 
 
@@ -199,6 +202,7 @@ class RolesPermisosSeeder extends Seeder
             $permisoPromocionR,
             $permisoPromocionU,
             $permisoPromocionD,
+            $permisoNotificaciones,
         ]);
         $adminRole = Role::create(['name' => 'Gerente'])->syncPermissions([
             $permisoUsuarioC,
@@ -230,6 +234,7 @@ class RolesPermisosSeeder extends Seeder
             $permisoCuponU,
             $permisoCuponD,
             $permisoAdmin1,
+            $permisoNotificaciones,
         ]);
         $vendedorRol = Role::create(['name' => 'Vendedor'])->syncPermissions([
             $permisoUsuarioR,

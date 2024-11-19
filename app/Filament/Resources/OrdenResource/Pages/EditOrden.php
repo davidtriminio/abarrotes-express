@@ -5,7 +5,10 @@ namespace App\Filament\Resources\OrdenResource\Pages;
 use App\Filament\Resources\OrdenResource;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Notifications\Actions\Action as ActionNotification;
+use Spatie\Activitylog\Models\Activity;
 
 class EditOrden extends EditRecord
 {
@@ -33,6 +36,33 @@ class EditOrden extends EditRecord
                 ->icon('heroicon-o-trash'),
         ];
     }
+
+    protected function beforeSave(): void
+    {
+        // Desactiva temporalmente la creación de eventos automáticos
+        Activity::withoutEvents(function () {
+            // Registrar el evento manualmente
+            activity()
+                ->event('Actualización')
+                ->performedOn($this->record)
+                ->causedBy(auth()->user())
+                ->withProperties(['attributes' => $this->record->getChanges()])
+                ->log('Orden #' . $this->record->id . ' actualizada por ' . auth()->user()->name);
+        });
+    }
+
+    /*Notification::make('Cambios guardados correctamente.')
+           ->success()
+           ->title('Orden ' . $this->record->id . ' actualizada.')
+           ->body('La orden ' . $this->record->id . ' cambio ha estado ' . $this->record->estado_entrega . '.')
+           ->icon('heroicon-o-check-circle')
+           ->iconColor('success')
+           ->actions([
+               ActionNotification::make('Ver')
+                   ->label('Ver Orden')
+                   ->url(OrdenResource::getUrl('view', ['record' => $this->record])),
+           ])
+           ->sendToDatabase($this->record->user); // Aquí se usa solo el usuario asociado*/
 
     protected function getRedirectUrl(): string
     {

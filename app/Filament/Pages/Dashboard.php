@@ -16,6 +16,7 @@ class Dashboard extends \Filament\Pages\Dashboard
     protected static ?string $navigationLabel = 'Inicio';
     protected static ?string $navigationIcon = 'heroicon-o-home';
     protected static ?string $activeNavigationIcon = 'heroicon-s-home';
+    protected static string $view = 'filament.pages.dashboard';
 
     public function getWidgets(): array
     {

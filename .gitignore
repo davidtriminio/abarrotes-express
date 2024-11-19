@@ -20,3 +20,5 @@ yarn-error.log
 /.vscode
 a
 /public/css/styles/bad.css
+public/css/filament/
+public/js/filament/

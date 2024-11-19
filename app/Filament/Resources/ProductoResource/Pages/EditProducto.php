@@ -348,7 +348,7 @@ class EditProducto extends EditRecord
                                 'exists' => 'La categoría seleccionada no es válida.',
                             ]),
 
-                            DateTimePicker::make('fecha_expiracion')
+                            Forms\Components\DateTimePicker::make('fecha_expiracion')
                             ->required()
                             ->native(false)
                             ->displayFormat('Y/m/d H:i:s')

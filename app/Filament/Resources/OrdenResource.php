@@ -297,7 +297,8 @@ class OrdenResource extends Resource
                                     }
 
                                     foreach ($repeaters as $key => $repeater) {
-                                        $total += $get("elementos.{$key}.monto_total");
+                                        $monto = $get("elementos.{$key}.monto_total");
+                                        $total += is_numeric($monto) ? $monto : 0;
                                     }
 
                                     return $set('total_final', $total);

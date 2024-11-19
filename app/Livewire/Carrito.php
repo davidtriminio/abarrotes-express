@@ -2,15 +2,18 @@
 
 namespace App\Livewire;
 
+use App\Filament\Resources\OrdenResource;
 use App\Helpers\CarritoManagement;
 use App\Livewire\Complementos\Navbar;
 use App\Models\Orden;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use App\Models\Cupon;
+use Filament\Notifications\Actions\Action as ActionNotification;
 
 class Carrito extends Component
 {
@@ -237,7 +240,6 @@ class Carrito extends Component
         $this->alert('success', 'Cupón aplicado correctamente.');
 
 
-
         CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
 
 
@@ -353,7 +355,8 @@ class Carrito extends Component
         }
     }
 
-    public function realizarPedido(){
+    public function realizarPedido()
+    {
         $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
         $linea_items = [];
         $elementos_carrito = array_filter($elementos_carrito, function ($elemento) {
@@ -371,15 +374,21 @@ class Carrito extends Component
         $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
         $orden->save();
         $orden->elementos()->createMany($elementos_carrito);
-        if ($orden->save()) {
-            CarritoManagement::quitarElementosCookies();
-            Mail::to($orden->user->email)->send(new \App\Mail\pedidoRealizado($orden));
-            session(['orden_id' => $orden->id]);
-            return redirect()->route('mi_orden', $orden->id);
-        }
+        /*$receptor_notificaciones = auth()->user()->hasPermissionTo('ver:notificaciones') ? auth()->user() : null;
+        if ($receptor_notificaciones) {
+            Notification::make('Orden creada correctamente.')->success()
+                ->title('Nueva orden')
+                ->body(\auth()->user()->name . ' ha creado una nueva orden.')
+                ->icon('heroicon-o-sparkles')
+                ->iconColor('info')
+                ->actions([
+                    ActionNotification::make('View')
+                        ->label('Ver Orden')
+                        ->url(OrdenResource::getUrl('view', ['record' => $orden])),
+                ])
+                ->sendToDatabase($receptor_notificaciones);
+        }*/
     }
-
-
 
     public function render()
     {

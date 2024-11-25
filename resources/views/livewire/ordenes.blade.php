@@ -33,19 +33,41 @@
 
             <!-- Products List -->
             <div class="mt-8">
-                <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Listado de los Productos de la orden</h3>
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 mt-2 shadow-md">
-                    @forelse ($orden->elementos as $elemento)
-                        <li>
-                            Producto: {{ $elemento->producto->nombre }} - Cantidad: {{ $elemento->cantidad }} , precio unitario L. {{$elemento->monto_unitario }}
-                        </li>
-                    @empty
-                        <p>No hay productos registrados</p>
-                    @endforelse
-                </div>
-            </div>
-
-            <!-- Order Summary -->
+    <h3 class="text-2xl font-bold text-gray-800 border-b-2 border-blue-500 pb-2">
+        Listado de los Productos de la orden
+    </h3>
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unitario</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @forelse ($orden->elementos as $elemento)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">{{ $elemento->producto->nombre }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">{{ $elemento->cantidad }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">L. {{ $elemento->monto_unitario }}</div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="3" class="px-6 py-4 text-sm text-gray-500 text-center">No hay productos registrados</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div> 
+<!-- Order Summary -->
             <div class="mt-8">
                 <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Resumen de la Orden</h3>
                 <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 mt-2 shadow-md">

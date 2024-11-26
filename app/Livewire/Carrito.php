@@ -30,6 +30,7 @@ class Carrito extends Component
     public $cupon_a_reemplazar;
     public $nuevo_cupon_id;
 
+
     protected $listeners = ['userLoggedIn' => 'actualizarCarrito'];
 
     public function mount()
@@ -342,7 +343,7 @@ class Carrito extends Component
 
     public function actualizarCarrito()
     {
-        if ($this->usuario_autenticado && $this->cupones) {
+        if ($this->usuario_autenticado) {
             $this->cupones = Cupon::where('estado', true)
                 ->where('fecha_inicio', '<=', now())
                 ->where('fecha_expiracion', '>', now())

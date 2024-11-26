@@ -1,39 +1,40 @@
 <div class="container mx-auto py-8">
     <!-- Título centrado -->
-    <h1 class="text-4xl font-bold text-center mb-6 text-primary">MIS FAVORITOS</h1>
+    <div class="text-center mb-12 lg:mb-20 mt-16">
+        <h2 class="text-5xl font-bold mb-4"><span class="text-primary">Mis </span><span class="text-primary">Favoritos</span></h2>
+        <p class="my-7">Explora tu espacio personal, donde los productos que amas y los que aún no conoces te esperan. ¡Descubre, selecciona y hazlos tuyos!</p>
+    </div>
 
     <!-- Contenedor de tabla con productos -->
-    <div class="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
-        <table class="w-full border-separate border-spacing-y-3"> <!-- Tabla con espaciado entre filas -->
+    <div class="bg-white rounded-lg shadow-lg p-6 overflow-x-auto">
+        <table class="w-full border-separate border-spacing-y-4"> <!-- Tabla con espaciado entre filas -->
             <thead>
-            <tr class="border-b-4 border-gray-400"> <!-- Línea divisoria más gruesa entre el encabezado y el cuerpo -->
-                <th class="text-center font-semibold py-2 border-b-2 border-gray-300">Producto</th>
-                <th class="text-center font-semibold py-2 border-b-2 border-gray-300">Precio</th>
-                <th class="text-center font-semibold py-2 border-b-2 border-gray-300">Añadir</th>
+            <tr class="text-gray-600 bg-gray-100 text-sm uppercase font-medium">
+                <th class="py-3 px-6 text-left">Producto</th>
+                <th class="py-3 px-6 text-center">Precio</th>
+                <th class="py-3 px-6 text-center">Añadir</th>
             </tr>
             </thead>
             <tbody>
             @forelse($favoritos as $favorito)
-                <tr class="border-b border-gray-200 hover:bg-gray-100 transition duration-300"> <!-- Borde inferior y efecto hover -->
+                <tr class="transition-all duration-300 hover:bg-gray-50 border-b border-gray-200">
                     <!-- Columna de producto con imagen y nombre -->
-                    <td class="py-4">
-                        <div class="flex items-center">
-                            <img class="h-16 w-16 mr-4 rounded-md object-cover"
-                                 src="{{ isset($favorito->producto->imagenes[0]) ? url('storage', $favorito->producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
-                                 alt="{{ $favorito->producto->nombre }}">
-                            <span class="font-semibold text-primary">{{ $favorito->producto->nombre }}</span>
-                        </div>
+                    <td class="py-4 px-6 flex items-center space-x-4">
+                        <img class="h-16 w-16 rounded-lg object-cover shadow-sm"
+                             src="{{ isset($favorito->producto->imagenes[0]) ? url('storage', $favorito->producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
+                             alt="{{ $favorito->producto->nombre }}">
+                        <span class="font-semibold text-gray-800">{{ $favorito->producto->nombre }}</span>
                     </td>
 
                     <!-- Columna de precio -->
-                    <td class="py-4 text-center">
-                        <span class="text-lg font-bold text-primary">L. {{ $favorito->producto->precio }}</span>
+                    <td class="py-4 px-6 text-center">
+                        <span class="text-lg font-bold text-gray-800">L. {{ $favorito->producto->precio }}</span>
                     </td>
 
                     <!-- Columna de botón para agregar al carrito -->
-                    <td class="py-4 text-center">
+                    <td class="py-4 px-6 text-center">
                         <button wire:click="agregarAlCarrito({{ $favorito->producto->id }})"
-                                class="bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 hover:bg-blue-600">
+                                class="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-sm transition-all duration-200 hover:bg-blue-600">
                             <span wire:loading.remove wire:target='agregarAlCarrito({{ $favorito->producto->id }})'>Añadir al carrito</span>
                             <span wire:loading wire:target="agregarAlCarrito({{ $favorito->producto->id }})">Agregando...</span>
                         </button>
@@ -48,10 +49,9 @@
         </table>
     </div>
 
+
     <!-- Paginación con divisoria superior -->
     @if ($favoritos->isNotEmpty())
-        <hr class="my-6 border-gray-300"> <!-- Línea divisoria -->
-
         <div class="mt-4 text-right">
             <nav aria-label="Page navigation">
                 <ul class="flex justify-center space-x-2">

@@ -59,6 +59,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/perfil', \App\Livewire\Perfil::class)->name('perfil');
 
+    Route::get('/notificaciones', \App\Livewire\Notificaciones::class)->name('notificaciones');
+
     Route::get('/favoritos', \App\Livewire\Favoritos::class)->name('favoritos');
 
     Route::get('/editarperfil', \App\Livewire\EditarPerfil::class)->name('editarperfil');

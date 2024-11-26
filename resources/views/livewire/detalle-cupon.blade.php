@@ -1,44 +1,44 @@
 <div class="container-cupones">
-    <h1 class="cupon-titulo">TUS CUPONES</h1>
-
-    <div class="cupones-grid">
-        @forelse($cupones as $cupon)
-            <div class="cupon-card">
-                <div class="cupon-header">
-                    <h2 class="cupon-descuento">Descuento: {{ $cupon->descuento }}</h2>
-                    <p class="cupon-expiracion">Expira: {{ $cupon->fecha_expiracion }}</p>
-                    <!-- Agregar restricciones de compra debajo de la fecha de expiración -->
-                    <div class="cupon-restricciones">
-                        @if($cupon->compra_minima || $cupon->compra_cantidad)
-                            @if($cupon->compra_minima)
-                                <p class="restriccion">Válido para compras mínimas a L. {{ $cupon->compra_minima }}</p>
-                            @endif
-                            @if($cupon->compra_cantidad)
-                                <p class="restriccion">Válido para la compra de {{ $cupon->compra_cantidad }} productos</p>
-                            @endif
-                        @else
-                            <p class="restriccion">Válido únicamente si el total del carrito es mayor o igual al descuento.</p>
-                        @endif
-                    </div>
-                    <!-- Fin de restricciones de compra -->
-                </div>
-
-                <div class="cupon-body">
-                    <p class="cupon-codigo">Código: <span>{{ $cupon->codigo }}</span></p>
-                    <a class="cupon-usar-btn" href="{{ route('carrito') }}">Ir al Carrito</a>
-                </div>
-
-
-            </div>
-        @empty
-            <h1>Todavía no tienes cupones.</h1>
-        @endforelse
+    <!-- Título centrado -->
+    <div class="text-center mb-12 lg:mb-20 mt-12">
+        <h2 class="text-5xl font-bold mb-4"><span class="text-primary">Mis </span><span class="text-primary">Cupones</span></h2>
+        <p class="my-7">Descubre todos tus cupones disponibles y conoce sus restricciones para aprovecharlos al máximo.</p>
     </div>
 
-    <!-- Paginación con divisoria superior -->
-    @if ($cupones->isNotEmpty())
-        <hr class="my-6 border-gray-300"> <!-- Línea divisoria -->
+    <!-- Contenedor de cupones dentro de una gran tarjeta -->
+    <div class="cupones-contenedor">
+        <div class="cupones-grid">
+            @forelse($cupones as $cupon)
+                <div class="cupon-card">
+                    <div class="cupon-header">
+                        <h2 class="cupon-descuento">Descuento: {{ $cupon->descuento }}</h2>
+                        <p class="cupon-expiracion">Expira: {{ $cupon->fecha_expiracion }}</p>
+                        <div class="cupon-restricciones">
+                            @if($cupon->compra_minima || $cupon->compra_cantidad)
+                                @if($cupon->compra_minima)
+                                    <p class="restriccion">Válido para compras mínimas a L. {{ $cupon->compra_minima }}</p>
+                                @endif
+                                @if($cupon->compra_cantidad)
+                                    <p class="restriccion">Válido para la compra de {{ $cupon->compra_cantidad }} productos</p>
+                                @endif
+                            @else
+                                <p class="restriccion">Válido únicamente si el total del carrito es mayor o igual al descuento.</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="cupon-body">
+                        <p class="cupon-codigo">Código: <span>{{ $cupon->codigo }}</span></p>
+                        <a class="cupon-usar-btn" href="{{ route('carrito') }}">Ir al Carrito</a>
+                    </div>
+                </div>
+            @empty
+                <h1>Todavía no tienes cupones.</h1>
+            @endforelse
+        </div>
+    </div>
 
+    <!-- Paginación -->
+    @if ($cupones->isNotEmpty())
         <div class="mt-4 text-right">
             <nav aria-label="Page navigation">
                 <ul class="flex justify-center space-x-2">

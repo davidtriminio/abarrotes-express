@@ -317,6 +317,30 @@
 }
 
 
+.mensaje-no-cupones {
+    grid-column: 1 / -1; /* Ocupa todo el ancho del grid */
+    font-size: 24px; /* Tamaño de fuente más grande */
+    font-weight: bold; /* Texto en negrita */
+    color: #1e3a5f; /* Azul oscuro */
+    text-align: center; /* Centra el texto */
+    padding: 20px; /* Espaciado interno */
+    background-color: #f1f5f9; /* Fondo claro */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+
+
+.cupones-contenedor {
+    background-color: #f9fafb; /* Fondo claro */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin: 20px auto;
+    max-width: 1200px; /* Aumenta el ancho máximo */
+}
+
+
 
 
 /*Estilos usados*/
@@ -1292,19 +1316,24 @@ body {
     padding: 20px 30px;
     background-color: #f9f9f9;
     flex-wrap: wrap;
+    gap:20px;
 }
 
 .tarjeta {
     background-color: #fff;
     border-radius: 12px;
     padding: 20px;
-    width: 22%;
+    width: 23%;
     height: 20%;
     text-align: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
 }
+
+
+
+
 
 .tarjeta:hover {
     transform: translateY(-10px);
@@ -1596,8 +1625,12 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #f8fafc; /* bg-gray-50 */
-    padding: 2rem; /* Espaciado alrededor del formulario */
+    padding: 3rem; /* Espaciado alrededor del formulario */
+    flex-direction: column; /* Para asegurarnos de que los elementos estén en columna */
 }
+
+
+
 
 /* Tarjeta del formulario */
 .tarjeta-formulario {
@@ -1606,19 +1639,14 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* sombra elegante */
     padding: 2.5rem; /* p-10 */
     width: 100%;
-    max-width: 32rem; /* max-w-xl */
-    border-top: 4px solid #3b82f6; /* borde superior en azul */
-    animation: fadeIn 0.5s ease-in-out; /* Animación de aparición */
+    max-width: 48rem; /* Incrementamos el ancho máximo a 48rem */
+    border-top: 4px solid #1f2937; /* borde superior en azul */
+    margin-top: 1rem; /* Reducimos el margen superior */
 }
 
-/* Título del formulario */
-.titulo-formulario {
-    font-size: 2rem; /* text-4xl */
-    font-weight: 700; /* font-bold */
-    margin-bottom: 2rem; /* mb-8 */
-    text-align: center;
-    color: #1e293b; /* text-gray-800 */
-    position: relative;
+/* Título */
+.text-center {
+    margin-bottom: 1.5rem; /* Reducimos el margen inferior */
 }
 
 /* Input de formulario */
@@ -1644,7 +1672,7 @@ body {
     color: #dc2626; /* text-red-600 */
     font-size: 0.875rem; /* text-sm */
     margin-top: 0.25rem; /* mt-1 */
-    font-style: italic;
+    font-style: normal; /* Letra normal */
 }
 
 /* Botón */
@@ -1657,7 +1685,7 @@ body {
     font-weight: 600; /* font-semibold */
     text-align: center;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease; /* Solo animación de hover */
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1669,35 +1697,11 @@ body {
 /* Efecto hover para el botón */
 .boton-guardar:hover {
     background-color: #2563eb; /* hover:bg-blue-600 */
-    transform: translateY(-2px);
 }
 
 .boton-guardar:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* focus:ring */
-}
-
-/* Icono de carga */
-.icono-carga {
-    margin-left: 0.5rem;
-    width: 1rem; /* w-4 */
-    height: 1rem; /* h-4 */
-    border-top: 2px solid #ffffff;
-    border-right: 2px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-/* Animación de aparición */
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(-20px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Animación de carga */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }
 
 /* Enlace volver al perfil */
@@ -1709,9 +1713,12 @@ body {
     transition: color 0.3s ease;
 }
 
-.enlace-perfil:hover {
-    color: #2563eb;
-}
+
+
+
+
+
+
 
 /* Espaciado de entradas */
 .espaciado-entrada {
@@ -1733,9 +1740,21 @@ body {
 
 
 
-/* Estilos para la sección de reportes de problemas */
+/* Estilos para la tarjeta */
+.qsrp-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Estilos para los grupos de formulario */
 .qsrp-container {
-    max-width: 800px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -1748,21 +1767,13 @@ body {
     margin-bottom: 20px;
 }
 
-.qsrp-success-message {
-    background-color: #d1fae5;
-    color: #065f46;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 15px;
-}
-
 .qsrp-form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .qsrp-form-label {
     display: block;
-    color: #4a5568; /
+    color: #4a5568;
     margin-bottom: 5px;
 }
 
@@ -1772,30 +1783,46 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
 }
 
 .qsrp-form-input {
-    height: 40px;
+    height: 45px;
 }
 
 .qsrp-form-textarea {
-    height: 120px;
+    height: 150px;
 }
 
 .qsrp-submit-button {
     background-color: #4299e1;
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .qsrp-submit-button:hover {
     background-color: #3182ce;
 }
+
+/* Estilos para los contadores de caracteres */
+.text-right {
+    text-align: right;
+}
+
+.text-gray-600 {
+    color: #718096;
+}
+
+/* Mensaje de error */
+.text-red-500 {
+    color: #e53e3e;
+}
+
+
 
 
 .truncate-title {
@@ -1813,6 +1840,35 @@ body {
     text-overflow: ellipsis;
 
 }
+
+
+#quantity {
+    margin: 0 10px;
+    width: 50px;
+    height: 40px;
+    font-size: 1.5rem;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+#decrease, #increase {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+#decrease:hover, #increase:hover {
+    background-color: #e2e8f0;
+    color: #2d3748;
+}
+
 
 
 

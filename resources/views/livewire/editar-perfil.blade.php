@@ -1,7 +1,13 @@
 <div class="contenedor-editar-perfil">
-    <div class="tarjeta-formulario">
-        <h2 class="titulo-formulario">Editar Perfil</h2>
 
+    <div class="text-center mb-12 lg:mb-20 mt-12">
+        <h2 class="text-5xl font-bold mb-4"><span class="text-primary">Editar </span><span class="text-primary">Perfil</span></h2>
+        <p class="my-7">Actualiza tus datos personales y cambia tu contraseña de forma segura.</p>
+    </div>
+
+
+    <div class="tarjeta-formulario">
+        <!-- Formulario -->
         <form wire:submit.prevent="actualizarPerfil" class="space-y-6">
             <!-- Campo de Nombre -->
             <div class="espaciado-entrada">
@@ -11,7 +17,7 @@
                     id="nombre"
                     wire:model="nombre"
                     class="input-formulario"
-                    placeholder="Ingrese su nombre">
+                    placeholder="Ingrese su nombre" maxlength="60">
                 @error('nombre')
                 <span class="texto-error">{{ $message }}</span>
                 @enderror
@@ -77,8 +83,7 @@
             <div class="flex justify-between items-center mt-8">
                 <a href="{{ route('perfil') }}" class="enlace-perfil">Volver al perfil</a>
                 <button type="submit" class="boton-guardar" wire:loading.attr="disabled">
-                    <span wire:loading.remove wire:target="actualizarPerfil">Guardar Cambios</span>
-                    <div wire:loading wire:target="actualizarPerfil" class="icono-carga"></div>
+                    Guardar Cambios
                 </button>
             </div>
         </form>

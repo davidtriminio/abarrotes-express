@@ -1,7 +1,8 @@
 <div>
     <!-- Footer -->
-    <footer class="border-t border-gray-line">
-        <!-- Top part -->
+    <footer class="border-t border-gray-line mt-16">
+
+    <!-- Top part -->
         <div class="container mx-auto px-4 py-10">
             <div class="flex flex-wrap place-content-between mx-4 w-full">
                 <!-- Menu 2 -->

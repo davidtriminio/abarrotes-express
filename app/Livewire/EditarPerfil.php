@@ -27,17 +27,19 @@ class EditarPerfil extends Component
     {
         // Validaciones
         $rules = [
-            'nombre' => 'nullable|string|max:255',
+            'nombre' => 'nullable|string|max:60|regex:/^[a-zA-Z0-9_ áéíóúñÑ]+$/',
             'telefono' => 'nullable|string|max:8|unique:users,telefono,' . Auth::id(),
             'current_password' => 'required|string', // Ahora siempre es obligatorio
-            'new_password' => 'nullable|string|confirmed',
+            'new_password' => 'nullable|string|confirmed|min:8|max:30', // Validación para la nueva contraseña
         ];
 
         $this->validate($rules, [
-            'nombre.max' => 'El nombre no puede tener más de 255 caracteres.',
+            'nombre.max' => 'El nombre no puede tener más de 60 caracteres.',
             'telefono.unique' => 'Este número de teléfono ya está registrado.',
             'current_password.required' => 'Debe proporcionar su contraseña actual para realizar cualquier cambio.',
             'new_password.confirmed' => 'La nueva contraseña y su confirmación no coinciden.',
+            'new_password.min' => 'La contraseña no puede tener menos de 8 caracteres.',
+            'new_password.max' => 'La contraseña no puede tener más de 30 caracteres.', // Mensaje personalizado para max
         ]);
 
         // Verificar la contraseña actual para cualquier cambio

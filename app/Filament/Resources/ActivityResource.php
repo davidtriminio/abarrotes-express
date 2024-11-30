@@ -2,8 +2,12 @@
 
 namespace Z3d0X\FilamentLogger\Resources;
 
+use App\Filament\Exports\ActivityExporter;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Forms\Form;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
@@ -161,6 +165,27 @@ class ActivityResource extends Resource
                     ->label(__('filament-logger::filament-logger.resource.label.logged_at'))
                     ->dateTime(config('filament-logger.datetime_format', 'd/m/Y H:i:s'), config('app.timezone'))
                     ->sortable(),
+            ])
+            ->headerActions([
+                ExportAction::make('Exportar')
+                    ->label('Exportar y limpiar el Log')
+                    ->fileName(fn (): string => "reporte-" . Carbon::now()->toDateTimeString())
+                    ->maxRows(50000)
+                    ->fileDisk('public')
+                    ->formats([
+                        ExportFormat::Xlsx,
+                    ])
+                    ->exporter(ActivityExporter::class)
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->visible(fn (): bool => \Spatie\Activitylog\Models\Activity::query()->exists())
+                    ->after(function () {
+                        if (!\Spatie\Activitylog\Models\Activity::query()->count()) {
+                            session()->flash('error', 'No hay datos para exportar.');
+                            return redirect(ActivityResource::getUrl('index'));
+                        }
+                        ActivityExporter::cleanUpLogs();
+                        return redirect(ActivityResource::getUrl('index'));
+                    }),
             ])
             ->defaultSort('created_at', 'desc')
             ->bulkActions([]);

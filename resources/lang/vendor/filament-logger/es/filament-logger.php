@@ -10,7 +10,7 @@ return [
 
     'nav.group' => 'Ajustes',
     'nav.log.label' => 'Logs',
-    'nav.log.icon' => 'heroicon-o-clipboard-document-list',
+    'nav.log.icon' => 'heroicon-o-clipboard-document',
     'resource.label.log' => 'Registro de actividad',
     'resource.label.logs' => 'Registros de actividad',
     'resource.label.user' => 'Usuario',

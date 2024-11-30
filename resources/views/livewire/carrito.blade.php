@@ -4,6 +4,16 @@
         <div class="flex flex-col md:flex-row gap-4">
             <div class="md:w-3/4">
                 <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
+                    @if ($errors->any())
+                        <!-- Muestra todos los errores capturados -->
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     @if($elementos_carrito)
                         {{--Alerta de información--}}
                         <div class="bg-blue-50 border border-blue-200 text-gray-800 rounded-lg p-4 mb-2" role="alert" tabindex="-1" aria-labelledby="hs-actions-label">

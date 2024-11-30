@@ -2,15 +2,18 @@
 
 namespace App\Livewire;
 
+use App\Filament\Resources\OrdenResource;
 use App\Helpers\CarritoManagement;
 use App\Livewire\Complementos\Navbar;
 use App\Models\Orden;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use App\Models\Cupon;
+use Filament\Notifications\Actions\Action as ActionNotification;
 
 class Carrito extends Component
 {
@@ -371,24 +374,24 @@ class Carrito extends Component
         $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
         $orden->save();
         $orden->elementos()->createMany($elementos_carrito);
-        /*$receptor_notificaciones = auth()->user()->hasPermissionTo('ver:notificaciones') ? auth()->user() : null;
-        if ($receptor_notificaciones) {
+        if ($orden->save()) {
+            CarritoManagement::quitarElementosCookies();
             Notification::make('Orden creada correctamente.')->success()
-                ->title('Nueva orden')
-                ->body(\auth()->user()->name . ' ha creado una nueva orden.')
-                ->icon('heroicon-o-sparkles')
-                ->iconColor('info')
+                ->title(\auth()-> user()->name . ' ha realizado una nueva orden')
+                ->body('El pedido se ha creado con éxito.')
                 ->actions([
                     ActionNotification::make('View')
                         ->label('Ver Orden')
                         ->url(OrdenResource::getUrl('view', ['record' => $orden])),
                 ])
-                ->sendToDatabase($receptor_notificaciones);
-        }*/
+                ->sendToDatabase($orden->user);
+            Mail::to($orden->user->email)->send(new \App\Mail\pedidoRealizado($orden));
+            session(['orden_id' => $orden->id]);
+            return redirect()->route('mi_orden', $orden->id);
+        } else {
+            return redirect()->back()->withErrors('Error al crear el pedido. Por favor, inténtalo de nuevo.');
+        }
     }
-
-
-
     public function render()
     {
         return view('livewire.carrito');

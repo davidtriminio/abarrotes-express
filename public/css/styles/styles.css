@@ -1814,7 +1814,16 @@ body {
 
 }
 
+/*Estilos para flechas dropdown*/
+.appearance-none {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
 
+.leading-tight {
+    line-height: 1.25;
+}
 
 
 

@@ -51,19 +51,6 @@ class EditOrden extends EditRecord
         });
     }
 
-    /*Notification::make('Cambios guardados correctamente.')
-           ->success()
-           ->title('Orden ' . $this->record->id . ' actualizada.')
-           ->body('La orden ' . $this->record->id . ' cambio ha estado ' . $this->record->estado_entrega . '.')
-           ->icon('heroicon-o-check-circle')
-           ->iconColor('success')
-           ->actions([
-               ActionNotification::make('Ver')
-                   ->label('Ver Orden')
-                   ->url(OrdenResource::getUrl('view', ['record' => $this->record])),
-           ])
-           ->sendToDatabase($this->record->user); // Aquí se usa solo el usuario asociado*/
-
     protected function getRedirectUrl(): string
     {
         return $this->previousUrl ?? $this->getResource()::getUrl('index');

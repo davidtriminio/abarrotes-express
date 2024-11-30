@@ -193,7 +193,7 @@
                     productos de higiene personal, artículos para uso doméstico y productos de limpieza.
                 </p>
                 <p>
-                    En Abarrote Express nos enorgullece ofrecer una amplia variedad de marcas y productos para
+                    En Abarrotes Express nos enorgullece ofrecer una amplia variedad de marcas y productos para
                     satisfacer todos los gustos y necesidades. Nuestro objetivo es brindarte una experiencia de compra
                     conveniente y satisfactoria,
                     con precios competitivos y un servicio amigable.

@@ -88,12 +88,14 @@
                     <p>Editar mis datos</p>
                 </div>
             </a>
-            <a href="#" class="tarjeta">
+
+            <a href="{{ route('notificaciones') }}" class="tarjeta">
                 <div class="texto-tarjeta" style="text-align: center;">
-                    <span class="icon-[streamline--payment-10]"></span>
-                    <p>Métodos de pago</p>
+                    <span class="icon-[mdi--bell-alert-outline]"></span>
+                    <p>Todas las notificaciones</p>
                 </div>
             </a>
+
             <a  class="tarjeta" onclick="abrirVentanaYDescargar()">
                 <div class="texto-tarjeta" style="text-align: center;">
                     <span class="icon-[charm--padlock]"></span>

@@ -16,7 +16,8 @@
         "livewire/livewire": "^3.5",
         "spatie/laravel-activitylog": "^4.9",
         "spatie/laravel-permission": "^6.9",
-        "z3d0x/filament-logger": "^0.7.2"
+        "z3d0x/filament-logger": "^0.7.2",
+        "ext-zip": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

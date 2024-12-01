@@ -1,0 +1,124 @@
+/* Contenedor principal */
+.container {
+    max-width: 80rem; /* Equivalente a max-w-5xl */
+}
+
+/* Pantalla principal */
+.screen {
+    min-height: 100vh; /* Equivalente a min-h-screen */
+    background-color: #0B0F15;
+    color: #ffffff;
+    padding: 1.5rem;
+}
+
+/* Contenido central */
+.content {
+    max-width: 80rem; /* Equivalente a max-w-5xl */
+    margin: 0 auto;
+}
+
+/* Encabezado */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-size: 1.5rem; /* Equivalente a text-2xl */
+    font-weight: 600; /* Equivalente a font-semibold */
+}
+
+/* Descripción */
+.description {
+    color: #A0AEC0; /* Equivalente a text-gray-400 */
+    margin-bottom: 1.5rem;
+}
+
+/* Acciones */
+.actions {
+    margin-bottom: 2rem;
+}
+
+/* Botón primario */
+.btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #1A1F26;
+    color: #ffffff;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #272d36;
+}
+
+/* Botón de Descargar - color verde */
+.btn-download {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #38A169; /* Color verde */
+    color: #ffffff;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-download:hover {
+    background-color: #2F855A; /* Verde más oscuro en hover */
+}
+
+/* Botón de Eliminar - color rojo */
+.btn-delete {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #E53E3E; /* Color rojo */
+    color: #ffffff;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-delete:hover {
+    background-color: #C53030; /* Rojo más oscuro en hover */
+}
+
+/* Item de backup */
+.backup-item {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    align-items: center;
+    background-color: #1A1F26;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    transition: background-color 0.3s;
+}
+
+.backup-item:hover {
+    background-color: #272d36;
+}
+
+/* Información de backup */
+.backup-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.backup-name {
+    font-size: 0.875rem; /* Equivalente a text-sm */
+    color: #ffffff;
+}
+
+/* Iconos */
+.icon {
+    height: 1rem; /* Equivalente a h-4 */
+    width: 1rem; /* Equivalente a w-4 */
+}

@@ -40,22 +40,22 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unitario</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Producto</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Cantidad</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Precio Unitario</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($orden->elementos as $elemento)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">{{ $elemento->producto->nombre }}</div>
+                        <td class="px-6 py-4 ">
+                            <div class="text-sm text-gray-700">{{ $elemento->producto->nombre }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">{{ $elemento->cantidad }}</div>
+                            <div class="text-sm text-gray-700">{{ $elemento->cantidad }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">L. {{ $elemento->monto_unitario }}</div>
+                            <div class="text-sm text-gray-700">L. {{ $elemento->monto_unitario }}</div>
                         </td>
                     </tr>
                 @empty

@@ -50,11 +50,11 @@ class PermissionResource extends Resource
                         ->required()
                         ->unique(),
                     Placeholder::make('created_at')
-                        ->label('Created Date')
+                        ->label('Fecha de creación')
                         ->content(fn(?Permission $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                     Placeholder::make('updated_at')
-                        ->label('Last Modified Date')
+                        ->label('Fecha de modificación')
                         ->content(fn(?Permission $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                 ])->columns(3)
             ]);

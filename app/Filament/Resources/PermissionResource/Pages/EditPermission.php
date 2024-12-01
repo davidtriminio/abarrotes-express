@@ -5,7 +5,12 @@ namespace App\Filament\Resources\PermissionResource\Pages;
 use App\Filament\Resources\PermissionResource;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
+use Spatie\Permission\Models\Permission;
 
 class EditPermission extends EditRecord
 {
@@ -36,5 +41,24 @@ class EditPermission extends EditRecord
                 })
                 ->icon('heroicon-o-trash'),
         ];
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make([
+                    TextInput::make('Nombre del permiso')
+                        ->required()
+                        ->unique(),
+                    Placeholder::make('created_at')
+                        ->label('Fecha de creación')
+                        ->content(fn(?Permission $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+
+                    Placeholder::make('updated_at')
+                        ->label('Fecha de modificación')
+                        ->content(fn(?Permission $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                ])->columns(3)
+            ]);
     }
 }

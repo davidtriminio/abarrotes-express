@@ -332,4 +332,13 @@ class ActivityResource extends Resource
     {
         return __('filament-logger::filament-logger.nav.log.icon');
     }
+
+    public static function canAccess(): bool
+    {
+        if (auth()->user()->hasPermissionTo('ver:logs')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -14,7 +14,7 @@
             display: none !important;
         }
     </style>
-    @filamentStyles
+    <!--@filamentStyles-->
 </head>
 <body class="antialiased">
 @livewire('notifications')

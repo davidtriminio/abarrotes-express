@@ -35,8 +35,9 @@ class CambiarContrasena extends Component
         return view('livewire.auth.cambiar-contrasena');
     }
 
-    public function cambiarContrasena()
+    public function cambiarContrasena()  
     {
+
         // Validación de los campos de la nueva contraseña
         $this->validate([
             'new_password' => 'required|min:8|max:30|regex:/[A-Z]/|regex:/[a-z]/|regex:/[\W]+/',
@@ -44,6 +45,8 @@ class CambiarContrasena extends Component
         ], [
             'new_password.regex' => 'La contraseña debe contener al menos una mayúscula, una minúscula y un carácter especial.',
             'confirm_password.same' => 'La confirmación de la contraseña no coincide.',
+            'new_password.max' => 'La contraseña no puede tener más 30 caracteres.',
+            'new_password.min' => 'La contraseña no puede tener menos de 8 caracteres.',
         ]);
 
         $user = null;

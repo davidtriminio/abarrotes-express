@@ -14,9 +14,11 @@ use App\Models\Ordenes;
 class ProductosQueVanAVencer extends BaseWidget
 {
     protected static bool $isLazy=false;
+
     
     public function table(Table $table): Table
     {
+        
         $hoy = Carbon::now(); // Obtiene la fecha actual
         $quinceDiasDesdeAhora = $hoy->copy()->addDays(15); // Calcula la fecha dentro de 15 días
         return $table

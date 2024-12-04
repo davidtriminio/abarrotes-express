@@ -30,7 +30,7 @@
             </div>
             <div class="qsrp-form-group">
                 <label class="qsrp-form-label">Descripción</label>
-                <textarea wire:model="descripcion" class="qsrp-form-textarea" maxlength="700" required oninput="updateCharacterCount(this)"></textarea>
+                <textarea wire:model="descripcion" class="qsrp-form-textarea" maxlength="500" required oninput="updateCharacterCount(this)"></textarea>
                 <div class="text-right">
                     <span id="charCount" class="text-gray-600">
                         <span id="remainingCount">500</span>/500 caracteres restantes

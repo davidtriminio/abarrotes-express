@@ -3,8 +3,6 @@
 namespace App\Livewire;
 
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-
-// Importar la clase
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
@@ -12,8 +10,6 @@ use ZipArchive;
 class Backup extends Component
 {
     use LivewireAlert;
-
-    // Agregar el trait LivewireAlert
 
     public $backups = [];
 
@@ -29,62 +25,83 @@ class Backup extends Component
 
     public function crearBackup()
     {
-        // Obtener los valores de las variables de entorno
         $dbHost = env('DB_HOST');
-        $dbUsername = env('DB_USERNAME');
-        $dbPassword = env('DB_PASSWORD');
-        $dbDatabase = env('DB_DATABASE');
+        $usuarioBD = env('DB_USERNAME');
+        $contraseniaDB = env('DB_PASSWORD');
+        $basededatosUsada = env('DB_DATABASE');
 
-        // Definir el nombre del archivo de respaldo SQL
         $timestamp = now()->format('Ymd_His');
-        $sqlFilename = "backup_{$timestamp}.sql";
-        $path = storage_path("app/backups/{$sqlFilename}");
+        $archivoSQL = "backup_{$timestamp}.sql";
+        $rutadelSQL = storage_path("app/backups/{$archivoSQL}");
 
-        // Comando para generar el backup de la base de datos usando las variables de entorno
-        $command = "mysqldump --user={$dbUsername} --password={$dbPassword} --host={$dbHost} {$dbDatabase} > {$path}";
+        $command = "mysqldump --user={$usuarioBD} --password={$contraseniaDB} --host={$dbHost} {$basededatosUsada} > {$rutadelSQL}";
 
-        // Ejecutar el comando mysqldump
-        exec($command);
-
-        // Crear un archivo ZIP para comprimir tanto el SQL como los archivos de la carpeta 'public'
-        $zipFilename = "backup_{$timestamp}.zip";
-        $zipPath = storage_path("app/backups/{$zipFilename}");
-
-        $zip = new ZipArchive();
-        if ($zip->open($zipPath, ZipArchive::CREATE) === TRUE) {
-            // Añadir el archivo SQL al ZIP
-            $zip->addFile($path, $sqlFilename);
-
-            // Obtener los archivos de la carpeta 'public'
-            $publicPath = storage_path('app/public');
-            $files = $this->getFilesFromDirectory($publicPath);
-
-            // Añadir archivos al ZIP manteniendo solo la estructura de carpetas dentro de 'public'
-            foreach ($files as $file) {
-                $relativePath = str_replace(storage_path('app/public') . DIRECTORY_SEPARATOR, '', $file);
-                $folderName = basename(dirname($relativePath));
-                $zip->addEmptyDir($folderName);
-                $zip->addFile($file, "$folderName/" . basename($file));
+        /*Validamos  que los datos de conexión a la base de datos sean correctos*/
+        try {
+            exec($command, $output, $result);
+            if ($result !== 0) {
+                throw new \Exception("Error al ejecutar mysqldump. Verifica las credenciales o la configuración del entorno.");
             }
-            // Cerrar el archivo ZIP
-            $zip->close();
+        } catch (\Exception $e) {
+            $this->alert('error', $e->getMessage(), [
+                'position' => 'bottom-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+            return;
         }
+        /*Definimios el nombre del archivo ZIP y la ruta donde se guardará*/
+        $nombreZip = "backup_{$timestamp}.zip";
+        $rutaZip = storage_path("app/backups/{$nombreZip}");
 
-        // Eliminar el archivo SQL no comprimido si lo deseas
-        unlink($path);
+        /*Creamos el ZIP y lo abrimos para agregar los archivos*/
+        $zip = new ZipArchive();
+        if ($zip->open($rutaZip, ZipArchive::CREATE) === TRUE) {
 
-        $this->cargarBackups(); // Actualiza la lista de backups
+            $zip->addFile($rutadelSQL, $archivoSQL);
 
-        // Mostrar alerta con LivewireAlert
+            /*Crear el directiorio 'app/public' dentro del ZIP*/
+            $zip->addEmptyDir('app/public');
+
+            /*Agregar las carpetas y archivos dentro de ellas*/
+            $folders = ['categorias', 'marcas', 'productos'];
+            foreach ($folders as $folder) {
+                $rutaCarpeta = storage_path("app/public/{$folder}");
+                if (is_dir($rutaCarpeta)) {
+                    $files = $this->obtenerDirectorioArchivos($rutaCarpeta);
+                    foreach ($files as $file) {
+                       /*Mover los archivos dentro de la carpeta que le corresponde*/
+                        if ($folder === 'marcas') {
+                            $relativePath = "app/public/marca/" . basename($file);
+                        } else {
+                            $relativePath = "app/public/{$folder}/" . basename($file);
+                        }
+                        $zip->addFile($file, $relativePath);
+                    }
+                }
+            }
+            /*Cerramos el archivo ZIP*/
+            $zip->close();
+        } else {
+            $this->alert('error', 'No se pudo crear el archivo ZIP.', [
+                'position' => 'bottom-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+            return;
+        }
+        /*Eliminamos el archivo SQL no comprimido*/
+        unlink($rutadelSQL);
+        $this->cargarBackups();
+
         $this->alert('success', 'Backup creado y comprimido exitosamente.', [
             'position' => 'bottom-end',
             'timer' => 2000,
             'toast' => true,
-            'timerProgressBar' => true,
         ]);
     }
 
-    public function getFilesFromDirectory($directory)
+    public function obtenerDirectorioArchivos($directory)
     {
         $files = [];
         $iterator = new \RecursiveIteratorIterator(
@@ -100,7 +117,6 @@ class Backup extends Component
         return $files;
     }
 
-
     public function descargarBackup($filename)
     {
         $path = storage_path("app/{$filename}");
@@ -109,7 +125,6 @@ class Backup extends Component
 
     public function borrarBackup($filename)
     {
-        // Comprobar si el archivo existe antes de intentar eliminarlo
         $path = storage_path("app/{$filename}");
         if (file_exists($path)) {
             unlink($path);

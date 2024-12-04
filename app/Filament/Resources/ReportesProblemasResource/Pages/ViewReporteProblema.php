@@ -15,7 +15,7 @@ class ViewReporteProblema extends ViewRecord
     protected static string $resource = ReportesProblemasResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
-    protected static ?string $title = 'Detalles delProblemas';
+    protected static ?string $title = 'Detalles del Problema';
 
     public function form(Form $form): Form
     {

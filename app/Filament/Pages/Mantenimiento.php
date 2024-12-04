@@ -16,6 +16,8 @@ class Mantenimiento extends Page
 
     protected static string $view = 'filament.pages.mantenimiento';
 
+
+
     public static function canAccess(): bool
     {
         if(auth()->user()->hasPermissionTo('ver:copias-seguridad')){

@@ -30,7 +30,7 @@
         </div>
         <div class="flex h-10 justify-end space-x-6">
             <span class="mx-3 p-1">{{$this->getAction('Regresar')}}</span>
-            @if($this->getAction('Editar')->isVisible())
+            @if($this->getAction('Editar') && $this->getAction('Editar')->isVisible())
                 <span class="mx-2 p-1">{{ $this->getAction('Editar') }}</span>
             @endif
             @if($this->getAction('Crear') && $this->getAction('Crear')->isVisible())

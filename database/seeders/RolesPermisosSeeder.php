@@ -97,6 +97,12 @@ class RolesPermisosSeeder extends Seeder
         $permisoRpSU = Permission::create(['name' => 'editar:reportes_problemas']);
         $permisoRpSD = Permission::create(['name' => 'borrar:reportes_problemas']);
 
+        /*Permisos Logs*/
+        $permisoLogsR = Permission::create(['name' => 'ver:logs']);
+
+        /*Permisos Copias de Seguridad*/
+        $permisoCopiasR = Permission::create(['name' => 'ver:copias-seguridad']);
+
 
         // ADMINS
         $permisoAdmin1 = Permission::create(['name' => 'ver:admin']);
@@ -165,6 +171,8 @@ class RolesPermisosSeeder extends Seeder
             $permisoQySU,
             $permisoQySD,
             $permisoNotificaciones,
+            $permisoLogsR,
+            $permisoCopiasR,
         ]);
 
 

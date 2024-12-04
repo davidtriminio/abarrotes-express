@@ -76,10 +76,12 @@ class EditPromocion extends EditRecord
                             ->native(false)
                             ->displayFormat('Y/m/d H:i:s')
                             ->label('Fecha y Hora de Inicio')
-                            ->afterOrEqual(now())
+                            ->afterOrEqual(now()->startOfDay())
+                            ->beforeOrEqual(now()->endOfDay())
                             ->validationMessages([
                                 'required' => 'La fecha y hora de inicio son obligatorias.',
                                 'after_or_equal' => 'La fecha y hora deben ser iguales o posteriores a la fecha y hora actuales.',
+                                'before_or_equal' => 'La fecha y hora deben ser iguales o anteriores a la fecha y hora del final del día actual.',
                             ]),
                             DateTimePicker::make('fecha_expiracion')
                             ->required()

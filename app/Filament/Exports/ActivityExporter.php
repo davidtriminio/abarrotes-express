@@ -40,10 +40,10 @@ class ActivityExporter extends Exporter
     }
     public static function getCompletedNotificationBody(Export $export): string
     {
-        $body = 'Se han exportado ' . number_format($export->successful_rows) . ' ' . str('row')->plural($export->successful_rows) . ' filas completamente.';
+        $body = 'Se han exportado ' . number_format($export->successful_rows) . ' ' . str('filas')->plural($export->successful_rows) . ' completamente.';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' Error al exportar.';
+            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('filas')->plural($failedRowsCount) . ' Error al exportar.';
         }
         return $body;
     }

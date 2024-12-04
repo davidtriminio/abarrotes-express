@@ -10,19 +10,14 @@
                 <div class="flex space-x-4 z-0">
                     <div class="relative fixed ">
                         <select
-                            class="block appearance-none w-full bg-white border hover:border-primary px-4 py-2 pr-8 rounded-full shadow leading-tight focus:outline-none focus:shadow-outline"
+                            class="block  w-full bg-white border hover:border-primary px-4 py-2 pr-8 rounded-full shadow leading-tight focus:outline-none focus:shadow-outline"
                             wire:model="orden" wire:click="precios">
                             <option value="tiempo" selected>Producto Reciente</option>
                             <option value="caro">Precio más Alto</option>
                             <option value="barato">Precio más Bajo</option>
                             <option value="promocion">Promociones</option>
                         </select>
-                        <div
-                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center px-2">
-                            <img id="arrow-down" class="h-4 w-4" src="" alt="filter arrow">
-                            <img id="arrow-up" class="h-4 w-4 hidden" src="{{url(asset('imagen/filter-up-arrow.svg'))}}"
-                                 alt="filter arrow">
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -162,7 +157,7 @@
                     </li>
                 @else
                     <li>
-                        <button wire:click="previousPage" 
+                        <button wire:click="previousPage"
                                 class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                             Anterior
                         </button>
@@ -175,7 +170,7 @@
                         @if ($i == $productos->currentPage())
                             <span class="px-4 py-2 bg-blue-500 text-white rounded">{{ $i }}</span>
                         @else
-                            <button wire:click="gotoPage({{ $i }})" 
+                            <button wire:click="gotoPage({{ $i }})"
                                     class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-blue-500 hover:text-white">
                                 {{ $i }}
                             </button>
@@ -186,7 +181,7 @@
                 {{-- Botón Siguiente --}}
                 @if ($productos->hasMorePages())
                     <li>
-                        <button wire:click="nextPage" 
+                        <button wire:click="nextPage"
                                 class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                             Siguiente
                         </button>

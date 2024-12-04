@@ -10,7 +10,7 @@
                 <div class="flex space-x-4 z-0">
                     <div class="relative fixed ">
                         <select
-                            class="block  w-full bg-white border hover:border-primary px-4 py-2 pr-8 rounded-full shadow leading-tight focus:outline-none focus:shadow-outline"
+                            class="block w-full bg-white border hover:border-primary px-4 py-2 pr-8 rounded-full shadow leading-tight focus:outline-none focus:shadow-outline"
                             wire:model="orden" wire:click="precios">
                             <option value="tiempo" selected>Producto Reciente</option>
                             <option value="caro">Precio más Alto</option>

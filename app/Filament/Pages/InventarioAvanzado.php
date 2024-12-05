@@ -27,8 +27,9 @@ class InventarioAvanzado extends Page
     protected static ?int $navigationSort = 5;
 
     protected static string $view = 'filament.pages.inventario-avanzado';
-
-
+    protected ?string $heading = '';
+    protected static ?string $title = 'Inventario Avanzado';
+    protected static ?string $slug = 'inventario-avanzado';
 
     public function getWidgets(): array
     {
@@ -46,7 +47,7 @@ class InventarioAvanzado extends Page
         return $this->getWidgets(); // Por defecto, devuelve todos los widgets
     }
 
-    
+
     public function getTitle(): string|Htmlable
     {
         return 'Inventarios Avanzados';

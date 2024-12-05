@@ -1,5 +1,4 @@
 <div class="qsrp-container mx-auto mt-5">
-    <!-- Título centrado -->
     <div class="text-center mb-12 lg:mb-20 mt-12">
         <h2 class="text-5xl font-bold mb-4"><span class="text-primary">Reporte </span><span class="text-primary">de Problemas</span></h2>
         <p class="my-7">Informa cualquier inconveniente para que podamos ayudarte y mejorar tu experiencia.</p>
@@ -10,7 +9,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="qsrp-form-group">
                     <label class="qsrp-form-label">Título</label>
-                    <input type="text" wire:model="titulo" class="qsrp-form-input" maxlength="30" required oninput="updateTitleCharacterCount(this)">
+                    <input type="text" wire:model="titulo" class="qsrp-form-input" oninput="updateTitleCharacterCount(this)">
                     <div class="text-right">
                         <span id="titleCharCount" class="text-gray-600">
                             <span id="titleRemainingCount">30</span>/30 caracteres restantes
@@ -20,7 +19,7 @@
                 </div>
                 <div class="qsrp-form-group">
                     <label class="qsrp-form-label">Sección</label>
-                    <select wire:model="seccion" class="qsrp-form-select" required>
+                    <select wire:model="seccion" class="qsrp-form-select">
                         <option value="">Seleccione una sección</option>
                         <option value="Inicio">Inicio</option>
                         <option value="Productos">Productos</option>
@@ -29,7 +28,6 @@
                         <option value="Cupones">Cupones</option>
                         <option value="Carrito">Carrito</option>
                         <option value="Perfil">Perfil</option>
-                        <!-- Verificar si el usuario está autenticado y si tiene el rol adecuado -->
                         @if(auth()->check() && (auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Superadmin')))
                             <option value="Panel Administrativo">Panel Administrativo</option>
                         @endif
@@ -39,7 +37,7 @@
             </div>
             <div class="qsrp-form-group">
                 <label class="qsrp-form-label">Descripción</label>
-                <textarea wire:model="descripcion" class="qsrp-form-textarea" maxlength="500" required oninput="updateCharacterCount(this)"></textarea>
+                <textarea wire:model="descripcion" class="qsrp-form-textarea" oninput="updateCharacterCount(this)"></textarea>
                 <div class="text-right">
                     <span id="charCount" class="text-gray-600">
                         <span id="remainingCount">500</span>/500 caracteres restantes
@@ -51,6 +49,7 @@
         </form>
     </div>
 </div>
+
 
 <script>
     function updateCharacterCount(textarea) {

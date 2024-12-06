@@ -4,7 +4,7 @@
         <div>
             <h2 class="text-4xl font-bold text-gray-800 mb-4 text-center">Detalles de la Orden</h2>
             @if(in_array($orden->estado_entrega, ['nuevo', 'procesado', 'entregado']))
-                <button 
+                <button
                     wire:click="iniciarDevolucion"
                     class="mt-4 bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700"
                 >
@@ -22,7 +22,7 @@
                     <p class="mt-2"><strong>Nombre de Usuario:</strong> <span class="text-gray-600">{{ $orden->user->name }}</span></p>
                     <p class="mt-2"><strong>Correo:</strong> <span class="text-gray-600">{{ $orden->user->email }}</span></p>
                 </div>
-                
+
                 <div class="bg-gray-110 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
                     <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Detalles de la Factura</h3>
                     <p class="mt-2"><strong>Método de Pago:</strong> <span class="text-gray-600">{{ strpos($orden->metodo_pago, 'par') !== false ? 'Pago a recibir' : $orden->metodo_pago }}</span></p>
@@ -66,7 +66,7 @@
             </tbody>
         </table>
     </div>
-</div> 
+</div>
 <!-- Order Summary -->
             <div class="mt-8">
                 <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Resumen de la Orden</h3>

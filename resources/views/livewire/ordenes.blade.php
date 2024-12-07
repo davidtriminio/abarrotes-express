@@ -121,19 +121,24 @@
         </div>
     @endif
 
-    <script>
-        function imprimirOrden() {
-            var contenido = document.getElementById('ordenDetalles').innerHTML;
-            var ventanaImpresion = window.open('', '', 'height=600,width=800');
-            ventanaImpresion.document.write('<html><head><title>Imprimir Orden</title>');
-            ventanaImpresion.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">');
-            ventanaImpresion.document.write('</head><body>');
-            ventanaImpresion.document.write(contenido);
-            ventanaImpresion.document.write('</body></html>');
-            ventanaImpresion.document.close();
+   <script>
+    function imprimirOrden() {
+        var contenido = document.getElementById('ordenDetalles').innerHTML;
+        var ventanaImpresion = window.open('', '', 'height=800,width=800');
+        ventanaImpresion.document.write('<html><head><title>Imprimir Orden</title>');
+        ventanaImpresion.document.write('<link rel="stylesheet" href="{{url(asset("css/styles/impresion.css"))}}">');
+        ventanaImpresion.document.write('</head><body>');
+        ventanaImpresion.document.write(contenido);
+        ventanaImpresion.document.write('</body></html>');
+        ventanaImpresion.document.close();
+
+        // Esperar un momento para asegurarse de que los estilos se carguen
+        setTimeout(function() {
             ventanaImpresion.print();
-        }
-    </script>
+            ventanaImpresion.close();
+        }, 500); // Espera 500 ms antes de imprimir
+    }
+</script>
 </div>
 
 

@@ -53,6 +53,10 @@ class Ordenes extends Component
     public function render()
     {   
         $orden = Orden::with(['user', 'elementos.producto'])->findOrFail($this->id);
+
+        if (auth()->user()->id !== $orden->user_id) {
+            abort(403, 'No tienes permiso para ver esta orden.');
+        }
         
         return view('livewire.ordenes', [
         'orden' => $orden,

@@ -10,7 +10,7 @@
                 <!-- Flex con justify-between para alinear contenido y botón -->
                 <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-50 flex flex-col h-full justify-between">
                     <a href="{{ route('productos', ['categoria' => $categoria->id]) }}" class="block">
-                        <img src="{{ isset($categoria->imagen) ? url('storage' . $categoria->imagen) : asset('imagen/no-photo.png') }}"
+                        <img src="{{ isset($categoria->imagen) ? url('storage/' . $categoria->imagen) : asset('imagen/no-photo.png') }}"
                              class="w-full h-auto mx-auto mb-4 rounded-lg tamanoCard"
                              alt="{{ $categoria->nombre }}">
                         <h3 class="text-lg font-semibold mb-2 text-primary truncate-title">{{ $categoria->nombre }}</h3>

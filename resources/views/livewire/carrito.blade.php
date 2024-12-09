@@ -41,7 +41,7 @@
                                     <td class="py-4 ">
                                         <div class="flex items-center">
                                             <img class="h-16 w-16 mr-4"
-                                                 src="{{ $item['imagen'] ? url('storage', $item['imagen']) : asset('imagen/no-photo.png') }}"
+                                                 src="{{ $item['imagen'] ? url('storage/' . $item['imagen']) : asset('imagen/no-photo.png') }}"
                                                  alt="{{ $item['nombre'] }}">@if($item['en_oferta']) <span class="inline text-red-500 font-bold text-xl"> * </span> @endif
                                             <span class="font-semibold">{{ $item['nombre'] }}</span>
                                         </div>

@@ -9,10 +9,10 @@ class Imagen extends Model
 {
     protected $fillable = ['producto_id', 'filename', 'mime_type', 'file_size', 'image_data'];
 
-    public function producto()
+    /*public function producto()
     {
         return $this->belongsTo(Producto::class);
-    }
+    }*/
 
     public function getDecodedImagesAttribute()
     {

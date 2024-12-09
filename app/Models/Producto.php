@@ -47,10 +47,10 @@ class Producto extends Model
         return $this->belongsTo(Marca::class);
     }
 
-    public function imagenes()
+    /*public function imagenes()
     {
         return $this->hasMany(Imagen::class);
-    }
+    }*/
 
     public function elementosOrden(): HasMany
     {

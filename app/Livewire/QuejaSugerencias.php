@@ -25,7 +25,7 @@ class QuejaSugerencias extends Component
         'titulo.string' => 'El título debe ser una cadena de texto.',
         'titulo.max' => 'El título no puede superar los 30 caracteres.',
         'titulo.regex' => 'El titulo solo debe contener letras.',
-        'tipo.required' => 'Debe seleccionar un tipo de registro.',
+        'tipo.required' => 'Debe seleccionar un tipo',
         'tipo.in' => 'El tipo debe ser una "Queja" o una "Sugerencia".',
         'descripcion.required' => 'La descripción es obligatoria.',
         'descripcion.string' => 'La descripción debe ser una cadena de texto.',

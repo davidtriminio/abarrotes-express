@@ -20,7 +20,7 @@
                 </div>
                 <div class="qsrp-form-group">
                     <label class="qsrp-form-label">Tipo</label>
-                    <select wire:model="tipo" class="qsrp-form-select" required>
+                    <select wire:model="tipo" class="qsrp-form-select" required title="Debe seleccionar un tipo válido: 'Queja' o 'Sugerencia'.">
                         <option value="">Seleccione el tipo</option>
                         <option value="Queja">Queja</option>
                         <option value="Sugerencia">Sugerencia</option>

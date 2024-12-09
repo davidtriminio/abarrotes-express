@@ -55,11 +55,17 @@ class Carrito extends Component
 
     public function eliminarElemento($producto_id)
     {
+        // Eliminar el producto del carrito
         $this->elementos_carrito = CarritoManagement::quitarElementosCarrito($producto_id);
         $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
-        $this->total_final = $this->total_original;
-        $this->descuento_total = 0;
-        $this->cupones_aplicados = [];
+
+        // Verificar los cupones aplicados y si alguno ya no es válido
+        $this->verificarCuponesAplicados();
+
+        // Asegurarse de que el total final no sea negativo
+        $this->total_final = max(0, $this->total_original - $this->descuento_total);
+
+        // Actualizar el conteo del carrito
         $this->dispatch('update-cart-count', conteo_total: count($this->elementos_carrito))->to(Navbar::class);
     }
 
@@ -89,7 +95,8 @@ class Carrito extends Component
         if (is_array($resultado)) {
             $this->elementos_carrito = $resultado;
             $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
-            $this->total_final = $this->total_original - $this->descuento_total;
+            // Asegurarse de que el total final no sea negativo
+            $this->total_final = max(0, $this->total_original - $this->descuento_total);
 
 
             $this->verificarCuponesAplicados();
@@ -185,6 +192,11 @@ class Carrito extends Component
 
             if (!is_null($cupon->compra_minima) && $this->total_final < $cupon->compra_minima) {
                 $errores[] = 'un total mínimo de ' . number_format($cupon->compra_minima, 2) . ' lempiras';
+            }
+
+            // Validar que el descuento no exceda el total final del carrito
+            if ($cupon->descuento_dinero > $this->total_final) {
+                $errores[] = 'el descuento no puede ser mayor al total final del carrito (' . number_format($this->total_final, 2) . ' lempiras)';
             }
 
 

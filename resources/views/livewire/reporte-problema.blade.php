@@ -19,7 +19,7 @@
                 </div>
                 <div class="qsrp-form-group">
                     <label class="qsrp-form-label">Sección</label>
-                    <select wire:model="seccion" class="qsrp-form-select" required title="Debe seleccionar un tipo válido: 'Queja' o 'Sugerencia'.">
+                    <select wire:model="seccion" class="qsrp-form-select">
                         <option value="">Seleccione una sección</option>
                         <option value="Inicio">Inicio</option>
                         <option value="Productos">Productos</option>
@@ -37,7 +37,7 @@
             </div>
             <div class="qsrp-form-group">
                 <label class="qsrp-form-label">Descripción</label>
-                <textarea wire:model="descripcion" class="qsrp-form-textarea" required  pattern="[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ.,!?]+" title="La descripción solo debe contener letras, números y signos de puntuación básicos." maxlength="500" oninput="updateCharacterCount(this)"></textarea>
+                <textarea wire:model="descripcion" class="qsrp-form-textarea" maxlength="500" oninput="updateCharacterCount(this)"></textarea>
                 <div class="text-right">
                     <span id="charCount" class="text-gray-600">
                         <span id="remainingCount">500</span>/500 caracteres restantes

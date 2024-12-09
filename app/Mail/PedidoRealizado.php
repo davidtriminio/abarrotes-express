@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
-class pedidoRealizado extends Mailable
+class PedidoRealizado extends Mailable
 {
     public $orden;
     public $elementos_ordenes;

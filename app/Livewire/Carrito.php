@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Filament\Resources\OrdenResource;
 use App\Helpers\CarritoManagement;
 use App\Livewire\Complementos\Navbar;
+use App\Mail\PedidoRealizado;
 use App\Models\Orden;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -386,7 +387,7 @@ class Carrito extends Component
                         ->url(OrdenResource::getUrl('view', ['record' => $orden])),
                 ])
                 ->sendToDatabase($orden->user);
-            Mail::to($orden->user->email)->send(new \App\Mail\pedidoRealizado($orden));
+            Mail::to($orden->user->email)->send(new PedidoRealizado($orden));
             session(['orden_id' => $orden->id]);
             return redirect()->route('mi_orden', $orden->id);
         } else {

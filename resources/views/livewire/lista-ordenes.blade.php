@@ -119,7 +119,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $metodos_pago !!}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $estado_pago !!}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $estado_orden !!}</td>
-                                    <td class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right">
+                                    <td class="no-print" class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right">
                                         <a href="{{ route('mi_orden', ['id' => $orden->id]) }}"
                                            class="bg-tarjeta text-white py-2 px-4 rounded-md hover:bg-blue-500">Ver
                                             Orden</a>

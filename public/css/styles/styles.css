@@ -1862,8 +1862,15 @@ body {
 }
 
 
-
-
+  /* Estilos para impresión */
+  @media print {
+    .no-print {
+        display: none; /* Oculta elementos con la clase no-print */
+    }
+    th:last-child, td:last-child {
+        display: none; /* Oculta la última columna (Acción) */
+    }
+}
 
 
 

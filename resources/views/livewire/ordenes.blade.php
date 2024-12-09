@@ -13,7 +13,7 @@
             @endif
         </div>
 
-        <div class="bg-white shadow-xl rounded-lg p-8 border border-gray-300 mt-4">
+        <div id="orden" class="bg-white shadow-xl rounded-lg p-8 border border-gray-300 mt-4">
             <!-- User Information and Invoice Details -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Your existing user info and invoice details sections -->
@@ -87,7 +87,7 @@
             </div>
         </div>
 
-        <button onclick="imprimirOrden()" class="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
+        <button onclick="printTable()" class="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
             Imprimir Orden
         </button>
     </div>
@@ -121,24 +121,22 @@
         </div>
     @endif
 
-   <script>
-    function imprimirOrden() {
-        var contenido = document.getElementById('ordenDetalles').innerHTML;
-        var ventanaImpresion = window.open('', '', 'height=800,width=800');
-        ventanaImpresion.document.write('<html><head><title>Imprimir Orden</title>');
-        ventanaImpresion.document.write('<link rel="stylesheet" href="{{url(asset("css/styles/impresion.css"))}}">');
-        ventanaImpresion.document.write('</head><body>');
-        ventanaImpresion.document.write(contenido);
-        ventanaImpresion.document.write('</body></html>');
-        ventanaImpresion.document.close();
+    <script>
+        function printTable() {
+            var printContents = document.getElementById('orden').innerHTML;
+            var originalContents = document.body.innerHTML;
 
-        // Esperar un momento para asegurarse de que los estilos se carguen
-        setTimeout(function() {
-            ventanaImpresion.print();
-            ventanaImpresion.close();
-        }, 500); // Espera 500 ms antes de imprimir
-    }
-</script>
+            // Cambiar el contenido del body al contenido que se quiere imprimir
+            document.body.innerHTML = printContents;
+
+            // Usar setTimeout para esperar 3 segundos antes de imprimir
+            setTimeout(function() {
+                window.print();
+                // Restaurar el contenido original del body después de imprimir
+                document.body.innerHTML = originalContents;
+            }, 100); // 3000 milisegundos = 3 segundos
+        }
+    </script>
 </div>
 
 

@@ -59,11 +59,16 @@ class Carrito extends Component
         $this->elementos_carrito = CarritoManagement::quitarElementosCarrito($producto_id);
         $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
 
-        // Verificar los cupones aplicados y si alguno ya no es válido
-        $this->verificarCuponesAplicados();
+        // Limpiar el descuento y cupones aplicados
+        $this->descuento_total = 0;
+        $this->cupones_aplicados = [];
 
         // Asegurarse de que el total final no sea negativo
         $this->total_final = max(0, $this->total_original - $this->descuento_total);
+
+        // Mostrar el mensaje de alerta
+        $this->alert('info', 'Se ha actualizado los productos del carrito, vuelve a revisar si tus cupones son válidos.');
+
 
         // Actualizar el conteo del carrito
         $this->dispatch('update-cart-count', conteo_total: count($this->elementos_carrito))->to(Navbar::class);
@@ -95,65 +100,23 @@ class Carrito extends Component
         if (is_array($resultado)) {
             $this->elementos_carrito = $resultado;
             $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
+
+            // Limpiar el descuento y cupones aplicados
+            $this->descuento_total = 0;
+            $this->cupones_aplicados = [];
+
             // Asegurarse de que el total final no sea negativo
             $this->total_final = max(0, $this->total_original - $this->descuento_total);
 
+            // Mostrar el mensaje de alerta
+            $this->alert('info', 'Se ha actualizado los productos del carrito, vuelve a revisar si tus cupones son válidos.');
 
-            $this->verificarCuponesAplicados();
+
+
         }
     }
 
-    private function verificarCuponesAplicados()
-    {
-        $cupones_a_retirar = [];
 
-        foreach ($this->cupones_aplicados as $cupon_id) {
-            if (!$this->cupónEsAplicable($cupon_id)) {
-                $cupones_a_retirar[] = $cupon_id;
-            }
-        }
-
-        // Retirar los cupones no aplicables
-        foreach ($cupones_a_retirar as $cupon_id) {
-            $this->retirarCuponAutomaticamente($cupon_id);
-        }
-
-        // Actualiza la cookie después de la verificación
-        CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
-    }
-
-    private function retirarCuponAutomaticamente($cupon_id)
-    {
-        $cupon = Cupon::find($cupon_id);
-        if ($cupon) {
-            if (($key = array_search($cupon_id, $this->cupones_aplicados)) !== false) {
-                unset($this->cupones_aplicados[$key]);
-                $this->total_final = $this->total_original;
-                $this->descuento_total = 0;
-
-                foreach ($this->cupones_aplicados as $aplicado_id) {
-                    $cupon_aplicado = Cupon::find($aplicado_id);
-                    if ($cupon_aplicado) {
-                        if ($cupon_aplicado->tipo_descuento === 'porcentaje') {
-                            $descuento = $this->total_final * ($cupon_aplicado->descuento_porcentaje / 100);
-                        } else {
-                            $descuento = $cupon_aplicado->descuento_dinero;
-                        }
-                        $this->total_final -= $descuento;
-                        $this->descuento_total += $descuento;
-                    }
-                }
-            }
-
-            // Mensaje específico para retirar por incumplimiento de restricciones
-            $this->alert('success', 'Cupón retirado porque ya no cumple restricciones ó condiciones.');
-
-            // Guardar el descuento total actualizado en las cookies
-            CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
-
-            $this->mostrar_menu_cupones = false;
-        }
-    }
 
     public function toggleMenuCupones()
     {
@@ -389,7 +352,17 @@ class Carrito extends Component
         $orden->save();
         $orden->elementos()->createMany($elementos_carrito);
         if ($orden->save()) {
+            // Desactivar el cupón utilizado si hay alguno
+            if (!empty($this->cupones_aplicados)) {
+                $cupon_id = $this->cupones_aplicados[0];
+                $cupon = Cupon::find($cupon_id);
+                if ($cupon) {
+                    $cupon->estado = false; // Cambiar el estado a inactivo
+                    $cupon->save();
+                }
+            }
             CarritoManagement::quitarElementosCookies();
+            CarritoManagement::quitarCuponesYDescuentos();
             Notification::make('Orden creada correctamente.')->success()
                 ->title(\auth()-> user()->name . ' ha realizado una nueva orden')
                 ->body('El pedido se ha creado con éxito.')

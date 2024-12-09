@@ -11,7 +11,7 @@
                 <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-50 flex flex-col h-full justify-between">
                     <!-- Hacer toda la tarjeta clicable -->
                     <a href="{{ route('productos', [0,'marca' => $marca->id]) }}" class="block">
-                        <img src="{{ isset($marca->imagen) ? url('storage/' . $marca->imagen) : asset('imagen/no-photo.png') }}"
+                        <img src="{{ isset($marca->imagen) ? url('storage' . $marca->imagen) : asset('imagen/no-photo.png') }}"
                              class="w-full h-auto mx-auto mb-4 rounded-lg tamanoCard"
                              alt="{{ $marca->nombre }}">
                         <h3 class="text-lg font-semibold mb-2 text-primary truncate-title">{{ $marca->nombre }}</h3>

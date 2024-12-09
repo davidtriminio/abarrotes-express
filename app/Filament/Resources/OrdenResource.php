@@ -415,7 +415,7 @@ class OrdenResource extends Resource
         $details = [];
 
         if ($record->user) {
-            $details['User'] = $record->user->name;
+            $details['Usuario'] = $record->user->name;
         }
 
         return $details;

@@ -77,7 +77,10 @@
             <div class="mt-8">
                 <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Resumen de la Orden</h3>
                 <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 mt-2 shadow-md">
-                    <p><strong>Subtotal:</strong> <span class="text-gray-600">{{ number_format($orden->sub_total, 2) }}</span></p>
+                    <p><strong>Subtotal:</strong> <span class="text-gray-600">{{ number_format($orden->descuento_total + $orden->total_final, 2) }}</span></p>
+                    @if($orden->descuento_total > 0)
+                        <p><strong>Descuentos:</strong> <span class="text-red-600">({{ number_format($orden->descuento_total, 2) }})</span></p>
+                    @endif
                     <p><strong>Total Final:</strong> <span class="text-gray-600">{{ number_format($orden->total_final, 2) }}</span></p>
                     <p><strong>Costos de Envío:</strong> <span class="text-gray-600">{{ number_format($orden->costos_envio, 2) }}</span></p>
                     <p><strong>Fecha de Entrega:</strong> <span class="text-gray-600">{{ $orden->fecha_entrega ? Carbon\Carbon::parse($orden->fecha_entrega)->format('d/m/Y') : 'N/A' }}</span></p>

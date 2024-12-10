@@ -14,6 +14,11 @@
                             </ul>
                         </div>
                     @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                     @if($elementos_carrito)
                         {{--Alerta de información--}}
                         <div class="bg-blue-50 border border-blue-200 text-gray-800 rounded-lg p-4 mb-2" role="alert" tabindex="-1" aria-labelledby="hs-actions-label">
@@ -71,12 +76,22 @@
                             @endforelse
                             </tbody>
                         </table>
-
                     @else
                         <div class="mt-4 flex justify-center">
                             <p class="text-center">No hay productos en el carrito.</p>
                         </div>
                     @endif
+                         @if (session('productos_eliminados'))
+                        <div class="alert alert-warning">
+                            <strong>Los siguientes productos han sido eliminados del carrito porque ya no están disponibles:</strong>
+                            <ul>
+                                Producto
+                                 @foreach (session('productos_eliminados') as $producto)
+                                     <li>{{ $producto }}</li>
+                                 @endforeach
+                            </ul>
+                        </div>
+                        @endif
                 </div>
             </div>
             <div class="md:w-1/3">
@@ -208,9 +223,10 @@
                     </div>
                     @if(auth()->user())
                        @if($elementos_carrito)
-                            <button wire:click="realizarPedido" wire:loading.attr="disabled"
+                            <button wire:click="realizarPedido"
                                     class="bg-blue-500 text-white py-2 px-4 block rounded-lg mt-4 w-full text-center">
-                                Proceder a pagar
+                                <span wire:loading.remove wire:target="realizarPedido">Proceder a pagar</span>
+                                <span wire:loading wire:target="realizarPedido" class="icon-[line-md--loading-alt-loop] h-4 w-4 animate-spin"></span>
                             </button>
                         @endif
                     @else

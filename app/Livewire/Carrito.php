@@ -333,28 +333,40 @@ class Carrito extends Component
         }
     }
 
-    public function realizarPedido(){
+    public function realizarPedido()
+    {
+        // Obtener elementos desde cookies
         $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
-        $linea_items = [];
-        $elementos_carrito = array_filter($elementos_carrito, function ($elemento) {
-            return isset($elemento['producto_id']);
-        });
-        if (empty($elementos_carrito)) {
-            return redirect()->back()->withErrors('El carrito está vacío o hay elementos sin producto_id.');
+        $elementos_carrito_verificados = CarritoManagement::verificarProductosEnCarrito($elementos_carrito);
+
+        // Si hay productos eliminados, notificar al usuario y detener el flujo
+        if (count($elementos_carrito) !== count($elementos_carrito_verificados)) {
+            session()->flash('warning', 'Algunos productos ya no están disponibles y han sido eliminados de tu carrito. Por favor, revisa antes de proceder.');
+            return redirect()->route('carrito'); // Mantener al usuario en la vista del carrito
         }
+
+        // Si no hay productos válidos después de la verificación
+        if (empty($elementos_carrito_verificados)) {
+            session()->flash('error', 'El carrito está vacío o no contiene productos válidos. Por favor, agrega productos para continuar.');
+            return redirect()->route('carrito');
+        }
+
+        // Crear una nueva orden
         $orden = new Orden();
         $orden->user_id = auth()->user()->id;
-        $orden->total_final = $this->total_final;
+        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
         $orden->descuento_total = $this->descuento_total;
         $orden->metodo_pago = 'efectivo';
         $orden->estado_pago = 'procesando';
         $orden->estado_entrega = 'nuevo';
-        $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
+        $orden->notas = 'Orden realizada por ' . auth()->user()->name . ' el día ' . now();
         $orden->save();
 
-        $orden->elementos()->createMany($elementos_carrito);
+        // Asociar los elementos del carrito con la orden
+        $orden->elementos()->createMany($elementos_carrito_verificados);
+
+        // Validar si la orden se guardó correctamente y desactivar el cupón utilizado, si corresponde
         if ($orden->save()) {
-            // Desactivar el cupón utilizado si hay alguno
             if (!empty($this->cupones_aplicados)) {
                 $cupon_id = $this->cupones_aplicados[0];
                 $cupon = Cupon::find($cupon_id);
@@ -363,10 +375,12 @@ class Carrito extends Component
                     $cupon->save();
                 }
             }
+
+            // Limpiar cookies y notificar al usuario
             CarritoManagement::quitarElementosCookies();
             CarritoManagement::quitarCuponesYDescuentos();
             Notification::make('Orden creada correctamente.')->success()
-                ->title(\auth()-> user()->name . ' ha realizado una nueva orden')
+                ->title(auth()->user()->name . ' ha realizado una nueva orden')
                 ->body('El pedido se ha creado con éxito.')
                 ->actions([
                     ActionNotification::make('View')
@@ -374,13 +388,19 @@ class Carrito extends Component
                         ->url(OrdenResource::getUrl('view', ['record' => $orden])),
                 ])
                 ->sendToDatabase($orden->user);
+
+            // Enviar correo al usuario
             Mail::to($orden->user->email)->send(new PedidoRealizado($orden));
+
+            // Almacenar el ID de la orden en la sesión
             session(['orden_id' => $orden->id]);
+
             return redirect()->route('mi_orden', $orden->id);
         } else {
             return redirect()->back()->withErrors('Error al crear el pedido. Por favor, inténtalo de nuevo.');
         }
     }
+
     public function render()
     {
         return view('livewire.carrito');

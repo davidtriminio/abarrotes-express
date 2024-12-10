@@ -254,4 +254,29 @@ class CarritoManagement
     {
         return array_sum(array_column($elementos, 'monto_total'));
     }
+
+    /*Validar elementos del carrito*/
+    static public function verificarProductosEnCarrito($elementos_carrito)
+    {
+        $elementos_validos = [];
+        $productos_eliminados = [];
+
+        foreach ($elementos_carrito as $key => $elemento) {
+            $producto = Producto::find($elemento['producto_id']);
+            if ($producto) {
+                $elementos_validos[] = $elemento;
+            } else {
+                $productos_eliminados[] = $elemento['nombre'] ?? 'Producto desconocido';
+                unset($elementos_carrito[$key]);
+            }
+        }
+
+        // Actualizar las cookies y elimiinar los productos no encontrados
+        CarritoManagement::agregarElementoCookies($elementos_carrito);
+
+        if (!empty($productos_eliminados)) {
+            session()->flash('productos_eliminados', $productos_eliminados);
+        }
+        return $elementos_validos;
+    }
 }

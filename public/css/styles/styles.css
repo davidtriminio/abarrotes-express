@@ -1873,6 +1873,18 @@ body {
 }
 
 
+.card-fixed-height {
+    height: 390px; /* Ajusta este valor según lo que desees */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; /* Para evitar que el contenido extra sobresalga */
+}
+
+
+
+
+
 
 
 

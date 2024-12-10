@@ -141,10 +141,6 @@ class CarritoManagement
         ];
     }
 
-
-
-
-
     static public function calcularPrecioConDescuento($precio, $porcentaje_oferta)
     {
         if (!is_null($porcentaje_oferta) && $porcentaje_oferta > 0) {

@@ -230,19 +230,13 @@ class ViewOrden extends ViewRecord
                                     return $set('total_final', $total);
                                 }),
 
-                            Placeholder::make('porcentaje_oferta_placeholder')
-                                ->label('Descuentos: ')
-                                ->content(function (Get $get, Set $set) {
-                                    $total = 0;
-                                    if (!$repeaters = $get('elementos')) {
-                                        return $total;
-                                    }
-
-                                    foreach ($repeaters as $key => $repeater) {
-                                        $total += $get("elementos.{$key}.porcentaje_oferta");
-                                    }
-                                    $set('porcentaje_oferta', $total);
-                                }),
+                            Placeholder::make('descuento_total_placeholder')  // Cambié el nombre a "descuento_total_placeholder"
+                            ->label('Descuento Total: ')  // Etiqueta de descuento total
+                            ->content(function (Get $get, Set $set) {
+                                // Aquí utilizas la variable descuento_total
+                                $descuento_total = $get('descuento_total');  // Asegúrate de que esta variable esté disponible
+                                return $set('descuento_total', $descuento_total);
+                            }),
 
 
                             Placeholder::make('created_at')

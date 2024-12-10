@@ -344,12 +344,14 @@ class Carrito extends Component
         }
         $orden = new Orden();
         $orden->user_id = auth()->user()->id;
-        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito);
+        $orden->total_final = $this->total_final;
+        $orden->descuento_total = $this->descuento_total;
         $orden->metodo_pago = 'efectivo';
         $orden->estado_pago = 'procesando';
         $orden->estado_entrega = 'nuevo';
         $orden->notas = 'Orden Realizada por ' . auth()->user()->name . ' el día y hora: ' . now();
         $orden->save();
+
         $orden->elementos()->createMany($elementos_carrito);
         if ($orden->save()) {
             // Desactivar el cupón utilizado si hay alguno

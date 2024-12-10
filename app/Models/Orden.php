@@ -16,7 +16,7 @@ class Orden extends Model
     use HasFactory;
     protected $table = 'ordenes';
 
-    protected $fillable = ['user_id','producto_id' ,'sub_total', 'total_final', 'monto_unitario', 'metodo_pago', 'estado_pago', 'estado_entrega', 'fecha_entrega', 'costos_envio', 'notas'];
+    protected $fillable = ['user_id','producto_id' ,'sub_total', 'total_final', 'descuento_total', 'monto_unitario', 'metodo_pago', 'estado_pago', 'estado_entrega', 'fecha_entrega', 'costos_envio', 'notas'];
 
     public function user(): BelongsTo
     {
@@ -33,7 +33,7 @@ class Orden extends Model
     {
         return $this->hasOne(Direccion::class);
     }
-     
+
     public function producto(): HasMany
     {
         return $this->hasMany(Producto::class);

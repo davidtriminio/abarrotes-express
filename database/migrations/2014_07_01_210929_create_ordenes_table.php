@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
             $table->decimal('sub_total', 10,2)->default(0);
+            $table->decimal('descuento_total', 10,2)->default(0);
             $table->decimal('total_final', 10,2);
             $table->string('metodo_pago');
                 $table->enum('estado_pago', ['pagado', 'procesando', 'error'])->nullable();

@@ -36,7 +36,7 @@
 
             <button type="submit" class="btn w-full" wire:target="save">
                 <span wire:loading.remove wire:target="save">Iniciar Sesión</span>
-                <span wire:loading wire:target="save" class="icon-[line-md--loading-loop] h-4 w-4 animate-spin"></span>
+                <span wire:loading wire:target="save" class="icon-[line-md--loading-alt-loop] h-4 w-4 animate-spin"></span>
             </button>
         </form>
 

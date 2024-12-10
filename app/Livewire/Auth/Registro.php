@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Auth;
 
-use Illuminate\Support\Str;   
+use Illuminate\Support\Str;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use App\Models\User;
@@ -29,9 +29,9 @@ class Registro extends Component
     public function guardar()
     {
         $this->validate([
-            'name' => 'required|regex:/^[a-zA-Z0-9_ áéíóúñÑ]+$/:max:60',
+            'name' => 'required|regex:/^[a-zA-Z0-9_ áéíóúñÑ]+$/|max:60',
             'email' => 'required|email|unique:users,email|max:255',
-            'telefono' => 'nullable|string|size:8|unique:users,telefono', // Teléfono es opcional
+            'telefono' => 'nullable|string|size:8|unique:users,telefono',
             'password' => 'required|min:8|max:30|regex:/[A-Z]/|regex:/[a-z]/|regex:/[\W]+$/',
         ],
             [
@@ -44,12 +44,12 @@ class Registro extends Component
                 'telefono.size' => 'El teléfono debe tener exactamente 8 dígitos.',
                 'telefono.unique' => 'El número de teléfono ya está registrado.',
                 'password.required' => 'El campo contraseña es obligatorio.',
-                'password.max' => 'La contraseña no puede tener más 30 caracteres.',
+                'password.max' => 'La contraseña no puede tener más de 30 caracteres.',
                 'password.min' => 'La contraseña no puede tener menos de 8 caracteres.',
                 'password.regex' => 'La contraseña solo tiene que tener mayúscula, minúscula y caracteres especiales.',
             ]);
 
-        // Crear un nuevo registro en la base de datos
+        /*Crear un nuevo usuario*/
         $user = new User();
         $user->name = $this->name;
         $user->email = $this->email;
@@ -60,7 +60,6 @@ class Registro extends Component
         $user->assignRole('Cliente');
         $user->save();
 
-
         Auth::login($user);
 
         $this->reset();
@@ -68,8 +67,6 @@ class Registro extends Component
         $this->alert('success', '¡Registro exitoso!', [
             'timer' => 3000,
         ]);
-
-
 
         return redirect()->route('inicio');
     }

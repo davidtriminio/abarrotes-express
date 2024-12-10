@@ -14,10 +14,10 @@
             <button onclick="printTable()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 ml-4">
                 Imprimir Orden
             </button>
-          
-            
+
+
         </div>
-        
+
 
         <div id="orden" class="bg-white shadow-xl rounded-lg p-8 border border-gray-300 mt-4">
             <!-- User Information and Invoice Details -->
@@ -54,8 +54,14 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($orden->elementos as $elemento)
                     <tr>
-                        <td class="px-6 py-4 ">
-                            <div class="text-sm text-gray-700">{{ $elemento->producto->nombre }}</div>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-700">
+                                @if ($elemento->producto)
+                                    {{ $elemento->producto->nombre }}
+                                @else
+                                    Producto eliminado
+                                @endif
+                            </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-700">{{ $elemento->cantidad }}</div>

@@ -96,14 +96,16 @@ class EditPromocion extends EditRecord
                             TextInput::make('promocion')->prefix('%')
                             ->numeric()
                             ->inputMode('decimal')
-                            ->label('Promocion')
+                            ->label('Promoción')
                             ->nullable()
+                            ->required()
                             ->step('1')
                             ->placeholder(0)
                             ->minValue(1)
                             ->maxValue(100)
                             ->autocomplete('off')
                             ->validationMessages([
+                                'required' => 'ingrese la promoción de producto.',
                                 'numeric' => 'El porcentaje de oferta debe ser un número.',
                                 'minValue' => 'El porcentaje de oferta debe ser al menos 1.',
                                 'maxValue' => 'El porcentaje de oferta no debe ser mayor a 100.',

@@ -93,7 +93,7 @@
     @forelse ($productos ?? [] as $producto)
         @if($producto->disponible)
             <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-8">
-                <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-100">
+                <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-100 card-fixed-height">
                     <!-- Etiqueta de promoción -->
                     @if($producto->promociones->where('estado', true)->isNotEmpty()) <!-- Verifica si tiene promociones activas -->
                     <marquee behavior="scroll" direction="left" scrollamount="3" class="bg-blue-500 text-white p-1">

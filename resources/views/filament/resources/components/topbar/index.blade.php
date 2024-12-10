@@ -5,9 +5,7 @@
     }
 @endphp
 <div class="page-title">
-    <h1 class="text-3xl font-bold">
-        <div class="capitalize">
+    <h1 class="md:text-2xl lg:text-2xl sm:text-xs text-lg">
             {{ $titulo_pagina }}
-        </div>
     </h1>
 </div>

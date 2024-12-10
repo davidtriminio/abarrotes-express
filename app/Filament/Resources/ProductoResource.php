@@ -80,7 +80,7 @@ class ProductoResource extends Resource
                             ->preserveFilenames()
                             ->reorderable()
                             ->openable()
-                            ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/jpg'])
+                            ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/jpg', 'image/webp'])
                             ->validationMessages([
                                 'maxFiles' => 'Se permite un máximo de 5 imágenes.',
                                 'required' => 'Debe seleccionar al menos una imagen.',

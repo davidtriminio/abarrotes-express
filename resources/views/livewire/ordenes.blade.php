@@ -1,9 +1,8 @@
 <div class="space-y-4">
     {{-- Wrap everything in a single root div with spacing utility --}}
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" id="ordenDetalles">
-        <div>
-            <h2 class="text-4xl font-bold text-gray-800 mb-4 text-center">Detalles de la Orden</h2>
-            @if(in_array($orden->estado_entrega, ['nuevo', 'procesado', 'entregado']))
+        <div class="flex items-center justify-between">
+        @if(in_array($orden->estado_entrega, ['nuevo', 'procesado', 'entregado']))
                 <button
                     wire:click="iniciarDevolucion"
                     class="mt-4 bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700"
@@ -11,7 +10,14 @@
                     Devolución
                 </button>
             @endif
+            <h2 class="text-4xl font-bold text-gray-800 mb-0 flex-1 text-center">Detalles de la Orden</h2>
+            <button onclick="printTable()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 ml-4">
+                Imprimir Orden
+            </button>
+          
+            
         </div>
+        
 
         <div id="orden" class="bg-white shadow-xl rounded-lg p-8 border border-gray-300 mt-4">
             <!-- User Information and Invoice Details -->
@@ -89,10 +95,6 @@
                 </div>
             </div>
         </div>
-
-        <button onclick="printTable()" class="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
-            Imprimir Orden
-        </button>
     </div>
 
     @if($confirmingReturn)

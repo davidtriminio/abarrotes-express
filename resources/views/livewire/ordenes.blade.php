@@ -14,10 +14,10 @@
             <button onclick="printTable()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 ml-4">
                 Imprimir Orden
             </button>
-
-
+          
+            
         </div>
-
+        
 
         <div id="orden" class="bg-white shadow-xl rounded-lg p-8 border border-gray-300 mt-4">
             <!-- User Information and Invoice Details -->
@@ -49,25 +49,23 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Producto</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Cantidad</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Precio Unitario</th>
+                    <th class=""></th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($orden->elementos as $elemento)
                     <tr>
-                        <td class="px-6 py-4">
-                            <div class="text-sm text-gray-700">
-                                @if ($elemento->producto)
-                                    {{ $elemento->producto->nombre }}
-                                @else
-                                    Producto eliminado
-                                @endif
-                            </div>
+                        <td class="px-6 py-4 ">
+                            <div class="text-sm text-gray-700">{{ $elemento->producto->nombre }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-700">{{ $elemento->cantidad }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-700">L. {{ $elemento->monto_unitario }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class=""></div>
                         </td>
                     </tr>
                 @empty

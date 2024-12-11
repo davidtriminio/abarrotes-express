@@ -73,7 +73,7 @@ class EditPromocion extends EditRecord
                                 'boolean' => 'El valor debe ser verdadero o falso.',
                             ]),
 
-                            DateTimePicker::make('fecha_inicio')
+                            Forms\Components\DateTimePicker::make('fecha_inicio')
                             ->required()
                             ->native(false)
                             ->displayFormat('Y/m/d H:i:s')

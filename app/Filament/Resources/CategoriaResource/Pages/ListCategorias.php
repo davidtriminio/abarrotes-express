@@ -4,6 +4,7 @@ namespace App\Filament\Resources\CategoriaResource\Pages;
 
 use App\Actions\CustomRestoreBulkAction;
 use App\Filament\Resources\CategoriaResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Actions\ActionGroup;
@@ -26,6 +27,7 @@ class ListCategorias extends ListRecords
     protected static string $resource = CategoriaResource::class;
     protected static string $view = 'filament.resources.custom.lista_personalizada';
     protected ?string $heading = '';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

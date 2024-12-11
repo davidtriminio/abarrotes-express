@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProductoResource\Pages;
 
 use App\Filament\Resources\ProductoResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
@@ -20,6 +21,7 @@ class ListProductos extends ListRecords
     protected static string $resource = ProductoResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.lista_personalizada';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

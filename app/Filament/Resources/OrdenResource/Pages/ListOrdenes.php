@@ -4,6 +4,7 @@ namespace App\Filament\Resources\OrdenResource\Pages;
 
 use App\Filament\Resources\OrdenResource;
 use App\Models\Orden;
+use App\Traits\PermisoVer;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
@@ -24,6 +25,7 @@ class ListOrdenes extends ListRecords
     protected static string $resource = OrdenResource::class;
     protected static string $view = 'filament.resources.custom.lista_personalizada';
     protected ?string $heading = '';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

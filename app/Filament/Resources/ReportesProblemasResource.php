@@ -30,6 +30,17 @@ class ReportesProblemasResource extends Resource
     protected static ?string $navigationGroup = 'Soporte';
     protected static ?int $navigationSort = 10;
 
+     public static function canAccess(): bool
+     {
+         $slug = self::getSlug();
+         $usuario = auth()->user();
+         if ($usuario->hasPermissionTo('ver:' . $slug)) {
+             return true;
+         } else {
+             return false;
+         }
+     }
+
     public static function form(Form $form): Form
     {
         return $form

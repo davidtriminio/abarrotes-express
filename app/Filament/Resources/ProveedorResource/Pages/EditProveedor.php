@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProveedorResource\Pages;
 
 use App\Filament\Resources\ProveedorResource;
+use App\Traits\PermisoEditar;
 use Filament\Actions;
 use App\Models\Proveedor;
 use App\Models\Producto;
@@ -25,6 +26,7 @@ class EditProveedor extends EditRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
     protected static ?string $title = 'Detalles del Proveedor';
+    use PermisoEditar;
 
     protected function getHeaderActions(): array
     {

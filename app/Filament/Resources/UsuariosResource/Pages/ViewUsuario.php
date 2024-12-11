@@ -4,6 +4,7 @@ namespace App\Filament\Resources\UsuariosResource\Pages;
 
 use App\Filament\Resources\UsuarioResource;
 use App\Models\User;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
@@ -22,7 +23,7 @@ class ViewUsuario extends ViewRecord
     protected static ?string $title = 'Detalles de Usuario';
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
-
+    use PermisoVer;
     protected function getHeaderActions(): array
     {
         return [

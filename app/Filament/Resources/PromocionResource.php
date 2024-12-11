@@ -28,11 +28,13 @@ class PromocionResource extends Resource
     protected static ?string $recordTitleAttribute = 'id';
     public static function canAccess(): bool
     {
-        $usuarioActual = auth()->user();
-        if ($usuarioActual->hasPermissionTo('ver:promociones')) {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public static function form(Form $form): Form

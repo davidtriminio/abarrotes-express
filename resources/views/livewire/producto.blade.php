@@ -56,7 +56,6 @@
                                 </p>
                                 <p class="mb-2 text-3xl">Categoría: <strong><a href="#" class="hover:text-primary">{{$producto ->categoria -> nombre}}</a></strong>
                                 </p>
-                                <p class="mb-2 text-2xl">Código de Producto: <strong>00000</strong></p>
                                 <p class="mb-2 text-2xl">Disponible:
                                     @if($producto->disponible)
                                         <strong>Sí</strong>

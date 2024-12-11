@@ -48,6 +48,17 @@ class OrdenResource extends Resource
     protected static ?string $activeNavigationIcon =
         'heroicon-s-truck';
 
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static function getGlobalSearchResultUrl(Model $record): string
     {
         return OrdenResource::getUrl('view', ['record' => $record]);
@@ -437,11 +448,4 @@ class OrdenResource extends Resource
     {
         return self::getModel()::count() > 5 ? 'success' : 'danger';
     }
-
-    public static function canAccess(): bool
-    {
-        $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:ordenes');
-    }
-
 }

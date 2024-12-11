@@ -4,6 +4,7 @@ namespace App\Filament\Resources\CategoriaResource\Pages;
 
 use App\Filament\Resources\CategoriaResource;
 use App\Models\Categoria;
+use App\Traits\PermisoEditar;
 use Filament\Actions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
@@ -18,6 +19,7 @@ class EditCategoria extends EditRecord
     protected static string $resource = CategoriaResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
+    use PermisoEditar;
 
     protected function getHeaderActions(): array
     {

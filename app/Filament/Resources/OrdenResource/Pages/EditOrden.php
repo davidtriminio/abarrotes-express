@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\OrdenResource\Pages;
 
 use App\Filament\Resources\OrdenResource;
+use App\Traits\PermisoEditar;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
@@ -15,7 +16,7 @@ class EditOrden extends EditRecord
     protected static string $resource = OrdenResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
-
+    use PermisoEditar;
     protected function getHeaderActions(): array
     {
         return [

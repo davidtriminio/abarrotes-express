@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\RolResource\Pages;
 
 use App\Filament\Resources\RolResource;
+use App\Traits\PermisoVer;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -21,13 +22,22 @@ class ListRols extends ListRecords
     protected static string $resource = RolResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.lista_personalizada';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {
         return [
             CreateAction::make('Crear')
                 ->label('Crear Rol')
-                ->icon('heroicon-o-plus-circle'),
+                ->icon('heroicon-o-plus-circle')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('crear:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                }),
         ];
     }
 

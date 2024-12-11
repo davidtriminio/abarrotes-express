@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProveedorResource\Pages;
 
 use App\Filament\Resources\ProveedorResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use App\Models\Proveedor;
 use Filament\Resources\Pages\ListRecords;
@@ -24,6 +25,7 @@ class ListProveedors extends ListRecords
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.lista_personalizada';
     protected static ?string $title = 'Proveedores';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PermissionResource\Pages;
 
 use App\Filament\Resources\PermissionResource;
+use App\Traits\PermisoEditar;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Placeholder;
@@ -17,6 +18,8 @@ class EditPermission extends EditRecord
     protected static string $resource = PermissionResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
+    use PermisoEditar;
+
     protected function getRedirectUrl(): string
     {
         return $this->previousUrl ?? $this->getResource()::getUrl('index');

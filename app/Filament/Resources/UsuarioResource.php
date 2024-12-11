@@ -41,7 +41,16 @@ class UsuarioResource extends Resource
     protected static ?string $activeNavigationIcon = 'heroicon-s-users';
     protected static ?string $pluralModelLabel = 'Usuarios';
     protected static ?string $recordTitleAttribute = 'name';
-
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     protected function getHeaderActions(): array
     {
         return [
@@ -149,11 +158,4 @@ class UsuarioResource extends Resource
     {
         return UsuarioResource::getUrl('view', ['record' => $record]);
     }
-
-    public static function canAccess(): bool
-    {
-        $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:usuarios');
-    }
-
 }

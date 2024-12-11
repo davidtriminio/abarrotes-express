@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UsuariosResource\Pages;
 
 use App\Filament\Resources\UsuarioResource;
+use App\Traits\PermisoVer;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
@@ -26,6 +27,7 @@ class ListUsuarios extends ListRecords
     protected static string $resource = UsuarioResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.lista_personalizada';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -35,6 +36,17 @@ class User extends Authenticatable implements FilamentUser
         'recovery_key_created_at',
         'email_verified_at'
     ];
+
+    // Agregar un mutador para el campo `recovery_key`
+    public static function booted()
+    {
+        static::creating(function ($user) {
+            // Si el recovery_key no se ha proporcionado, generarlo
+            if (empty($user->recovery_key)) {
+                $user->recovery_key = Str::random(30);
+            }
+        });
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -35,6 +35,11 @@ class Carrito extends Component
     public $nuevo_cupon_id;
 
 
+
+
+
+
+
     protected $listeners = ['userLoggedIn' => 'actualizarCarrito'];
 
     public function mount()
@@ -51,6 +56,8 @@ class Carrito extends Component
 
         // Asegurarse de que el total final no sea negativo
         $this->total_final = max(0, $this->total_original - $this->descuento_total);
+
+
     }
 
     public function eliminarElemento($producto_id)
@@ -66,8 +73,7 @@ class Carrito extends Component
         // Asegurarse de que el total final no sea negativo
         $this->total_final = max(0, $this->total_original - $this->descuento_total);
 
-        // Mostrar el mensaje de alerta
-        $this->alert('info', 'Se ha actualizado los productos del carrito, vuelve a revisar si tus cupones son válidos.');
+
 
 
         // Actualizar el conteo del carrito
@@ -108,8 +114,7 @@ class Carrito extends Component
             // Asegurarse de que el total final no sea negativo
             $this->total_final = max(0, $this->total_original - $this->descuento_total);
 
-            // Mostrar el mensaje de alerta
-            $this->alert('info', 'Se ha actualizado los productos del carrito, vuelve a revisar si tus cupones son válidos.');
+
 
 
 

@@ -34,6 +34,7 @@ class DetalleProducto extends Component
         return view('livewire.producto', compact('producto'));
     }
 
+
     public function agregarAlCarrito($producto_id)
     {
         $total_count = CarritoManagement::agregarElementosAlCarritoConCantidad($producto_id, $this->cantidad);
@@ -57,9 +58,24 @@ class DetalleProducto extends Component
         }
     }
 
-    public function incrementarCantidad(){
-        $this->cantidad ++;
+    public function incrementarCantidad()
+    {
+        $producto = Producto::findOrFail($this->id);
+
+        // Verificar si la cantidad actual es menor al límite de inventario
+        if ($this->cantidad < $producto->cantidad_disponible) {
+            $this->cantidad++;
+        } else {
+            // Si se alcanza el límite de inventario, mostramos el mensaje y no incrementamos
+            $this->alert('error', 'Se ha llegado al límite de cantidad de productos en inventario', [
+                'position' => 'bottom-end',
+                'timer' => 3000,
+                'toast' => true,
+                'timerProgressBar' => true,
+            ]);
+        }
     }
+
 
     public function decrementarCantidad(){
         if ($this->cantidad > 1){

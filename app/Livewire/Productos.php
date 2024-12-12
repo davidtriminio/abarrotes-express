@@ -73,13 +73,13 @@ class Productos extends Component
         $this->resetPage();
     }
 
-    
+
     public function updatedOrden($value)
     {
         // Resetear a la primera página cuando se cambia el orden
         $this->resetPage();
     }
-    
+
 
     public function filtromarcas()
     {
@@ -138,7 +138,7 @@ class Productos extends Component
 
     }
 
-    
+
 
     public function render()
     {

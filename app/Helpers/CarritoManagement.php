@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 class CarritoManagement
 {
     /*Agregar elementos al carrito*/
+    /*Agregar elementos al carrito*/
     static public function agregarElementoAlCarrito($producto_id)
     {
         $elementos_carrito = self::obtenerElementosDeCookies();
@@ -22,37 +23,49 @@ class CarritoManagement
             }
         }
 
-        $producto = Producto::where('id', $producto_id)->first(['id', 'nombre', 'precio', 'imagenes', 'porcentaje_oferta', 'en_oferta']);
+        $producto = Producto::where('id', $producto_id)->first(['id', 'nombre', 'precio', 'imagenes', 'porcentaje_oferta', 'en_oferta', 'cantidad_disponible']);
 
         if ($producto) {
             if ($elemento_existente !== null) {
-                $elementos_carrito[$elemento_existente]['cantidad']++;
-                $elementos_carrito[$elemento_existente]['monto_total'] = self::calcularMontoTotal(
-                    $elementos_carrito[$elemento_existente]['monto_unitario'],
-                    $elementos_carrito[$elemento_existente]['porcentaje_oferta'],
-                    $elementos_carrito[$elemento_existente]['cantidad']
-                );
+                // Validar que no exceda la cantidad disponible
+                if ($elementos_carrito[$elemento_existente]['cantidad'] < $producto->cantidad_disponible) {
+                    $elementos_carrito[$elemento_existente]['cantidad']++;
+                    $elementos_carrito[$elemento_existente]['monto_total'] = self::calcularMontoTotal(
+                        $elementos_carrito[$elemento_existente]['monto_unitario'],
+                        $elementos_carrito[$elemento_existente]['porcentaje_oferta'],
+                        $elementos_carrito[$elemento_existente]['cantidad']
+                    );
+                } else {
+                    return "Se ha llegado al límite de cantidad de productos en inventario";
+                }
             } else {
-                $precio_con_descuento = $producto->en_oferta
-                    ? self::calcularPrecioConDescuento($producto->precio, $producto->porcentaje_oferta)
-                    : $producto->precio;
+                if ($producto->cantidad_disponible > 0) {
+                    $precio_con_descuento = $producto->en_oferta
+                        ? self::calcularPrecioConDescuento($producto->precio, $producto->porcentaje_oferta)
+                        : $producto->precio;
 
-                $elementos_carrito[] = [
-                    'producto_id' => $producto_id,
-                    'nombre' => $producto->nombre,
-                    'imagen' => $producto->imagenes[0] ?? null,
-                    'cantidad' => 1,
-                    'porcentaje_oferta' => $producto->porcentaje_oferta ?? 0,
-                    'monto_unitario' => $precio_con_descuento,
-                    'monto_total' => $precio_con_descuento,
-                    'en_oferta' => $producto->en_oferta,
-                ];
+                    $elementos_carrito[] = [
+                        'producto_id' => $producto_id,
+                        'nombre' => $producto->nombre,
+                        'imagen' => $producto->imagenes[0] ?? null,
+                        'cantidad' => 1,
+                        'porcentaje_oferta' => $producto->porcentaje_oferta ?? 0,
+                        'monto_unitario' => $precio_con_descuento,
+                        'monto_total' => $precio_con_descuento,
+                        'en_oferta' => $producto->en_oferta,
+                    ];
+                } else {
+                    return "Este producto no tiene unidades disponibles.";
+                }
             }
             self::agregarElementoCookies($elementos_carrito);
             return count($elementos_carrito);
         }
         return 'Producto no encontrado';
     }
+
+
+
 
     static public function agregarElementosAlCarritoConCantidad($producto_id, $cantidad = 1)
     {
@@ -66,37 +79,53 @@ class CarritoManagement
             }
         }
 
-        /* Si ya existe, solo actualiza la cantidad */
-        if ($elementos_existentes !== null) {
-            $elementos_carrito[$elementos_existentes]['cantidad'] += $cantidad; // Aumenta la cantidad
-            $elementos_carrito[$elementos_existentes]['monto_total'] = self::calcularMontoTotal(
-                $elementos_carrito[$elementos_existentes]['monto_unitario'],
-                $elementos_carrito[$elementos_existentes]['porcentaje_oferta'],
-                $elementos_carrito[$elementos_existentes]['cantidad']
-            );
-        } else {
-            /* Si no existe, agrega el producto al carrito */
-            $producto = Producto::where('id', $producto_id)->first(['id', 'nombre', 'precio', 'imagenes', 'porcentaje_oferta', 'en_oferta']);
-            if ($producto) {
+        $producto = Producto::where('id', $producto_id)->first(['id', 'nombre', 'precio', 'imagenes', 'porcentaje_oferta', 'en_oferta', 'cantidad_disponible']);
+
+        if ($producto) {
+            if ($elementos_existentes !== null) {
+                /* Si el producto ya existe en el carrito */
+                $cantidad_actual = $elementos_carrito[$elementos_existentes]['cantidad'];
+                $nueva_cantidad = $cantidad_actual + $cantidad;
+
+                // Validar que no exceda el inventario disponible
+                if ($nueva_cantidad > $producto->cantidad_disponible) {
+                    return "Se ha llegado al límite de cantidad de productos en inventario.";
+                }
+
+                // Actualizar la cantidad y el monto total
+                $elementos_carrito[$elementos_existentes]['cantidad'] = $nueva_cantidad;
+                $elementos_carrito[$elementos_existentes]['monto_total'] = $nueva_cantidad * $elementos_carrito[$elementos_existentes]['monto_unitario'];
+            } else {
+                /* Si el producto no está en el carrito, agregarlo */
+                if ($cantidad > $producto->cantidad_disponible) {
+                    return "No se pueden agregar más productos de los disponibles en inventario.";
+                }
+
                 $precio_con_descuento = $producto->en_oferta
                     ? self::calcularPrecioConDescuento($producto->precio, $producto->porcentaje_oferta)
                     : $producto->precio;
+
                 $elementos_carrito[] = [
                     'producto_id' => $producto_id,
                     'nombre' => $producto->nombre,
                     'imagen' => isset($producto->imagenes[0]) && !empty($producto->imagenes[0])
                         ? $producto->imagenes[0] : null,
-                    'cantidad' => $cantidad, // Usar la cantidad pasada
+                    'cantidad' => $cantidad,
                     'porcentaje_oferta' => $producto->porcentaje_oferta,
                     'monto_unitario' => $precio_con_descuento,
-                    'monto_total' => $precio_con_descuento * $cantidad, // Monto total basado en cantidad
+                    'monto_total' => $precio_con_descuento * $cantidad,
                     'en_oferta' => $producto->en_oferta,
                 ];
             }
+
+            // Actualizar cookies
+            self::agregarElementoCookies($elementos_carrito);
+            return count($elementos_carrito);
         }
-        self::agregarElementoCookies($elementos_carrito);
-        return count($elementos_carrito);
+
+        return 'Producto no encontrado';
     }
+
 
     static public function agregarDescuentoCookies($descuento_total, $cupones_aplicados, $nuevo_cupon_id)
     {
@@ -214,15 +243,17 @@ class CarritoManagement
         foreach ($elementos_carrito as $key => $item) {
             if ($item['producto_id'] == $producto_id) {
                 $producto = Producto::find($producto_id);
-                if ($producto && $elementos_carrito[$key]['cantidad'] < $producto->cantidad_disponible) {
-                    $elementos_carrito[$key]['cantidad']++;
-                    if (isset($elementos_carrito[$key]['cantidad_disponible'])) {
-                        $elementos_carrito[$key]['cantidad_disponible']--;
+
+                if ($producto) {
+                    if ($elementos_carrito[$key]['cantidad'] < $producto->cantidad_disponible) {
+                        $elementos_carrito[$key]['cantidad']++;
+                        $elementos_carrito[$key]['monto_total'] = $elementos_carrito[$key]['cantidad'] *
+                            $elementos_carrito[$key]['monto_unitario'];
+                    } else {
+                        return "Se ha llegado al límite de cantidad de productos en inventario";
                     }
-                    $elementos_carrito[$key]['monto_total'] = $elementos_carrito[$key]['cantidad'] *
-                        $elementos_carrito[$key]['monto_unitario'];
                 } else {
-                    return 'Cantidad excede la disponible';
+                    return "Producto no encontrado";
                 }
             }
         }
@@ -279,4 +310,9 @@ class CarritoManagement
         }
         return $elementos_validos;
     }
+
+
 }
+
+
+

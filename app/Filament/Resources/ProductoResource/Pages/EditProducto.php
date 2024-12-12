@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductoResource;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\Producto;
+use App\Traits\PermisoEditar;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -35,6 +36,7 @@ class EditProducto extends EditRecord
     protected static string $resource = ProductoResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
+    use PermisoEditar;
 
     protected function getHeaderActions(): array
     {

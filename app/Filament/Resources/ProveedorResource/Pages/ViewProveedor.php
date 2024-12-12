@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProveedorResource\Pages;
 
 use App\Filament\Resources\ProveedorResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use App\Models\Proveedor;
@@ -25,7 +26,7 @@ class ViewProveedor extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles de Proveedor';
-
+    use PermisoVer;
     protected function getHeaderActions(): array
     {
         return [

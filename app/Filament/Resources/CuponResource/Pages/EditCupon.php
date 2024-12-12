@@ -4,6 +4,7 @@ namespace App\Filament\Resources\CuponResource\Pages;
 
 use App\Filament\Resources\CuponResource;
 use App\Models\Cupon;
+use App\Traits\PermisoEditar;
 use Filament\Actions;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
@@ -19,6 +20,7 @@ class EditCupon extends EditRecord
     protected static string $resource = CuponResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
+    use PermisoEditar;
 
     protected function getHeaderActions(): array
     {

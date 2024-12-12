@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\QuejasySugerenciasResource\Pages;
 
 use App\Filament\Resources\QuejasySugerenciasResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Textarea;
@@ -16,6 +17,7 @@ class ViewQuejasySugerencias extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles de la Queja/Sugerencia';
+    use PermisoVer;
 
     public function form(Form $form): Form
     {

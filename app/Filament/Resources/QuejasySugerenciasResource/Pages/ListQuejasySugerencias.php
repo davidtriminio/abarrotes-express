@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\QuejasySugerenciasResource\Pages;
 
 use App\Filament\Resources\QuejasySugerenciasResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\TextColumn;
@@ -15,5 +16,6 @@ class ListQuejasySugerencias extends ListRecords
     protected ?string $heading = '';
     protected static ?string $title = 'Quejas y Sugerencias';
     protected static ?string $slug = 'quejas_sugerencias';
+    use PermisoVer;
 
 }

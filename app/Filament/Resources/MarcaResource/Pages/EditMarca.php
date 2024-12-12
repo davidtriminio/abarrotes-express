@@ -4,6 +4,7 @@ namespace App\Filament\Resources\MarcaResource\Pages;
 
 use App\Filament\Resources\MarcaResource;
 use App\Models\Marca;
+use App\Traits\PermisoEditar;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
@@ -29,6 +30,8 @@ class EditMarca extends EditRecord
     protected static string $resource = MarcaResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
+    protected static ?string $title = 'Editar Marca';
+    use PermisoEditar;
 
     protected function getHeaderActions(): array
     {

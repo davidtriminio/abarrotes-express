@@ -5,6 +5,7 @@ namespace App\Filament\Resources\OrdenResource\Pages;
 use App\Filament\Resources\OrdenResource;
 use App\Models\Orden;
 use App\Models\Producto;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
@@ -26,6 +27,7 @@ class ViewOrden extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles de Orden';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

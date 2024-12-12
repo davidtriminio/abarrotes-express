@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PromocionResource\Pages;
 
 use App\Filament\Resources\PromocionResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -24,6 +25,7 @@ class ListPromocions extends ListRecords
     protected ?string $heading = '';
     protected static ?string $title = 'Promociones';
     protected static ?string $slug = 'promociones';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

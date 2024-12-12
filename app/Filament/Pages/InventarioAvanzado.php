@@ -31,6 +31,17 @@ class InventarioAvanzado extends Page
     protected static ?string $title = 'Inventario Avanzado';
     protected static ?string $slug = 'inventario-avanzado';
 
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getWidgets(): array
     {
         return[

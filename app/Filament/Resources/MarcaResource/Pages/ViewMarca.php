@@ -4,6 +4,7 @@ namespace App\Filament\Resources\MarcaResource\Pages;
 
 use App\Filament\Resources\MarcaResource\Pages;
 use App\Filament\Resources\MarcaResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use App\Filament\Resources\MarcaResource\RelationManagers;
@@ -26,6 +27,7 @@ class ViewMarca extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles de Marca';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

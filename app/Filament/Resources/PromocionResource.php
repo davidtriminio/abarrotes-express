@@ -28,11 +28,13 @@ class PromocionResource extends Resource
     protected static ?string $recordTitleAttribute = 'id';
     public static function canAccess(): bool
     {
-        $usuarioActual = auth()->user();
-        if ($usuarioActual->hasPermissionTo('ver:promociones')) {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public static function form(Form $form): Form
@@ -73,6 +75,8 @@ class PromocionResource extends Resource
                                 'after_or_equal' => 'La fecha y hora deben ser iguales o posteriores a la fecha y hora actuales.',
                                 'before_or_equal' => 'La fecha y hora deben ser iguales o anteriores a la fecha y hora del final del día actual.',
                             ]),
+
+
                             Forms\Components\DateTimePicker::make('fecha_expiracion')
                             ->required()
                             ->native(false)

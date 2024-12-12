@@ -102,6 +102,7 @@ class RolesPermisosSeeder extends Seeder
 
         /*Permisos Copias de Seguridad*/
         $permisoCopiasR = Permission::create(['name' => 'ver:copias-seguridad']);
+        $permisoInventarioAvanzadoR = Permission::create(['name' => 'ver:inventario-avanzado']);
 
 
         // ADMINS
@@ -173,6 +174,7 @@ class RolesPermisosSeeder extends Seeder
             $permisoNotificaciones,
             $permisoLogsR,
             $permisoCopiasR,
+            $permisoInventarioAvanzadoR,
         ]);
 
 

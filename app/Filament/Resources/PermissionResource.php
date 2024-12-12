@@ -31,6 +31,16 @@ class PermissionResource extends Resource
     protected static ?string $navigationGroup = 'Usuarios';
     protected static ?int $navigationSort = 4;
     protected static ?string $modelLabel = 'Permiso';
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     protected function getHeaderActions(): array
     {
         return [
@@ -46,9 +56,10 @@ class PermissionResource extends Resource
         return $form
             ->schema([
                 Section::make([
-                    TextInput::make('Nombre del permiso')
+                    TextInput::make('name')
                         ->required()
-                        ->unique(),
+                        ->unique()
+                        ->label('Nombre del Permiso'),
                     Placeholder::make('created_at')
                         ->label('Fecha de creación')
                         ->content(fn(?Permission $record): string => $record?->created_at?->diffForHumans() ?? '-'),
@@ -67,11 +78,5 @@ class PermissionResource extends Resource
             'create' => Pages\CreatePermission::route('/create'),
             'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
-    }
-
-    public static function canAccess(): bool
-    {
-        $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:permisos');
     }
 }

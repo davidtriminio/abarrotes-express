@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UsuariosResource\Pages;
 
 use App\Filament\Resources\UsuarioResource;
+use App\Traits\PermisoEditar;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -15,7 +16,7 @@ class EditUsuarios extends EditRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
     protected static ?string $title = 'Editar Usuario';
-
+    use PermisoEditar;
     protected function getHeaderActions(): array
     {
         return [

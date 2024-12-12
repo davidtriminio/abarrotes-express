@@ -32,6 +32,16 @@ class CuponResource extends Resource
     protected static ?int $navigationSort = 5;
     protected static ?string $recordTitleAttribute = 'codigo';
     protected static ?string $slug = 'cupones';
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     protected function getHeaderActions(): array
     {
         return [
@@ -227,11 +237,5 @@ class CuponResource extends Resource
     public static function getGlobalSearchResultUrl(Model $record): string
     {
         return CuponResource::getUrl('view', ['record' => $record]);
-    }
-
-    public static function canAccess(): bool
-    {
-        $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:cupones');
     }
 }

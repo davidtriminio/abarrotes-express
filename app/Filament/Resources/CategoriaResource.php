@@ -33,7 +33,16 @@ class CategoriaResource extends Resource
     protected static ?string $recordTitleAttribute = 'nombre';
     protected static ?string $slug = 'categorias';
 
-
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     protected function getHeaderActions(): array
     {
         return [
@@ -135,11 +144,5 @@ class CategoriaResource extends Resource
     public static function getGlobalSearchResultUrl(Model $record): string
     {
         return CategoriaResource::getUrl('view', ['record' => $record]);
-    }
-
-    public static function canAccess(): bool
-    {
-        $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:categorias');
     }
 }

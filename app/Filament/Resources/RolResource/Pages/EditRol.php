@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\RolResource\Pages;
 
 use App\Filament\Resources\RolResource;
+use App\Traits\PermisoEditar;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
@@ -12,6 +13,7 @@ class EditRol extends EditRecord
     protected static string $resource = RolResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
+    use PermisoEditar;
 
     protected function getHeaderActions(): array
     {

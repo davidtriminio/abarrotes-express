@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ProductoResource\Pages;
 
 use App\Filament\Resources\ProductoResource\Pages;
 use App\Filament\Resources\ProductoResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use App\Models\Producto;
@@ -25,6 +26,8 @@ class ViewProducto extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles de Producto';
+    use PermisoVer;
+
     protected function getHeaderActions(): array
     {
         return [

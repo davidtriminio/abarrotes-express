@@ -9,4 +9,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateQuejasySugerencias extends CreateRecord
 {
     protected static string $resource = QuejasySugerenciasResource::class;
+
 }

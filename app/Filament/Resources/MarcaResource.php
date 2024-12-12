@@ -31,6 +31,17 @@ class MarcaResource extends Resource
     protected static ?int $navigationSort = 3;
     protected static ?string $recordTitleAttribute = 'nombre';
     protected static ?string $slug = 'marcas';
+
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     protected function getHeaderActions(): array
     {
         return [
@@ -41,8 +52,6 @@ class MarcaResource extends Resource
                 ->color('gray'),
         ];
     }
-
-
     public static function form(Form $form): Form
     {
         return $form
@@ -128,11 +137,4 @@ class MarcaResource extends Resource
     {
         return MarcaResource::getUrl('view', ['record' => $record]);
     }
-
-    public static function canAccess(): bool
-    {
-        $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:marcas');
-    }
-
 }

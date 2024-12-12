@@ -31,6 +31,17 @@ class ProveedorResource extends Resource
     protected static ?int $navigationSort =4;
     protected static ?string $recordTitleAttribute = 'id';
 
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [

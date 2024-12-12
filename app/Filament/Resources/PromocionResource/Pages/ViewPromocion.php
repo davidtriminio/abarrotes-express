@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PromocionResource\Pages;
 
 use App\Filament\Resources\PromocionResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use App\Models\Producto;
@@ -26,7 +27,7 @@ class ViewPromocion extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles de Promocion';
-
+    use PermisoVer;
     protected function getHeaderActions(): array
     {
         return [

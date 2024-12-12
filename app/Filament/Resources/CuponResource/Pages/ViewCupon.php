@@ -4,6 +4,7 @@ namespace App\Filament\Resources\CuponResource\Pages;
 
 use App\Filament\Resources\CuponResource;
 use App\Models\Cupon;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -23,6 +24,7 @@ class ViewCupon extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles de Cupon';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\CategoriaResource\Pages;
 use App\Filament\Resources\CategoriaResource;
 use App\Models\Categoria;
 use App\Models\Producto;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
@@ -32,6 +33,7 @@ class ViewCategoria extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles de Categoria';
+    use PermisoVer;
 
     protected function getHeaderActions(): array
     {

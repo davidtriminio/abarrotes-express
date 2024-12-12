@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PromocionResource\Pages;
 
 use App\Filament\Resources\PromocionResource;
+use App\Traits\PermisoEditar;
 use Filament\Actions;
 use App\Models\Promocion;
 use App\Models\Producto;
@@ -23,6 +24,7 @@ class EditPromocion extends EditRecord
     protected static string $resource = PromocionResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.editar-registro';
+    use PermisoEditar;
 
     protected function getHeaderActions(): array
     {
@@ -71,7 +73,7 @@ class EditPromocion extends EditRecord
                                 'boolean' => 'El valor debe ser verdadero o falso.',
                             ]),
 
-                            DateTimePicker::make('fecha_inicio')
+                            Forms\Components\DateTimePicker::make('fecha_inicio')
                             ->required()
                             ->native(false)
                             ->displayFormat('Y/m/d H:i:s')

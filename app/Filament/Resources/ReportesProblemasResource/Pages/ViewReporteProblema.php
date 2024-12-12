@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ReportesProblemasResource\Pages;
 
 use App\Filament\Resources\ReportesProblemasResource;
+use App\Traits\PermisoVer;
 use Filament\Actions;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\TextInput;
@@ -16,6 +17,7 @@ class ViewReporteProblema extends ViewRecord
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.ver-registro';
     protected static ?string $title = 'Detalles del Problema';
+    use PermisoVer;
 
     public function form(Form $form): Form
     {

@@ -34,6 +34,16 @@ class RolResource extends Resource
     protected static ?string $navigationGroup = 'Usuarios';
     protected static ?int $navigationSort = 3;
     protected static ?string $modelLabel = 'Rol';
+    public static function canAccess(): bool
+    {
+        $slug = self::getSlug();
+        $usuario = auth()->user();
+        if ($usuario->hasPermissionTo('ver:' . $slug)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     protected function getHeaderActions(): array
     {
         return [
@@ -94,11 +104,5 @@ class RolResource extends Resource
         return [
             PermissionsRelationManager::class
         ];
-    }
-
-    public static function canAccess(): bool
-    {
-        $usuario = auth()->user();
-        return $usuario->hasPermissionTo('ver:roles');
     }
 }

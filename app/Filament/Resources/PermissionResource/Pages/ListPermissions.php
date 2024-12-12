@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PermissionResource\Pages;
 
 use App\Filament\Resources\PermissionResource;
+use App\Traits\PermisoVer;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -21,7 +22,7 @@ class ListPermissions extends ListRecords
     protected static string $resource = PermissionResource::class;
     protected ?string $heading = '';
     protected static string $view = 'filament.resources.custom.lista_personalizada';
-
+    use PermisoVer;
     protected function getHeaderActions(): array
     {
         return [

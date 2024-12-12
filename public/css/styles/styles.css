@@ -1882,6 +1882,19 @@ body {
 }
 
 
+.marquee-promotion {
+    background-color: #3182ce; /* Color azul */
+    color: white;
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 14px; /* Tamaño de fuente */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-bottom: 10px; /* Separación con otros elementos */
+    text-align: center;
+    overflow: hidden; /* Ocultar contenido extra */
+}
+
+
+
 
 
 

@@ -96,7 +96,7 @@
                 <div class="bg-white p-3 rounded-lg shadow-lg text-center hover:bg-gray-100 card-fixed-height">
                     <!-- Etiqueta de promoción -->
                     @if($producto->promociones->where('estado', true)->isNotEmpty()) <!-- Verifica si tiene promociones activas -->
-                    <marquee behavior="scroll" direction="left" scrollamount="3" class="bg-blue-500 text-white p-1">
+                    <marquee behavior="scroll" direction="left" scrollamount="3" class="marquee-promotion">
                         <span>
                             En Promoción    L @foreach ($producto->promociones as $promo)
                                {{$promo->promocion}}

@@ -191,12 +191,16 @@ class OrdenResource extends Resource
                             ->schema([
                                 Select::make('producto_id')
                                     ->preload()
-                                    ->relationship('producto', 'nombre')
+                                    ->relationship('producto', 'nombre', function ($query) {
+                                        // Filtrar productos disponibles y con cantidad disponible mayor a 0
+                                        $query->where('disponible', true)
+                                            ->where('cantidad_disponible', '>', 0);
+                                    })
                                     ->searchable()
                                     ->required()
                                     ->distinct()
                                     ->reactive()
-->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         $producto = Producto::find($state);
                                         if ($producto) {
@@ -215,11 +219,28 @@ class OrdenResource extends Resource
                                             } else {
                                                 $set('hint_monto_unitario', null);
                                             }
+
+                                            // Validación de cantidad
+                                            $cantidadDisponible = $producto->cantidad_disponible;
+                                            $cantidadSolicitada = $get('cantidad');
+
+                                            if ($cantidadSolicitada > $cantidadDisponible) {
+                                                // Muestra un mensaje de error si la cantidad solicitada supera la disponible
+                                                $set('cantidad', $cantidadDisponible); // Establece la cantidad al máximo disponible
+                                                // Se puede incluir un mensaje de error en un campo específico, en este caso 'cantidad'
+                                                $set('error_cantidad', "La cantidad disponible es solo $cantidadDisponible.");
+                                            } else {
+                                                $set('error_cantidad', null); // Elimina el mensaje de error si la cantidad es válida
+                                            }
                                         }
                                     })
                                     ->validationMessages([
                                         'required' => 'Debe seleccionar un producto.',
                                     ])
+                                    ->hint(function ($state, $component) {
+                                        $producto = Producto::find($state);
+                                        return $producto ? "Cantidad disponible: {$producto->cantidad_disponible}" : 'Seleccione un producto.';
+                                    })
                                     ->columnSpan(4),
 
                                 TextInput::make('cantidad')
@@ -231,15 +252,25 @@ class OrdenResource extends Resource
                                     ->reactive()
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
-                                        $monto_unitario = $get('monto_unitario');
-                                        $set('monto_total', number_format((float)($state * $monto_unitario), 2, '.', ''));
+                                        $producto = Producto::find($get('producto_id'));
+
+                                        if ($producto) {
+                                            $cantidadDisponible = $producto->cantidad_disponible;
+                                            if ($state > $cantidadDisponible) {
+                                                $set('cantidad', $cantidadDisponible);
+                                            }
+                                            $monto_unitario = $get('monto_unitario');
+                                            $set('monto_total', number_format((float)($get('cantidad') * $monto_unitario), 2, '.', ''));
+                                            $set('monto_unitario', number_format((float)$monto_unitario, 2, '.', ''));
+                                        }
                                     })
                                     ->columns(3)
-                                    ->required()
                                     ->validationMessages([
                                         'required' => 'Debe introducir una cantidad',
-                                        'min_value' => 'La cantidad mínima permitida es 1'
-                                    ]),
+                                        'min_value' => 'La cantidad mínima permitida es 1',
+                                        'max_value' => 'La cantidad no puede ser mayor que la cantidad disponible'
+                                    ])
+                                    ->columnSpan(2),
 
                                 TextInput::make('monto_unitario')
                                     ->numeric()
@@ -258,7 +289,6 @@ class OrdenResource extends Resource
                                         'min_value' => 'La cantidad mínima permitida es 1'
                                     ])
                                     ->columnSpan(3),
-
                                 TextInput::make('monto_total')
                                     ->numeric()
                                     ->disabled()
@@ -277,8 +307,6 @@ class OrdenResource extends Resource
                                         'required' => 'Debe introducir una cantidad',
                                         'min_value' => 'La cantidad mínima permitida es 1'
                                     ])->columns(2),
-
-
                             ])->columns(12),
 
                         Section::make([
@@ -298,7 +326,6 @@ class OrdenResource extends Resource
                         ]),
 
                         Section::make([
-
                             Placeholder::make('total_final_placeholder')
                                 ->label('Total Final: ')
                                 ->content(function (Get $get, Set $set) {

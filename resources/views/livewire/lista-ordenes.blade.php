@@ -167,11 +167,74 @@
     </div>
     <script>
         function printTable() {
-            var printContents = document.getElementById('orderTable').innerHTML;
-            var originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
+            var printDiv = document.createElement('div');
+    printDiv.style.width = '100%';
+
+    var printTitle = document.createElement('h3');
+    printTitle.textContent = "Mis Ordenes";
+    printTitle.style.fontSize = '16pt'; // Set a larger font size
+    printTitle.style.color = 'black';
+
+    // Clone the target element and append it to the temporary div
+    var printContent = document.getElementById('orderTable').cloneNode(true);
+    printDiv.appendChild(printTitle);
+    printDiv.appendChild(printContent);
+
+    // Add necessary styles for printing
+    var printStyles = `
+    <style>
+      @media print {
+        body {
+          font-size: 10pt;
+          margin: 0;
+          padding: 0;
+          zoom: 1;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          table-layout: fixed;
+        }
+
+        /* Improve table layout */
+        .print\:table {
+          border: 1px solid #ddd; /* Add border for printed table */
+        }
+        .print\:th, .print\:td {
+          padding: 8px; /* Increase cell padding */
+          text-align: left;
+        }
+
+        /* Style header row */
+        .print\:thead th {
+          background-color: #f2f2f2; /* Light gray background */
+          font-weight: bold;
+        }
+      }
+    </style>
+  `;
+    printDiv.innerHTML = printStyles + printDiv.innerHTML;
+
+    // Temporarily replace the body content with the print content
+    document.body.innerHTML = printDiv.innerHTML;
+
+    // Trigger the print dialog
+    window.print();
+
+    // Restore the original body content
+    setTimeout(function() {
+        document.body.innerHTML = originalContents;
+        
+        // Recargar los eventos de Livewire después de restaurar el contenido
+        if (typeof window.Livewire !== 'undefined') {
+            window.Livewire.restart();
+        }
+        
+    }, 100);
+
+            event.preventDefault();
+           location.reload();
         }
     </script>
 </div>

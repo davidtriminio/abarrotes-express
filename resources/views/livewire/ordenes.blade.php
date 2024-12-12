@@ -17,7 +17,19 @@
           
             
         </div>
-        
+        <?php
+// Suponiendo que $orden es un objeto que contiene el ID de la orden
+    $ordenId = $orden->id;
+
+// Intentar recuperar el número de factura de la caché
+    $numeroFactura = Cache::get("n:factura_{$ordenId}");
+
+// Si no existe en caché, generar uno nuevo
+    if (!$numeroFactura) {
+        $numeroFactura = rand(10000, 99999);
+        Cache::put("n:factura_{$ordenId}", $numeroFactura); // Guardar por 1 hora
+    }  
+?>
 
         <div id="orden" class="bg-white shadow-xl rounded-lg p-8 border border-gray-300 mt-4">
             <!-- User Information and Invoice Details -->
@@ -27,6 +39,7 @@
                     <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Información del Usuario</h3>
                     <p class="mt-2"><strong>Nombre de Usuario:</strong> <span class="text-gray-600">{{ $orden->user->name }}</span></p>
                     <p class="mt-2"><strong>Correo:</strong> <span class="text-gray-600">{{ $orden->user->email }}</span></p>
+
                 </div>
 
                 <div class="bg-gray-110 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
@@ -34,6 +47,7 @@
                     <p class="mt-2"><strong>Método de Pago:</strong> <span class="text-gray-600">{{ strpos($orden->metodo_pago, 'par') !== false ? 'Pago a recibir' : $orden->metodo_pago }}</span></p>
                     <p class="mt-2"><strong>Estado de Pago:</strong> <span class="text-gray-600">{{ ucfirst($orden->estado_pago) }}</span></p>
                     <p class="mt-2"><strong>Estado de Entrega:</strong> <span class="text-gray-600">{{ ucfirst($orden->estado_entrega) }}</span></p>
+                    <p class="mt-2"><strong>Numero de factura:</strong> <span class="text-gray-600"><?php echo $numeroFactura; ?> </span></p>
                 </div>
             </div>
 
@@ -102,137 +116,141 @@
     </div>
 
     @if($confirmingReturn)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-                <div class="mt-3 text-center">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Confirmar Devolución</h3>
-                    <div class="mt-2 px-7 py-3">
-                        <p class="text-sm text-gray-500">
-                            ¿Está seguro que desea procesar la devolución de esta orden?
-                        </p>
-                    </div>
-                    <div class="items-center px-4 py-3">
-                        <button
-                            wire:click="procesarDevolucion"
-                            class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300"
-                        >
-                            Confirmar Devolución
-                        </button>
-                        <button
-                            wire:click="$set('confirmingReturn', false)"
-                            class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 ml-3"
-                        >
-                            Cancelar
-                        </button>
-                    </div>
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Confirmar Devolución</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500">
+                        ¿Está seguro que desea procesar la devolución de esta orden?
+                    </p>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button
+                        wire:click="procesarDevolucion"
+                        wire:loading.attr="disabled"
+                        wire:loading.class="animate-spin" 
+                        class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
+                    
+                        <span wire:loading.remove>Confirmar <br>Devolución</span>
+                        <span wire:loading>
+                            <svg class="h-5 w-5 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <button
+                        wire:click="$set('confirmingReturn', false)"
+                        class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 ml-3"
+                    >
+                        Cancelar
+                    </button>
                 </div>
             </div>
         </div>
-    @endif
-
+    </div>
+@endif
     <script>
        function printTable() {
-    // Crear un nuevo elemento div para el contenido de impresión
-    var printDiv = document.createElement('div');
     
-    // Obtener el contenido a imprimir
+   // Crear un nuevo elemento div para el contenido de impresión
+   // Crear un nuevo elemento div para el contenido de impresión
+   var printDiv = document.createElement('div');
+
+// Crear el título
+    var title = document.createElement('h2');
+    title.innerText = "Detalle de la orden";
+    title.style.textAlign = "center"; // Centrar el título
+    title.style.marginBottom = "5px"; // Espacio debajo del título
+    title.style.fontSize = '16pt';
+    title.style.color = 'black';
+
+// Obtener el contenido a imprimir
     var contentToPrint = document.getElementById('orden').cloneNode(true);
-    
-    // Agregar estilos específicos para impresión
+
+// Agregar estilos específicos para impresión
     var printStyles = `
-        <style type="text/css" media="print">
-            @page {
-                size: auto;
-                margin: 10mm;
-            }
-            
-            body {
-                background-color: white;
-                font-size: 10pt; /* Reducir el tamaño de fuente para más espacio */
-            }
-            
-            table {
-                width: 100% !important;
-                border-collapse: collapse !important;
-                margin-bottom: 1em !important;
-                table-layout: auto !important; /* Permitir ajuste automático */
-            }
-            
-            th, td {
-                border: 1px solid #ddd !important;
-                padding: 4px !important; /* Reducir el padding para más espacio */
-                text-align: left !important;
-                white-space: normal !important; /* Permitir ajuste de texto */
-                overflow: visible !important;
-            }
-            
-            th {
-                background-color: #f8f9fa !important;
-                font-weight: bold !important;
-            }
-            
-            /* Asegurar que todas las columnas tengan un ancho adecuado */
-            table th:nth-child(1),
-            table td:nth-child(1) {
-                width: 33% !important; /* Columna Producto */
-            }
-            
-            table th:nth-child(2),
-            table td:nth-child(2) {
-                width: 33% !important; /* Columna Cantidad */
-            }
-            
-            table th:nth-child(3),
-            table td:nth-child(3) {
-                width: 34% !important; /* Columna Precio Unitario */
-            }
-            
-            @media print {
-                .no-print {
-                    display: none !important;
-                }
-                
-                .page-break {
-                    page-break-before: always;
-                }
-                
-                /* Forzar la visualización de contenido */
-                * {
-                    overflow: visible !important;
-                }
-                
-                /* Asegurar que el texto sea visible */
-                .text-sm {
-                    font-size: 10pt !important; /* Reducir el tamaño de fuente */
-                    color: black !important;
-                }
-            }
-        </style>
-    `;
-    
-    // Agregar los estilos y el contenido al div de impresión
-    printDiv.innerHTML = printStyles + contentToPrint.outerHTML;
-    
-    // Guardar el contenido original
-    var originalContents = document.body.innerHTML;
-    
-    // Reemplazar el contenido del body con el contenido a imprimir
-    document.body.innerHTML = printDiv.innerHTML;
-    
-    // Imprimir
-    window.print();
-    
-    // Restaurar el contenido original después de imprimir
-    setTimeout(function() {
-        document.body.innerHTML = originalContents;
-        // Recargar los eventos de Livewire después de restaurar el contenido
-        if (typeof window.Livewire !== 'undefined') {
-            window.Livewire.restart();
-        }
-    }, 500);
+    <style type="text/css" media="print">
+    @page {
+       size: auto;
+        margin: 8mm;
+    }
+    body {
+        background-color: white;
+        font-size: 10pt; /* Reducir el tamaño de fuente para más espacio */
+    }
+    .card {
+    width: 100%; /* Cambiar a 100% para que se ajuste al contenedor */
+        height: auto; /* Permitir que la altura se ajuste automáticamente */
+    box-sizing: border-box; /* Incluir padding y border en el tamaño total */
+    }
+    .grid {
+        display: flex; /* Usar flexbox para alinear los divs */
+        justify-content: space-between; /* Espacio entre los divs */
+    }
+    .grid > div {
+     flex: 4; /* Hacer que cada div ocupe el mismo espacio */
+     margin: 0 10px; /* Espacio entre los divs */
+    }
+        table {
+     width: 100% !important;
+     border-collapse: collapse !important;
+      margin-bottom: 1em !important;
+      table-layout: auto !important; /* Permitir ajuste automático */
+    }
+    th, td {
+     border: 1px solid #ddd !important;
+     padding: 5px !important; /* Reducir el padding para más espacio */
+      text-align: left !important;
+      white-space: normal !important; /* Permitir ajuste de texto */
+      overflow: visible !important;
+    }
+    th {
+        background-color: #f8f9fa !important;
+        font-weight: bold !important;
+    }
+    @media print {
+         .no-print {
+         display: none !important;
+    }
+    .page-break {
+        page-break-before: always;
+    }
+    * {
+        overflow: visible !important;
+    }
+    .text-sm {
+        font-size: 10pt !important; /* Reducir el tamaño de fuente */
+        color: black !important;
+    }
+}
+</style>
+`;
+
+// Agregar el título y el contenido al div de impresión
+printDiv.innerHTML = printStyles + title.outerHTML + contentToPrint.outerHTML;
+
+// Guardar el contenido original
+var originalContents = document.body.innerHTML;
+// Reemplazar el contenido del body con el contenido a imprimir
+document.body.innerHTML = printDiv.innerHTML;
+// Imprimir
+window.print();
+// Restaurar el contenido original después de imprimir
+setTimeout(function() {
+    document.body.innerHTML = originalContents;
+    // Recargar los eventos de Livewire después de restaurar el contenido
+    if (typeof window.Livewire !== 'undefined') {
+        window.Livewire.restart();
+    }
+}, 500);
+            event.preventDefault();
+               location.reload();
 }
     </script>
 </div>
+
 
 
 

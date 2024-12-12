@@ -406,6 +406,7 @@ class Carrito extends Component
             // Limpiar cookies y notificar al usuario
             CarritoManagement::quitarElementosCookies();
             CarritoManagement::quitarCuponesYDescuentos();
+            $users = \App\Models\User::permission('ver:admin')->get();
             Notification::make('Orden creada correctamente.')->success()
                 ->title(auth()->user()->name . ' ha realizado una nueva orden')
                 ->body('El pedido se ha creado con éxito.')
@@ -414,7 +415,7 @@ class Carrito extends Component
                         ->label('Ver Orden')
                         ->url(OrdenResource::getUrl('view', ['record' => $orden])),
                 ])
-                ->sendToDatabase($orden->user);
+                ->sendToDatabase($users);
 
             // Enviar correo al usuario
             Mail::to($orden->user->email)->send(new PedidoRealizado($orden));

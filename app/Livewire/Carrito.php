@@ -35,6 +35,10 @@ class Carrito extends Component
     public $nuevo_cupon_id;
 
 
+    public $modal_confirmacion_pago;
+
+    public $cambios_detectados = false;
+
 
 
 
@@ -58,6 +62,7 @@ class Carrito extends Component
         $this->total_final = max(0, $this->total_original - $this->descuento_total);
 
 
+
     }
 
     public function eliminarElemento($producto_id)
@@ -78,6 +83,7 @@ class Carrito extends Component
 
         // Actualizar el conteo del carrito
         $this->dispatch('update-cart-count', conteo_total: count($this->elementos_carrito))->to(Navbar::class);
+        $this->cambios_detectados = true;
     }
 
     public function incrementarCantidad($producto_id)
@@ -88,6 +94,7 @@ class Carrito extends Component
             $this->elementos_carrito = $resultado;
             $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
             $this->total_final = $this->total_original - $this->descuento_total;
+            $this->cambios_detectados = true;
         } else {
             $this->alert('error', $resultado, [
                 'position' => 'bottom-end',
@@ -115,7 +122,7 @@ class Carrito extends Component
             $this->total_final = max(0, $this->total_original - $this->descuento_total);
 
 
-
+            $this->cambios_detectados = true;
 
 
         }
@@ -227,6 +234,7 @@ class Carrito extends Component
 
 
         $this->mostrar_menu_cupones = false;
+        $this->cambios_detectados = true;
     }
 
     public function cupónEsAplicable($cupon_id)
@@ -321,6 +329,7 @@ class Carrito extends Component
             CarritoManagement::agregarDescuentoCookies($this->descuento_total, $this->cupones_aplicados, $this->nuevo_cupon_id);
 
             $this->mostrar_menu_cupones = false;
+            $this->cambios_detectados = true;
 
         }
     }
@@ -338,7 +347,21 @@ class Carrito extends Component
         }
     }
 
+
+
     public function realizarPedido()
+    {
+        // Si se detectaron cambios en el carrito, mostrar el modal de confirmación
+        if ($this->cambios_detectados) {
+            $this->modal_confirmacion_pago = true;
+            return; // Detener el flujo hasta que el usuario confirme
+        }
+
+        $this->procesarPedido();
+    }
+
+
+    public function procesarPedido()
     {
         // Obtener elementos desde cookies
         $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
@@ -405,6 +428,7 @@ class Carrito extends Component
             return redirect()->back()->withErrors('Error al crear el pedido. Por favor, inténtalo de nuevo.');
         }
     }
+
 
     public function render()
     {

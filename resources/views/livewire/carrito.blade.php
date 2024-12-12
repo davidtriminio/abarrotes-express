@@ -214,6 +214,31 @@
                         </div>
                     </div>
 
+                    <!-- Modal de confirmación de cambios -->
+                    <div x-data="{ open: @entangle('modal_confirmacion_pago') }"
+                         x-show="open"
+                         x-init="@this.on('modal_confirmacion_pago', () => { open = true })"
+                         class="fixed inset-0 flex items-center justify-center z-50">
+                        <div class="bg-white border-2 border-gray-300 rounded-lg p-6 z-10"
+                             x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 transform scale-90"
+                             x-transition:enter-end="opacity-100 transform scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 transform scale-100"
+                             x-transition:leave-end="opacity-0 transform scale-90">
+                            <h3 class="text-lg font-semibold">Confirmar Pedido</h3>
+                            <p>Se han detectado cambios en tu carrito. ¿Estás seguro de que deseas proceder con el pedido?</p>
+                            <div class="mt-4 flex justify-end">
+                                <button @click="open = false" class="bg-gray-300 text-black py-2 px-4 rounded-lg mr-2">Cancelar</button>
+                                <button wire:click="procesarPedido" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
 
 
                     <!-- Total Final después del cupón -->

@@ -21,7 +21,7 @@
                     <!-- Columna de producto con imagen y nombre -->
                     <td class="py-4 px-6 flex items-center space-x-4">
                         <img class="h-16 w-16 rounded-lg object-cover shadow-sm"
-                             src="{{ isset($favorito->producto->imagenes[0]) ? url('storage', $favorito->producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
+                             src="{{ isset($favorito->producto->imagenes[0]) ? url('storage/' . $favorito->producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
                              alt="{{ $favorito->producto->nombre }}">
                         <span class="font-semibold text-gray-800">{{ $favorito->producto->nombre }}</span>
                     </td>

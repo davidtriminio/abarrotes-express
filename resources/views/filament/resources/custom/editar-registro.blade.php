@@ -51,6 +51,9 @@
             else if($slug == 'promociones'){
              $titulo_recurso = 'Editando Promocion: ' . $this->getRecord()->id;
              $titulo_bread = $this->getRecord()->id;
+            } else if ($slug == 'roles' || $slug == 'permisos'){
+                $titulo_recurso = 'Editando: ' . $this->getRecord()->name;
+                $titulo_bread = $this->getRecord()->name;
             }
             else{
              $titulo_recurso = 'Editando: ' . $this->getRecord()->nombre;

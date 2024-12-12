@@ -60,9 +60,6 @@ class Carrito extends Component
 
         // Asegurarse de que el total final no sea negativo
         $this->total_final = max(0, $this->total_original - $this->descuento_total);
-
-
-
     }
 
     public function eliminarElemento($producto_id)
@@ -382,8 +379,10 @@ class Carrito extends Component
         // Crear una nueva orden
         $orden = new Orden();
         $orden->user_id = auth()->user()->id;
-        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
+        $orden->sub_total = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
         $orden->descuento_total = $this->descuento_total;
+        $orden->costos_envio = 0;
+        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados) + $this->descuento_total + $orden->costos_envio;
         $orden->metodo_pago = 'efectivo';
         $orden->estado_pago = 'procesando';
         $orden->estado_entrega = 'nuevo';

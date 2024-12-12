@@ -32,7 +32,6 @@ class DireccionRelationManager extends RelationManager
                             'regex' => 'No introducir números o caracteres especiales.'
                         ]
                     ),
-
                 TextInput::make('apellidos')
                     ->required()
                     ->maxLength(100)
@@ -42,7 +41,6 @@ class DireccionRelationManager extends RelationManager
                             'regex' => 'No introducir números o caracteres especiales.'
                         ]
                     ),
-
                 TextInput::make('telefono')
                     ->required()
                     ->tel()
@@ -53,11 +51,9 @@ class DireccionRelationManager extends RelationManager
                             'maxLength' => 'El número telefónico puede contener máximo 8 dígitos.'
                         ]
                     ),
-
-
                 Select::make('departamento')
                     ->options($this->getDepartamentos())
-                    ->afterStateUpdated(fn (callable $set, $state) => $set('departamento', null))
+                    ->afterStateUpdated(fn(callable $set, $state) => $set('municipio', null))
                     ->native(false)
                     ->searchable()
                     ->required()
@@ -66,7 +62,6 @@ class DireccionRelationManager extends RelationManager
                         'options' => 'El departamento debe estar en la lista',
                         'required' => 'Debe seleccionar un departamento.'
                     ]),
-
                 Select::make('municipio')
                     ->options(function (callable $get) {
                         $departamento = $get('departamento');
@@ -82,8 +77,6 @@ class DireccionRelationManager extends RelationManager
                         'options' => 'El municipio debe estar en la lista',
                         'required' => 'Debe seleccionar un municipio.'
                     ]),
-
-
                 TextInput::make('ciudad')
                     ->required()
                     ->maxLength(255)
@@ -92,7 +85,6 @@ class DireccionRelationManager extends RelationManager
                         'maxLength' => 'La ciudad no debe superar los 255 caracteres.',
                         'required' => 'Debe introducir una ciudad.'
                     ]),
-
                 Textarea::make('direccion_completa')
                     ->required()
                     ->maxLength(500)
@@ -101,7 +93,6 @@ class DireccionRelationManager extends RelationManager
                         'maxLength' => 'La ciudad no debe superar los 500 caracteres.',
                         'required' => 'Debe introducir una dirección.'
                     ]),
-
             ]);
     }
 
@@ -120,7 +111,7 @@ class DireccionRelationManager extends RelationManager
                 TextColumn::make('municipio'),
                 TextColumn::make('ciudad'),
                 TextColumn::make('direccion')
-                ->limit(50),
+                    ->limit(50),
             ])
             ->paginated(false)
             ->filters([
@@ -137,15 +128,13 @@ class DireccionRelationManager extends RelationManager
 
     public function getDepartamentos(): array
     {
-        $data = file_get_contents(resource_path('assets/departamentos.json'));
-        return json_decode($data, true);
+        $data = json_decode(file_get_contents(resource_path('data/departamentos.json')), true);
+        return $data['departamentos'] ?? [];
     }
 
-    public function getMunicipios($departamento): array
+    public function getMunicipios(string $departamento): array
     {
-        $municipiosData = file_get_contents(resource_path('assets/municipios.json'));
-        $municipios = json_decode($municipiosData, true);
-
-        return $municipios[$departamento] ?? [];
+        $municipiosData = json_decode(file_get_contents(resource_path('data/municipios.json')), true);
+        return $municipiosData['municipios'][$departamento] ?? [];
     }
 }

@@ -14,10 +14,10 @@
             <button onclick="printTable()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 ml-4">
                 Imprimir Orden
             </button>
-          
-            
+
+
         </div>
-        
+
 
         <div id="orden" class="bg-white shadow-xl rounded-lg p-8 border border-gray-300 mt-4">
             <!-- User Information and Invoice Details -->
@@ -134,10 +134,10 @@
        function printTable() {
     // Crear un nuevo elemento div para el contenido de impresión
     var printDiv = document.createElement('div');
-    
+
     // Obtener el contenido a imprimir
     var contentToPrint = document.getElementById('orden').cloneNode(true);
-    
+
     // Agregar estilos específicos para impresión
     var printStyles = `
         <style type="text/css" media="print">
@@ -145,19 +145,19 @@
                 size: auto;
                 margin: 10mm;
             }
-            
+
             body {
                 background-color: white;
                 font-size: 10pt; /* Reducir el tamaño de fuente para más espacio */
             }
-            
+
             table {
                 width: 100% !important;
                 border-collapse: collapse !important;
                 margin-bottom: 1em !important;
                 table-layout: auto !important; /* Permitir ajuste automático */
             }
-            
+
             th, td {
                 border: 1px solid #ddd !important;
                 padding: 4px !important; /* Reducir el padding para más espacio */
@@ -165,42 +165,42 @@
                 white-space: normal !important; /* Permitir ajuste de texto */
                 overflow: visible !important;
             }
-            
+
             th {
                 background-color: #f8f9fa !important;
                 font-weight: bold !important;
             }
-            
+
             /* Asegurar que todas las columnas tengan un ancho adecuado */
             table th:nth-child(1),
             table td:nth-child(1) {
                 width: 33% !important; /* Columna Producto */
             }
-            
+
             table th:nth-child(2),
             table td:nth-child(2) {
                 width: 33% !important; /* Columna Cantidad */
             }
-            
+
             table th:nth-child(3),
             table td:nth-child(3) {
                 width: 34% !important; /* Columna Precio Unitario */
             }
-            
+
             @media print {
                 .no-print {
                     display: none !important;
                 }
-                
+
                 .page-break {
                     page-break-before: always;
                 }
-                
+
                 /* Forzar la visualización de contenido */
                 * {
                     overflow: visible !important;
                 }
-                
+
                 /* Asegurar que el texto sea visible */
                 .text-sm {
                     font-size: 10pt !important; /* Reducir el tamaño de fuente */
@@ -209,19 +209,19 @@
             }
         </style>
     `;
-    
+
     // Agregar los estilos y el contenido al div de impresión
     printDiv.innerHTML = printStyles + contentToPrint.outerHTML;
-    
+
     // Guardar el contenido original
     var originalContents = document.body.innerHTML;
-    
+
     // Reemplazar el contenido del body con el contenido a imprimir
     document.body.innerHTML = printDiv.innerHTML;
-    
+
     // Imprimir
     window.print();
-    
+
     // Restaurar el contenido original después de imprimir
     setTimeout(function() {
         document.body.innerHTML = originalContents;
@@ -233,9 +233,3 @@
 }
     </script>
 </div>
-
-
-
-
-
-

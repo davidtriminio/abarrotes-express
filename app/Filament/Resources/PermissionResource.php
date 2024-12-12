@@ -56,9 +56,10 @@ class PermissionResource extends Resource
         return $form
             ->schema([
                 Section::make([
-                    TextInput::make('Nombre del permiso')
+                    TextInput::make('name')
                         ->required()
-                        ->unique(),
+                        ->unique()
+                        ->label('Nombre del Permiso'),
                     Placeholder::make('created_at')
                         ->label('Fecha de creación')
                         ->content(fn(?Permission $record): string => $record?->created_at?->diffForHumans() ?? '-'),

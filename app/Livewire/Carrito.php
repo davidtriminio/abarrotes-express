@@ -382,7 +382,7 @@ class Carrito extends Component
         $orden->sub_total = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
         $orden->descuento_total = $this->descuento_total;
         $orden->costos_envio = 0;
-        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados) + $this->descuento_total + $orden->costos_envio;
+        $orden->total_final = (CarritoManagement::calcularTotalFinal($elementos_carrito_verificados) + $this->descuento_total) + $orden->costos_envio;
         $orden->metodo_pago = 'efectivo';
         $orden->estado_pago = 'procesando';
         $orden->estado_entrega = 'nuevo';

@@ -75,6 +75,8 @@ class PromocionResource extends Resource
                                 'after_or_equal' => 'La fecha y hora deben ser iguales o posteriores a la fecha y hora actuales.',
                                 'before_or_equal' => 'La fecha y hora deben ser iguales o anteriores a la fecha y hora del final del día actual.',
                             ]),
+
+
                             Forms\Components\DateTimePicker::make('fecha_expiracion')
                             ->required()
                             ->native(false)

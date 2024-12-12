@@ -104,7 +104,7 @@ class PromocionResource extends Resource
                                 'numeric' => 'El porcentaje de oferta debe ser un número.',
                                 'minValue' => 'El porcentaje de oferta debe ser al menos 1.',
                                 'maxValue' => 'El porcentaje de oferta no debe ser mayor a 100.',
-                            ]),
+                            ]) ->default(fn(\Filament\Forms\Get $get): ?float => $get('promocion') ? null : 0),
             ]);
 
     }
@@ -136,13 +136,17 @@ class PromocionResource extends Resource
     }
 
     public static function getAvailableProducts(): array
-    {
-        // Obtén los IDs de los productos que ya están relacionados con promociones
-        $productosRelacionados = Promocion::pluck('producto_id')->toArray();
+{
+    // Obtén los IDs de los productos que ya están relacionados con promociones
+    $productosRelacionados = Promocion::pluck('producto_id')->toArray();
 
-        // Filtra los productos que no están en la lista de productos relacionados
-        return Producto::whereNotIn('id', $productosRelacionados)->pluck('nombre', 'id')->toArray();
-    }
+    // Filtra los productos que no están en oferta, que están disponibles y que no están relacionados con promociones
+    return Producto::where('en_oferta', false) // Filtrar productos sin oferta
+        ->where('disponible', true) // Filtrar solo productos disponibles
+        ->whereNotIn('id', $productosRelacionados) // Filtrar productos que están relacionados con promociones
+        ->pluck('nombre', 'id') // Obtener solo el nombre y el id
+        ->toArray(); // Convertir a array
+}
 
     public static function getPages(): array
     {
@@ -154,3 +158,4 @@ class PromocionResource extends Resource
         ];
     }
 }
+

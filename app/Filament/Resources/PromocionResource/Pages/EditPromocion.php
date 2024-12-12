@@ -73,7 +73,7 @@ class EditPromocion extends EditRecord
                                 'boolean' => 'El valor debe ser verdadero o falso.',
                             ]),
 
-                            Forms\Components\DateTimePicker::make('fecha_inicio')
+                            DateTimePicker::make('fecha_inicio')
                             ->required()
                             ->native(false)
                             ->displayFormat('Y/m/d H:i:s')
@@ -124,9 +124,13 @@ class EditPromocion extends EditRecord
     {
         // Obtén los IDs de los productos que ya están relacionados con promociones
         $productosRelacionados = Promocion::pluck('producto_id')->toArray();
-
-        // Filtra los productos que no están en la lista de productos relacionados
-        return Producto::whereNotIn('id', $productosRelacionados)->pluck('nombre', 'id')->toArray();
+    
+        // Filtra los productos que no están en oferta, que están disponibles y que no están relacionados con promociones
+        return Producto::where('en_oferta', false) // Filtrar productos sin oferta
+            ->where('disponible', true) // Filtrar solo productos disponibles
+            ->whereNotIn('id', $productosRelacionados) // Filtrar productos que están relacionados con promociones
+            ->pluck('nombre', 'id') // Obtener solo el nombre y el id
+            ->toArray(); // Convertir a array
     }
 
     protected function getFormActions(): array

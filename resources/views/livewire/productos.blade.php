@@ -111,10 +111,27 @@
                         <h3 class="text-lg font-semibold mb-2 text-primary">{{$producto->nombre}}</h3>
                     </a>
                     <div class="flex items-center justify-center mb-4">
-                        <span class="text-lg font-bold text-primary">L. @if($producto->en_oferta){{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}@else{{ $producto->precio }}@endif</span>
-                        @if($producto->en_oferta)
+                        <span class="text-lg font-bold text-primary"> @if($producto->en_oferta)L.{{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}</span>
+
                             <span class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
-                        @endif
+
+
+
+                        @elseif($producto->promociones->where('estado', true)->isNotEmpty()) <!-- Verifica si tiene promociones activas -->
+                    <p>
+                        <span class="text-lg font-bold text-primary">
+                            @foreach ($producto->promociones as $promo)
+                               {{$producto->precio - ($producto->precio * ($promo->promocion / 100)) }}
+                               <span class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
+                            @endforeach
+
+                        </span>
+                    </p>
+
+
+                    @else <!-- Verifica si tiene promociones activas -->
+                    L{{ $producto->precio }}
+                    @endif
                     </div>
 
 

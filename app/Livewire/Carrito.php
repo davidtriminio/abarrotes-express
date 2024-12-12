@@ -60,9 +60,6 @@ class Carrito extends Component
 
         // Asegurarse de que el total final no sea negativo
         $this->total_final = max(0, $this->total_original - $this->descuento_total);
-
-
-
     }
 
     public function eliminarElemento($producto_id)
@@ -382,8 +379,10 @@ class Carrito extends Component
         // Crear una nueva orden
         $orden = new Orden();
         $orden->user_id = auth()->user()->id;
-        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
+        $orden->sub_total = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
         $orden->descuento_total = $this->descuento_total;
+        $orden->costos_envio = 0;
+        $orden->total_final = (CarritoManagement::calcularTotalFinal($elementos_carrito_verificados) - $this->descuento_total) + $orden->costos_envio;
         $orden->metodo_pago = 'efectivo';
         $orden->estado_pago = 'procesando';
         $orden->estado_entrega = 'nuevo';
@@ -407,6 +406,7 @@ class Carrito extends Component
             // Limpiar cookies y notificar al usuario
             CarritoManagement::quitarElementosCookies();
             CarritoManagement::quitarCuponesYDescuentos();
+            $users = \App\Models\User::permission('ver:admin')->get();
             Notification::make('Orden creada correctamente.')->success()
                 ->title(auth()->user()->name . ' ha realizado una nueva orden')
                 ->body('El pedido se ha creado con éxito.')
@@ -415,7 +415,7 @@ class Carrito extends Component
                         ->label('Ver Orden')
                         ->url(OrdenResource::getUrl('view', ['record' => $orden])),
                 ])
-                ->sendToDatabase($orden->user);
+                ->sendToDatabase($users);
 
             // Enviar correo al usuario
             Mail::to($orden->user->email)->send(new PedidoRealizado($orden));

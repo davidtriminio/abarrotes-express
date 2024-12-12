@@ -91,11 +91,17 @@ class UsuarioResource extends Resource
                     ]),
 
                 CheckboxList::make('roles')
-                    ->relationship('roles', 'name')
+                    ->relationship('roles', 'name', function ($query) {
+                        if (!auth()->user()->hasRole('SuperAdmin')) {
+                            return
+                                $query->where('name', '!=', 'SuperAdmin');
+                        } else {
+                            return $query;
+                        }
+                    })
                     ->columns(2)
                     ->required()
                     ->maxItems(1)
-                    ->exists('roles', 'id')
                     ->default('Cliente')
                     ->hint('Solo se debe seleccionar un Rol')
                     ->validationMessages([

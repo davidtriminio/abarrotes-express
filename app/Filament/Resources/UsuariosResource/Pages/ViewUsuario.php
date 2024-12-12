@@ -103,6 +103,26 @@ class ViewUsuario extends ViewRecord
                         'regex' => 'Debe introducir un correo electrónico válido.'
                     ]),
 
+                CheckboxList::make('roles')
+                    ->relationship('roles', 'name', function ($query) {
+                        if (!auth()->user()->hasRole('SuperAdmin')) {
+                            return
+                                $query->where('name', '!=', 'SuperAdmin');
+                        } else {
+                            return $query;
+                        }
+                    })
+                    ->columns(2)
+                    ->required()
+                    ->maxItems(1)
+                    ->default('Cliente')
+                    ->hint('Solo se debe seleccionar un Rol')
+                    ->validationMessages([
+                        'required' => 'Debe seleccionar un rol.',
+                        'max' => 'Debe seleccionar solamente un rol.',
+                        'exists' => 'El Rol seleccionado no es válido'
+                    ]),
+
                 DateTimePicker::make('email_verified_at')
                     ->label('Fecha de verificación de Correo'),
 

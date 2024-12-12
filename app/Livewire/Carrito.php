@@ -354,8 +354,9 @@ class Carrito extends Component
         // Crear una nueva orden
         $orden = new Orden();
         $orden->user_id = auth()->user()->id;
-        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
+        $orden->sub_total = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
         $orden->descuento_total = $this->descuento_total;
+        $orden->total_final = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados) + $this->descuento_total;
         $orden->metodo_pago = 'efectivo';
         $orden->estado_pago = 'procesando';
         $orden->estado_entrega = 'nuevo';

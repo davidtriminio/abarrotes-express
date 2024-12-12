@@ -2,7 +2,7 @@
     {{-- Wrap everything in a single root div with spacing utility --}}
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" id="ordenDetalles">
         <div class="flex items-center justify-between">
-        @if(in_array($orden->estado_entrega, ['nuevo', 'procesado', 'entregado']))
+            @if(in_array($orden->estado_entrega, ['nuevo', 'procesado', 'entregado']))
                 <button
                     wire:click="iniciarDevolucion"
                     class="mt-4 bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700"
@@ -11,7 +11,8 @@
                 </button>
             @endif
             <h2 class="text-4xl font-bold text-gray-800 mb-0 flex-1 text-center">Detalles de la Orden</h2>
-            <button onclick="printTable()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 ml-4">
+            <button onclick="printTable()"
+                    class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 ml-4">
                 Imprimir Orden
             </button>
 
@@ -23,71 +24,97 @@
             <!-- User Information and Invoice Details -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Your existing user info and invoice details sections -->
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
-                    <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Información del Usuario</h3>
-                    <p class="mt-2"><strong>Nombre de Usuario:</strong> <span class="text-gray-600">{{ $orden->user->name }}</span></p>
-                    <p class="mt-2"><strong>Correo:</strong> <span class="text-gray-600">{{ $orden->user->email }}</span></p>
+                <div
+                    class="bg-gray-50 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
+                    <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Información del
+                        Usuario</h3>
+                    <p class="mt-2"><strong>Nombre de Usuario:</strong> <span
+                            class="text-gray-600">{{ $orden->user->name }}</span></p>
+                    <p class="mt-2"><strong>Correo:</strong> <span
+                            class="text-gray-600">{{ $orden->user->email }}</span></p>
                 </div>
 
-                <div class="bg-gray-110 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
-                    <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Detalles de la Factura</h3>
-                    <p class="mt-2"><strong>Método de Pago:</strong> <span class="text-gray-600">{{ strpos($orden->metodo_pago, 'par') !== false ? 'Pago a recibir' : $orden->metodo_pago }}</span></p>
-                    <p class="mt-2"><strong>Estado de Pago:</strong> <span class="text-gray-600">{{ ucfirst($orden->estado_pago) }}</span></p>
-                    <p class="mt-2"><strong>Estado de Entrega:</strong> <span class="text-gray-600">{{ ucfirst($orden->estado_entrega) }}</span></p>
+                <div
+                    class="bg-gray-110 p-6 rounded-lg border border-gray-300 shadow-md transition-transform transform hover:scale-105">
+                    <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Detalles de la
+                        Factura</h3>
+                    <p class="mt-2"><strong>Método de Pago:</strong> <span
+                            class="text-gray-600">{{ strpos($orden->metodo_pago, 'par') !== false ? 'Pago a recibir' : $orden->metodo_pago }}</span>
+                    </p>
+                    <p class="mt-2"><strong>Estado de Pago:</strong> <span
+                            class="text-gray-600">{{ ucfirst($orden->estado_pago) }}</span></p>
+                    <p class="mt-2"><strong>Estado de Entrega:</strong> <span
+                            class="text-gray-600">{{ ucfirst($orden->estado_entrega) }}</span></p>
                 </div>
             </div>
 
             <!-- Products List -->
             <div class="mt-8">
-    <h3 class="text-2xl font-bold text-gray-800 border-b-2 border-blue-500 pb-2">
-        Listado de los Productos de la orden
-    </h3>
-    <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Producto</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Cantidad</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Precio Unitario</th>
-                    <th class=""></th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @forelse ($orden->elementos as $elemento)
-                    <tr>
-                        <td class="px-6 py-4 ">
-                            <div class="text-sm text-gray-700">{{ $elemento->producto->nombre }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-700">{{ $elemento->cantidad }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-700">L. {{ $elemento->monto_unitario }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class=""></div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" class="px-6 py-4 text-sm text-gray-500 text-center">No hay productos registrados</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-</div>
-<!-- Order Summary -->
+                <h3 class="text-2xl font-bold text-gray-800 border-b-2 border-blue-500 pb-2">
+                    Listado de los Productos de la orden
+                </h3>
+                <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                Producto
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                Cantidad
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                Precio Unitario
+                            </th>
+                            <th class=""></th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse ($orden->elementos as $elemento)
+                            <tr>
+                                <td class="px-6 py-4 ">
+                                    <div class="text-sm text-gray-700">{{ $elemento->producto->nombre }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-700">{{ $elemento->cantidad }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-700">L. {{ $elemento->monto_unitario }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class=""></div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-6 py-4 text-sm text-gray-500 text-center">No hay productos
+                                    registrados
+                                </td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Order Summary -->
             <div class="mt-8">
                 <h3 class="text-xl font-semibold text-gray-700 border-b-2 border-blue-500 pb-2">Resumen de la Orden</h3>
                 <div class="bg-gray-50 p-6 rounded-lg border border-gray-300 mt-2 shadow-md">
-                    <p><strong>Subtotal:</strong> <span class="text-gray-600">{{ number_format($orden->descuento_total + $orden->total_final, 2) }}</span></p>
+                    <p><strong>Subtotal:</strong> <span
+                            class="text-gray-600">{{ number_format($orden->sub_total, 2) }}</span></p>
                     @if($orden->descuento_total > 0)
-                        <p><strong>Descuentos:</strong> <span class="text-red-600">({{ number_format($orden->descuento_total, 2) }})</span></p>
+                        <p><strong>Descuentos:</strong> <span class="text-red-600">({{ number_format($orden->descuento_total, 2) }})</span>
+                        </p>
                     @endif
-                    <p><strong>Total Final:</strong> <span class="text-gray-600">{{ number_format($orden->total_final, 2) }}</span></p>
-                    <p><strong>Costos de Envío:</strong> <span class="text-gray-600">{{ number_format($orden->costos_envio, 2) }}</span></p>
-                    <p><strong>Fecha de Entrega:</strong> <span class="text-gray-600">{{ $orden->fecha_entrega ? Carbon\Carbon::parse($orden->fecha_entrega)->format('d/m/Y') : 'N/A' }}</span></p>
+                    <p><strong>Total Final:</strong> <span
+                            class="text-gray-600">{{ number_format($orden->total_final, 2) }}</span></p>
+                    @if($orden->costos_envio > 0)
+                        <p><strong>Costos de Envío:</strong> <span
+                                class="text-gray-600">{{ number_format($orden->costos_envio, 2) }}</span></p>
+                    @endif
+                    <p><strong>Fecha de Entrega:</strong> <span
+                            class="text-gray-600">{{ $orden->fecha_entrega ? Carbon\Carbon::parse($orden->fecha_entrega)->format('d/m/Y') : 'N/A' }}</span>
+                    </p>
                 </div>
             </div>
 
@@ -131,15 +158,15 @@
     @endif
 
     <script>
-       function printTable() {
-    // Crear un nuevo elemento div para el contenido de impresión
-    var printDiv = document.createElement('div');
+        function printTable() {
+            // Crear un nuevo elemento div para el contenido de impresión
+            var printDiv = document.createElement('div');
 
-    // Obtener el contenido a imprimir
-    var contentToPrint = document.getElementById('orden').cloneNode(true);
+            // Obtener el contenido a imprimir
+            var contentToPrint = document.getElementById('orden').cloneNode(true);
 
-    // Agregar estilos específicos para impresión
-    var printStyles = `
+            // Agregar estilos específicos para impresión
+            var printStyles = `
         <style type="text/css" media="print">
             @page {
                 size: auto;
@@ -210,26 +237,26 @@
         </style>
     `;
 
-    // Agregar los estilos y el contenido al div de impresión
-    printDiv.innerHTML = printStyles + contentToPrint.outerHTML;
+            // Agregar los estilos y el contenido al div de impresión
+            printDiv.innerHTML = printStyles + contentToPrint.outerHTML;
 
-    // Guardar el contenido original
-    var originalContents = document.body.innerHTML;
+            // Guardar el contenido original
+            var originalContents = document.body.innerHTML;
 
-    // Reemplazar el contenido del body con el contenido a imprimir
-    document.body.innerHTML = printDiv.innerHTML;
+            // Reemplazar el contenido del body con el contenido a imprimir
+            document.body.innerHTML = printDiv.innerHTML;
 
-    // Imprimir
-    window.print();
+            // Imprimir
+            window.print();
 
-    // Restaurar el contenido original después de imprimir
-    setTimeout(function() {
-        document.body.innerHTML = originalContents;
-        // Recargar los eventos de Livewire después de restaurar el contenido
-        if (typeof window.Livewire !== 'undefined') {
-            window.Livewire.restart();
+            // Restaurar el contenido original después de imprimir
+            setTimeout(function () {
+                document.body.innerHTML = originalContents;
+                // Recargar los eventos de Livewire después de restaurar el contenido
+                if (typeof window.Livewire !== 'undefined') {
+                    window.Livewire.restart();
+                }
+            }, 500);
         }
-    }, 500);
-}
     </script>
 </div>

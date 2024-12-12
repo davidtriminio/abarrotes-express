@@ -192,7 +192,6 @@ class OrdenResource extends Resource
                                 Select::make('producto_id')
                                     ->preload()
                                     ->relationship('producto', 'nombre', function ($query) {
-                                        // Filtrar productos disponibles y con cantidad disponible mayor a 0
                                         $query->where('disponible', true)
                                             ->where('cantidad_disponible', '>', 0);
                                     })
@@ -225,12 +224,10 @@ class OrdenResource extends Resource
                                             $cantidadSolicitada = $get('cantidad');
 
                                             if ($cantidadSolicitada > $cantidadDisponible) {
-                                                // Muestra un mensaje de error si la cantidad solicitada supera la disponible
-                                                $set('cantidad', $cantidadDisponible); // Establece la cantidad al máximo disponible
-                                                // Se puede incluir un mensaje de error en un campo específico, en este caso 'cantidad'
+                                                $set('cantidad', $cantidadDisponible);
                                                 $set('error_cantidad', "La cantidad disponible es solo $cantidadDisponible.");
                                             } else {
-                                                $set('error_cantidad', null); // Elimina el mensaje de error si la cantidad es válida
+                                                $set('error_cantidad', null);
                                             }
                                         }
                                     })
@@ -326,21 +323,10 @@ class OrdenResource extends Resource
                         ]),
 
                         Section::make([
-                            Placeholder::make('total_final_placeholder')
-                                ->label('Total Final: ')
-                                ->content(function (Get $get, Set $set) {
-                                    $total = 0;
-                                    if (!$repeaters = $get('elementos')) {
-                                        return $total;
-                                    }
-
-                                    foreach ($repeaters as $key => $repeater) {
-                                        $monto = $get("elementos.{$key}.monto_total");
-                                        $total += is_numeric($monto) ? $monto : 0;
-                                    }
-
-                                    return $set('total_final', $total);
-                                }),
+                            Placeholder::make('sub_total_placeholder')
+                                ->label('Subtotal:')
+                                ->content(fn(?Orden $record): string => $record?->sub_total ? 'L. ' . number_format($record->sub_total, 2) : '-')
+                                ->columnSpan(1),
 
                             Hidden::make('total_final')
                                 ->default(0),
@@ -348,30 +334,25 @@ class OrdenResource extends Resource
                             Hidden::make('costos_envio')
                                 ->default(0),
 
-                            Placeholder::make('porcentaje_oferta_placeholder')
-                                ->label('Descuentos: ')
-                                ->content(function (Get $get, Set $set) {
-                                    $total = 0;
-                                    if (!$repeaters = $get('elementos')) {
-                                        return $total;
-                                    }
-
-                                    foreach ($repeaters as $key => $repeater) {
-                                        $total += $get("elementos.{$key}.porcentaje_oferta");
-                                    }
-                                    $set('porcentaje_oferta', $total);
-                                }),
-
-
-                            Placeholder::make('created_at')
-                                ->label('Fecha de Creación')
-                                ->content(fn(?Orden $record): string => $record?->created_at?->diffForHumans() ?? '-')
+                            Placeholder::make('descuento_total_placeholder')
+                                ->label('Descuento Total:')
+                                ->content(fn(?Orden $record): string => $record?->descuento_total ? 'L. ' . number_format($record->descuento_total, 2) : '-')
                                 ->columnSpan(1),
 
-                            Placeholder::make('updated_at')
-                                ->label('Última Modificación')
-                                ->content(fn(?Orden $record): string => $record?->updated_at?->diffForHumans() ?? '-')
+                            Placeholder::make('total_final_placeholder')
+                                ->label('Total Final:')
+                                ->content(fn(?Orden $record): string => $record?->total_final ? 'L. ' . number_format($record->total_final, 2) : '-')
                                 ->columnSpan(1),
+                            Section::make([
+                                Placeholder::make('created_at')
+                                    ->label('Fecha de Creación')
+                                    ->content(fn(?Orden $record): string => $record?->created_at?->diffForHumans() ?? '-')
+                                    ->columnSpan(1),
+                                Placeholder::make('updated_at')
+                                    ->label('Última Modificación')
+                                    ->content(fn(?Orden $record): string => $record?->updated_at?->diffForHumans() ?? '-')
+                                    ->columnSpan(1),
+                            ])->columns(2),
                         ])->columns(3),/*Fin de seccion*/
                     ])
             ]);

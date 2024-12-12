@@ -63,6 +63,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Producto</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Cantidad</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Precio Unitario</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Total</th>
                     <th class=""></th>
                 </tr>
             </thead>
@@ -77,6 +78,9 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-700">L. {{ $elemento->monto_unitario }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-700">L. {{ $elemento->cantidad*$elemento->monto_unitario }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class=""></div>

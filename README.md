@@ -1,4 +1,4 @@
-<p align="center"><img src="public/imagen/logo1.jpeg" alt="AE Logo" height="220"></p>
+<p align="center"><img src="public/imagen/logo.png" alt="AE Logo" height="220"></p>
 
 # <p align="center"> ABARROTES EXPRESS</p>
 

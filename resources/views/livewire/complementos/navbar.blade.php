@@ -5,8 +5,8 @@
             <div class="flex items-center justify-between">
                 <a
                     href="{{ route('inicio') }}" class="p-1" aria-label="Brand">
-                    <img src="{{url(asset('/imagen/logo1.jpeg'))}}" alt="logo_abarrotes_express" class="rounded"
-                         width="60px" height="60px">
+                    <img src="{{url(asset('/imagen/logo-admin.png'))}}" alt="logo_abarrotes_express" class="rounded"
+                         width="40px" height="40px">
                 </a>
 
                 {{--Menu Móvil--}}

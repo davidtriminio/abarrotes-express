@@ -97,7 +97,7 @@
                 <div class="lg:w-1/4 sm:w-full px-4 mb-8">
                     <h3 class="text-lg font-semibold mb-4">Contactanos</h3>
                     <div class="flex items-center mb-4">
-                        <img src="/imagen/logo1.jpeg" alt="Logo" width="80px" height="80px" class="rounded-2xl">
+                        <img src="/imagen/logo.png" alt="Logo" width="80px" height="80px" class="rounded-2xl">
                         <p class="ml-4">Barrio El Carmelo, Frente al Marchante N°2, Danlí El Paraíso</p>
                     </div>
                     <p class="text-xl font-bold my-4" style="white-space: nowrap;">Telefono: +504 3333 9999</p>

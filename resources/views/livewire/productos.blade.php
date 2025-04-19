@@ -98,8 +98,8 @@
                     @if($producto->promociones->where('estado', true)->isNotEmpty()) <!-- Verifica si tiene promociones activas -->
                     <marquee behavior="scroll" direction="left" scrollamount="3" class="marquee-promotion">
                         <span>
-                            En Promoción    L @foreach ($producto->promociones as $promo)
-                               {{$promo->promocion}}
+                            En Promoción   @foreach ($producto->promociones as $promo)
+                               {{$promo->promocion}} %
                             @endforeach
                         </span>
                     </marquee>

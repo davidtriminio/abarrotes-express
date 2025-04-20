@@ -69,56 +69,55 @@
                                         explora todo lo que tenemos para ti.</p>
                                 </div>
 
-                                <!-- Traer los categoria de la base de datos -->
+                                
                                 <!-- Traer las categorías de la base de datos -->
-                                <div
-                                    class="flex flex-wrap -mx-4 bg-gray-50 p-4  @if($categorias->where('disponible', true)->count() < 2) justify-center @endif">
-                                    @forelse ($categorias as $categoria)
-                                        @if($categoria->disponible == true)
-                                            <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-8">
-                                                <a href="{{ route('productos', ['categoria' => $categoria->id]) }}"
-                                                   class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-50 transition">
-                                                    <img src="{{ isset($categoria->imagen) ? url('storage/' . $categoria->imagen) : asset('imagen/no-photo.png') }}"
-                                                         class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
-                                                         alt="{{ $categoria->nombre }}">
-                                                    <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary">{{ $categoria->nombre }}</h3>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    @empty
-                                        <p>No se encontraron categorías.</p>
-                                    @endforelse
-                                </div>
+                            <div class="flex flex-wrap -mx-4 bg-gray-50 p-4 @if($categorias->where('disponible', true)->count() < 2) justify-center @endif">
+                                @forelse ($categorias as $categoria)
+                                 @if($categoria->disponible == true)
+                                    <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-8">
+                                    <a href="{{ route('productos', ['categoria' => $categoria->id]) }}"
+                                    class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-50 transition h-full flex flex-col">
+                                    <img src="{{ isset($categoria->imagen) ? url('storage/' . $categoria->imagen) : asset('imagen/no-photo.png') }}"
+                                    class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
+                                     alt="{{ $categoria->nombre }}">
+                                    <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary line-clamp-2 break-words">
+                                      {{ $categoria->nombre }}
+                                     </h3>
+                                    </a>
+                                    </div>
+                                  @endif
+                                  @empty
+                                    <p>No se encontraron categorías.</p>
+                                @endforelse
                             </div>
-                        </section>
                         <!-- Cambio en marcas -->
                         <section id="brands" class="bg-white py-16 px-4">
-                            <div class="container mx-auto max-w-screen-xl px-4">
-                                <div class="text-center mb-12 lg:mb-20">
-                                    <h2 class="text-5xl font-bold mb-4">Descubra <span class="text-primary">Nuestras Marcas</span>
-                                    </h2>
-                                    <p class="my-7">Explora las principales marcas que presentamos en nuestra tienda</p>
-                                </div>
-                                <div
-                                    class="flex flex-wrap -mx-4 bg-gray-50 p-4 @if($marcas->where('disponible', true)->count() < 4) justify-center @endif">
-                                    @forelse ($marcas as $marca)
-                                        @if($marca->disponible == true)
-                                            <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/3 px-4 mb-8">
-                                                <a href="{{ route('productos', [0, 'marca' => $marca->id]) }}"
-                                                   class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-50 transition">
-                                                    <img src="{{ isset($marca->imagen) ? url('storage/' . $marca->imagen) : asset('imagen/no-photo.png') }}"
-                                                         class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
-                                                         alt="{{ $marca->nombre }}">
-                                                    <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary">{{ $marca->nombre }}</h3>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    @empty
-                                        <p>No se encontraron las marcas.</p>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </section>
+    <div class="container mx-auto max-w-screen-xl px-4">
+        <div class="text-center mb-12 lg:mb-20">
+            <h2 class="text-5xl font-bold mb-4">Descubra <span class="text-primary">Nuestras Marcas</span></h2>
+            <p class="my-7">Explora las principales marcas que presentamos en nuestra tienda</p>
+        </div>
+        <div class="flex flex-wrap -mx-4 bg-gray-50 p-4 @if($marcas->where('disponible', true)->count() < 4) justify-center @endif">
+            @forelse ($marcas as $marca)
+                @if($marca->disponible == true)
+                    <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/3 px-4 mb-8">
+                        <a href="{{ route('productos', [0, 'marca' => $marca->id]) }}" 
+                           class="block bg-white p-3 rounded-lg shadow-lg hover:bg-gray-50 transition h-full flex flex-col">
+                            <img src="{{ isset($marca->imagen) ? url('storage/' . $marca->imagen) : asset('imagen/no-photo.png') }}"
+                                 class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
+                                 alt="{{ $marca->nombre }}">
+                            <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary line-clamp-2 break-words px-2">
+                                {{ $marca->nombre }}
+                            </h3>
+                        </a>
+                    </div>
+                @endif
+            @empty
+                <p>No se encontraron las marcas.</p>
+            @endforelse
+        </div>
+    </div>
+</section>
 
                         <section class="py-16">
                             <div class="relative items-center w-full px-5 py-12 mx-auto md:px-12 lg:px-24 max-w-7xl">

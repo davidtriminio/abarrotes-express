@@ -126,7 +126,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                      <p>No hay ordenes aun hecha</p>
+                                      <h2 class="mb-9 text-center font-bold">No se ha realizado ninguna orden</h2>
                             @endforelse
 
                             </tbody>

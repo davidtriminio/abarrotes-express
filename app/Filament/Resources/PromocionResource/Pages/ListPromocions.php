@@ -48,8 +48,9 @@ class ListPromocions extends ListRecords
     {
         return $table
             ->columns([
-                TextColumn::make('producto.nombre')->label('producto'),
-                TextColumn::make('promocion')->label('promocion'),
+                TextColumn::make('producto.nombre')->label('productos'),
+                TextColumn::make('promocion')->numeric()
+                ->suffix(' %')->label('promocion'),
             ])
             ->paginated([10, 25, 50, 100,])
             ->actions([

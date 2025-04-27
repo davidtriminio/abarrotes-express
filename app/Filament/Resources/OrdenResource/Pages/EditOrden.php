@@ -40,9 +40,33 @@ class EditOrden extends EditRecord
 
     protected function beforeSave(): void
     {
-        // Desactiva temporalmente la creación de eventos automáticos
+        $subTotal = 0;
+        $descuentoTotal = 0;
+
+        foreach ($this->data['elementos'] as $elemento) {
+            $producto = \App\Models\Producto::find($elemento['producto_id']);
+
+            if ($producto) {
+                $precioOriginal = $producto->precio;
+                $cantidad = $elemento['cantidad'] ?? 1;
+                $precioConDescuento = $producto->en_oferta
+                    ? $precioOriginal - ($precioOriginal * ($producto->porcentaje_oferta / 100))
+                    : $precioOriginal;
+
+                $subTotal += $precioOriginal * $cantidad;
+
+                if ($producto->en_oferta) {
+                    $descuentoTotal += ($precioOriginal - $precioConDescuento) * $cantidad;
+                }
+            }
+        }
+
+        $this->record->sub_total = $subTotal;
+        $this->record->descuento_total = $descuentoTotal;
+        $this->record->total_final = $subTotal - $descuentoTotal;
+
+        // Luego tu log de actividad
         Activity::withoutEvents(function () {
-            // Registrar el evento manualmente
             activity()
                 ->event('Actualización')
                 ->performedOn($this->record)
@@ -52,8 +76,4 @@ class EditOrden extends EditRecord
         });
     }
 
-    protected function getRedirectUrl(): string
-    {
-        return $this->previousUrl ?? $this->getResource()::getUrl('index');
-    }
 }

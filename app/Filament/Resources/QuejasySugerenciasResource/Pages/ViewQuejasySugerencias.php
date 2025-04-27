@@ -52,16 +52,6 @@ class ViewQuejasySugerencias extends ViewRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
-            Actions\EditAction::make('Editar')
-                ->visible(function () {
-                    $slug = self::getResource()::getSlug();
-                    $usuario = auth()->user();
-                    if ($usuario->hasPermissionTo('editar:' . $slug)) {
-                        return true;
-                    }
-                    return false;
-                })
-                ->icon('heroicon-o-pencil-square'),
             Actions\DeleteAction::make('Borrar')
                 ->visible(function () {
                     $slug = self::getResource()::getSlug();

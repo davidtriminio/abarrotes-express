@@ -9,7 +9,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="qsrp-form-group">
                     <label class="qsrp-form-label">Título</label>
-                    <input type="text" wire:model="titulo" class="qsrp-form-input" required pattern="[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ]+" title="El título solo debe contener letras, números y espacios." maxlength="30" oninput="updateTitleCharacterCount(this)">
+                    <input type="text" wire:model="titulo" class="qsrp-form-input" maxlength="30" oninput="updateTitleCharacterCount(this)">
                     <div class="text-right">
                         <span id="titleCharCount" class="text-gray-600">
                             <span id="titleRemainingCount">30</span>/30 caracteres restantes
@@ -28,7 +28,7 @@
                         <option value="Cupones">Cupones</option>
                         <option value="Carrito">Carrito</option>
                         <option value="Perfil">Perfil</option>
-                        @if(auth()->check() && (auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Superadmin')))
+                        @if(auth()->check() && (auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('SuperAdmin')))
                             <option value="Panel Administrativo">Panel Administrativo</option>
                         @endif
                     </select>

@@ -8,9 +8,11 @@ use App\Traits\PermisoEditar;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Contracts\View\View;
@@ -58,28 +60,60 @@ class EditMarca extends EditRecord
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nombre')
-                    ->required()
+                TextInput::make('nombre')
                     ->label('Nombre De la Marca')
-                    ->maxLength(70)
-                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
+                    ->maxLength(70) // Esto se mantiene para el contador
+                    ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . 70 . ' caracteres restantes.'))
                     ->live()
                     ->regex('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/')
-                    ->unique(Marca::class, ignoreRecord: true)
                     ->autocomplete('off')
-                    ->validationMessages([
-                        'maxLength' => 'El nombre debe contener un máximo de :max caracteres.',
-                        'required' => 'Debe introducir un nombre para la marca.',
-                        'regex' => 'El nombre solo puede contener letras, números y los caracteres especiales permitidos.',
-                        'unique' => 'Esta marca ya existe.',
-                    ])->columnSpanFull(),
+                    ->rules([
+                        'required',
+                        'regex:/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/',
+                    ])
+                    ->rule(function (Forms\Get $get) {
+                        return function (string $attribute, $value, \Closure $fail) use ($get) {
+                            if (empty($value)) {
+                                $fail('El nombre es obligatorio.');
+                                return;
+                            }
 
-                Forms\Components\Toggle::make('disponible')
-                    ->label('Disponible')
-                    ->default(true)
-                    ->rules(['boolean'])
+                            if (strlen($value) < 5) {
+                                $fail('El nombre debe tener al menos 5 caracteres.');
+                                return;
+                            }
+
+                            if (strlen($value) > 70) {
+                                $fail('El nombre debe contener un máximo de 70 caracteres.');
+                                return;
+                            }
+
+                            if (!preg_match('/^[A-Za-zÀ-ÿ0-9\s\-\'\.]+$/', $value)) {
+                                $fail('El nombre solo debe contener letras y números.');
+                                return;
+                            }
+
+                            $query = \App\Models\Marca::withTrashed()
+                                ->where('nombre', $value);
+
+                            if ($recordId = $get('id')) {
+                                $query->where('id', '!=', $recordId);
+                            }
+
+                            $existingCategoria = $query->first();
+
+                            if ($existingCategoria) {
+                                if ($existingCategoria->trashed()) {
+                                    $fail('Esta categoría fue eliminada, pero sigue existiendo en la base de datos. Esto debido a políticas de datos.');
+                                } else {
+                                    $fail('Esta categoría ya existe.');
+                                }
+                            }
+                        };
+                    })
                     ->validationMessages([
-                        'boolean' => 'El valor debe ser verdadero o falso.',
+                        'required' => 'El nombre es obligatorio.',
+                        'regex' => 'El nombre solo debe contener letras y números.',
                     ])
                     ->columnSpanFull(),
 
@@ -99,21 +133,37 @@ class EditMarca extends EditRecord
                     ])
                     ->columnSpanFull(),
 
-                Forms\Components\Textarea::make('descripcion')
-                    ->required()
+                Textarea::make('descripcion')
                     ->label('Descripción')
                     ->placeholder('Escribe una breve descripción...')
+                    ->maxLength(300)
                     ->hint(fn ($state, $component) => ($component->getMaxLength() - strlen($state) . '/' . $component->getMaxLength() . ' caracteres restantes.'))
                     ->live()
                     ->autosize()
-                    ->minLength(5)
-                    ->maxlength(300)
+                    ->rule(function () {
+                        return function (string $attribute, $value, \Closure $fail) {
+                            if (empty($value)) {
+                                $fail('La descripción es obligatoria.');
+                                return;
+                            }
+
+                            if (strlen($value) < 5) {
+                                $fail('La descripción debe tener al menos 5 caracteres.');
+                                return;
+                            }
+
+                            if (strlen($value) > 300) {
+                                $fail('La descripción no puede exceder los 300 caracteres.');
+                                return;
+                            }
+                        };
+                    })
                     ->validationMessages([
                         'required' => 'La descripción es obligatoria.',
                         'min' => 'La descripción debe tener al menos :min caracteres.',
                         'max' => 'La descripción no puede exceder los :max caracteres.'
                     ])
-                    ->columnSpanFull(),
+                    ->columnSpan(2),
             ]);
     }
 

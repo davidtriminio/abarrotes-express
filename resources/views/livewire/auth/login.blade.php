@@ -5,7 +5,7 @@
         <form wire:submit.prevent="save">
             <div class="mb-4">
                 <label for="login-password" class="block">Correo Electronico</label>
-                <input wire:model="email" type="email" id="login-email" class="input" placeholder="Ingrese su correo electrónico" required>
+                <input wire:model="email" type="email" id="login-email" class="input" placeholder="Ingrese su correo electrónico">
                 @error('email')
                 <div class="contenedor-shake animate-shake">
                     <span class="text-red-500">{{ $message }}</span>
@@ -15,7 +15,7 @@
 
             <div class="mb-4">
                 <label for="login-password" class="block">Contraseña</label>
-                <input wire:model="password" type="password" id="login-password" class="input" placeholder="Ingrese su contraseña" required>
+                <input wire:model="password" type="password" id="login-password" class="input" placeholder="Ingrese su contraseña">
                 @error('password')
                 <div class="contenedor-shake animate-shake">
                     <span class="text-red-500 ">{{ $message }}</span>

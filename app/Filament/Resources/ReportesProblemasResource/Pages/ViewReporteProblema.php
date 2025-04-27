@@ -53,6 +53,17 @@ class ViewReporteProblema extends ViewRecord
                 ->button()
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
+
+            Actions\DeleteAction::make('Borrar')
+                ->visible(function () {
+                    $slug = self::getResource()::getSlug();
+                    $usuario = auth()->user();
+                    if ($usuario->hasPermissionTo('borrar:' . $slug)) {
+                        return true;
+                    }
+                    return false;
+                })
+                ->icon('heroicon-o-trash'),
         ];
     }
 }

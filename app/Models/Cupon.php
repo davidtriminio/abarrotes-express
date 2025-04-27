@@ -71,7 +71,7 @@ class Cupon extends Model
         if ($this->tipo_descuento === 'porcentaje') {
             return number_format($this->descuento_porcentaje, 2) . '%';
         } elseif ($this->tipo_descuento === 'dinero') {
-            return 'L.' . number_format($this->descuento_dinero, 2);
+            return number_format($this->descuento_dinero, 2) . ' LPS';
         }
         return null;
     }

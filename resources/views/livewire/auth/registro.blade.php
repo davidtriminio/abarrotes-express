@@ -11,7 +11,7 @@
                         <label for="name" class="block">Nombre de Usuario</label>
                         <input wire:model="name" type="text" id="register-name"
                                class="input"
-                               placeholder="Ingrese un nombre de usuario" required>
+                               placeholder="Ingrese un nombre de usuario">
                         @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
                     </div>
 
@@ -19,7 +19,7 @@
                         <label for="email" class="block">Correo Electrónico</label>
                         <input wire:model="email" type="email" id="login-email"
                                class="input"
-                               placeholder="Ingrese su correo electrónico" required>
+                               placeholder="Ingrese su correo electrónico" >
                         @error('email')
                         <div class="contenedor-shake animate-shake">
                             <span class="text-red-500">{{ $message }}</span>
@@ -29,10 +29,10 @@
 
                     <!-- Campo de teléfono -->
                     <div class="mb-3">
-                        <label for="telefono" class="block">Teléfono</label>
+                        <label for="telefono" class="block">Teléfono(Opcional)</label>
                         <input wire:model="telefono" type="text" id="register-telefono"
                                class="input"
-                               placeholder="Ingrese su número de teléfono" maxlength="8>
+                               placeholder="Ingrese su número de teléfono" maxlength="8">
                         @error('telefono') <span class="text-red-500">{{ $message }}</span> @enderror
                     </div>
 
@@ -40,7 +40,7 @@
                         <label for="login-password" class="block">Contraseña</label>
                         <input wire:model="password" type="password" id="login-password"
                                class="input"
-                               placeholder="Ingrese su contraseña" required>
+                               placeholder="Ingrese su contraseña">
                         @error('password')
                         <div class="contenedor-shake animate-shake">
                             <span class="text-red-500">{{ $message }}</span>

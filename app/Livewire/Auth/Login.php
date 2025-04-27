@@ -69,7 +69,10 @@ class Login extends Component
             RateLimiter::hit($throttleKey, 300);
 
 
-            session()->flash('error', 'Correo y contraseña no coinciden.');
+            throw ValidationException::withMessages([
+                'email' => 'Correo y contraseña no coinciden.',
+            ]);
+
         } else {
 
             RateLimiter::clear($throttleKey);

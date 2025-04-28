@@ -84,7 +84,7 @@ class ProductoResource extends Resource
                             ->imageEditor()
                             ->imageResizeMode('cover')
                             ->imageCropAspectRatio('1:1')
-                            ->maxSize(5190)
+                            ->maxSize(2048)
                             ->maxFiles(5)
                             ->columnSpan(2)
                             ->preserveFilenames()
@@ -95,7 +95,7 @@ class ProductoResource extends Resource
                                 'maxFiles' => 'Se permite un máximo de 5 imágenes.',
                                 'required' => 'Debe seleccionar al menos una imagen.',
                                 'image' => 'El archivo debe ser una imagen válida.',
-                                'max' => 'El tamaño de la imagen no debe exceder los 5MB.',
+                                'max' => 'El tamaño de la imagen no debe exceder los 2MB.',
                                 'accepted' => 'Solo se permiten imágenes en formato PNG, JPEG, o JPG.',
                             ]),
 

@@ -63,7 +63,6 @@ class RolResource extends Resource
         return $form
             ->schema([
                 Section::make([
-
                     Section::make([
                         TextInput::make('name')
                             ->label('Nombre del rol')

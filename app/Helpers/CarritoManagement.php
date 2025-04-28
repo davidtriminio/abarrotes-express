@@ -50,6 +50,7 @@ class CarritoManagement
                         'imagen' => $producto->imagenes[0] ?? null,
                         'cantidad' => 1,
                         'porcentaje_oferta' => $producto->porcentaje_oferta ?? 0,
+                        'precio_sin_oferta' => $producto->precio,
                         'monto_unitario' => $precio_con_descuento,
                         'monto_total' => $precio_con_descuento,
                         'en_oferta' => $producto->en_oferta,
@@ -111,7 +112,8 @@ class CarritoManagement
                     'imagen' => isset($producto->imagenes[0]) && !empty($producto->imagenes[0])
                         ? $producto->imagenes[0] : null,
                     'cantidad' => $cantidad,
-                    'porcentaje_oferta' => $producto->porcentaje_oferta,
+                    'porcentaje_oferta' => $producto->porcentaje_oferta ?? 0,
+                    'precio_sin_oferta' => $producto->precio,
                     'monto_unitario' => $precio_con_descuento,
                     'monto_total' => $precio_con_descuento * $cantidad,
                     'en_oferta' => $producto->en_oferta,
@@ -311,6 +313,29 @@ class CarritoManagement
         return $elementos_validos;
     }
 
+    static public function calcularSubTotalSinDescuentos($elementos)
+    {
+        $subtotal = 0;
+        foreach ($elementos as $item) {
+            $subtotal += $item['precio_sin_oferta'] * $item['cantidad'];
+        }
+        return $subtotal;
+    }
+
+
+    static public function calcularDescuentoPorOfertas($elementos)
+    {
+        $descuento = 0;
+        foreach ($elementos as $item) {
+            $producto = Producto::find($item['producto_id']);
+            if ($producto && $producto->en_oferta) {
+                $precio_normal = $producto->precio;
+                $precio_oferta = self::calcularPrecioConDescuento($precio_normal, $producto->porcentaje_oferta);
+                $descuento += ($precio_normal - $precio_oferta) * $item['cantidad'];
+            }
+        }
+        return $descuento;
+    }
 
 }
 

@@ -106,8 +106,9 @@
                     @endif
                     <!-- Hacer toda la tarjeta clicable -->
                     <a href="{{ route('producto', ['id' => $producto->id]) }}" class="block">
-                        <img src="{{ isset($producto->imagenes[0]) ? url('storage/' . $producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
-                             class="w-full object-cover mb-4 rounded-lg tamanoCard" alt="{{$producto->nombre}}">
+                        <img src="{{ $this->obtenerImagen($producto->imagenes[0] ?? null) }}"
+                             class="w-full object-cover mb-4 rounded-lg tamanoCard"
+                             alt="{{$producto->nombre}}">
                         <h3 class="text-lg font-semibold mb-2 text-primary">{{$producto->nombre}}</h3>
                     </a>
                     <div class="flex items-center justify-center mb-4">

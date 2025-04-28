@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Helpers\CarritoManagement;
 use App\Livewire\Complementos\Navbar;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use App\Models\Producto;
@@ -51,5 +52,13 @@ class Inicio extends Component
         $this->categorias = Categoria::inRandomOrder()->limit(4)->get();
         $this->productos = Producto::orderBy('en_oferta', 'desc')->limit(4)->get();
         return view('livewire.inicio');
+    }
+    public function obtenerImagen($rutaImagen)
+    {
+        if ($rutaImagen && Storage::disk('public')->exists($rutaImagen)) {
+            return asset('storage/' . $rutaImagen);
+        } else {
+            return asset('imagen/no-photo.png');
+        }
     }
 }

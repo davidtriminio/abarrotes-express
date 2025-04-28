@@ -22,4 +22,8 @@ class CreateRol extends CreateRecord
                 ->icon('heroicon-o-plus-circle'),
         ];
     }
+    protected function getRedirectUrl(): string
+    {
+        return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    } 
 }

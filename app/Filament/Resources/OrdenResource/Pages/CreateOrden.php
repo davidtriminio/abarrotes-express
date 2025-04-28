@@ -6,6 +6,7 @@ use App\Filament\Resources\OrdenResource;
 use App\Traits\PermisoCrear;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
+use Spatie\Activitylog\Models\Activity;
 
 class CreateOrden extends CreateRecord
 {
@@ -22,6 +23,44 @@ class CreateOrden extends CreateRecord
                 ->icon('heroicon-o-chevron-left')
                 ->color('gray'),
         ];
+    }
+
+    protected function beforeSave(): void
+    {
+        $subTotal = 0;
+        $descuentoTotal = 0;
+
+        foreach ($this->data['elementos'] as $elemento) {
+            $producto = \App\Models\Producto::find($elemento['producto_id']);
+
+            if ($producto) {
+                $precioOriginal = $producto->precio;
+                $cantidad = $elemento['cantidad'] ?? 1;
+                $precioConDescuento = $producto->en_oferta
+                    ? $precioOriginal - ($precioOriginal * ($producto->porcentaje_oferta / 100))
+                    : $precioOriginal;
+
+                $subTotal += $precioOriginal * $cantidad;
+
+                if ($producto->en_oferta) {
+                    $descuentoTotal += ($precioOriginal - $precioConDescuento) * $cantidad;
+                }
+            }
+        }
+
+        $this->record->sub_total = $subTotal;
+        $this->record->descuento_total = $descuentoTotal;
+        $this->record->total_final = $subTotal - $descuentoTotal;
+
+        // Luego tu log de actividad
+        Activity::withoutEvents(function () {
+            activity()
+                ->event('Actualización')
+                ->performedOn($this->record)
+                ->causedBy(auth()->user())
+                ->withProperties(['attributes' => $this->record->getChanges()])
+                ->log('Orden #' . $this->record->id . ' actualizada por ' . auth()->user()->name);
+        });
     }
 
     protected function getRedirectUrl(): string

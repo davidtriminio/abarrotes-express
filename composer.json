@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "ext-zip": "*",
+        "blade-ui-kit/blade-heroicons": "^2.6",
         "filament/filament": "^3.2",
         "filament/notifications": "^3.2",
         "jantinnerezo/livewire-alert": "^3.0",
@@ -16,8 +18,7 @@
         "livewire/livewire": "^3.5",
         "spatie/laravel-activitylog": "^4.9",
         "spatie/laravel-permission": "^6.9",
-        "z3d0x/filament-logger": "^0.7.2",
-        "ext-zip": "*"
+        "z3d0x/filament-logger": "^0.7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

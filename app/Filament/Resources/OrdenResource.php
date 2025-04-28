@@ -84,16 +84,16 @@ class OrdenResource extends Resource
                         Section::make([
                             Select::make('user_id')
                                 ->relationship('user', 'email')
-                                ->getSearchResultsUsing(function (string $search){
+                                ->getSearchResultsUsing(function (string $search) {
                                     return User::query()
                                         ->where('email', 'like', "%{$search}%")
                                         ->orWhere('name', 'like', "%{$search}%")
                                         ->get(['id', 'name', 'email'])
-                                        ->mapWithKeys(function ($usuario){
+                                        ->mapWithKeys(function ($usuario) {
                                             return [$usuario->id => "{$usuario->name} ({$usuario->email})"];
                                         });
                                 })
-                                ->getOptionLabelsUsing(function ($valor){
+                                ->getOptionLabelsUsing(function ($valor) {
                                     $usuario = User::find($valor);
                                     return $usuario ? "{$usuario->name} ({$usuario->email})" : null;
                                 })
@@ -203,43 +203,35 @@ class OrdenResource extends Resource
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         $producto = Producto::find($state);
                                         if ($producto) {
-                                            $precio = $producto->precio;
-                                            if ($producto->en_oferta) {
-                                                $porcentajeDescuento = $producto->porcentaje_oferta / 100;
-                                                $precioConDescuento = $precio - ($precio * $porcentajeDescuento);
-                                            } else {
-                                                $precioConDescuento = $precio;
-                                            }
-                                            $set('monto_unitario', number_format((float)$precioConDescuento, 2, '.', ''));
-                                            $set('monto_total', number_format((float)($precioConDescuento * $get('cantidad')), 2, '.', ''));
+                                            $precioOriginal = $producto->precio;
+                                            $precioConDescuento = $producto->en_oferta
+                                                ? $precioOriginal - ($precioOriginal * ($producto->porcentaje_oferta / 100))
+                                                : $precioOriginal;
 
+                                            $descuentoPorProducto = $producto->en_oferta
+                                                ? $precioOriginal - $precioConDescuento
+                                                : 0;
+
+                                            $cantidad = $get('cantidad') ?? 1;
+                                            $descuentoTotalProducto = $descuentoPorProducto * $cantidad;
+
+                                            $set('monto_unitario', number_format((float)$precioConDescuento, 2, '.', ''));
+                                            $set('monto_total', number_format((float)($precioConDescuento * $cantidad), 2, '.', ''));
+                                            $set('descuento_total_producto', number_format((float)$descuentoTotalProducto, 2, '.', ''));
+
+                                            // Mostrar el precio original en rojo si está en oferta
                                             if ($producto->en_oferta) {
-                                                $set('hint_monto_unitario', Html::htmlToText("<s>L. " . number_format($precio, 2) . "</s>"));
+                                                $set('hint_monto_unitario', Html::htmlToText("<s style='color: red;'>L. " . number_format($precioOriginal, 2) . "</s>"));
                                             } else {
                                                 $set('hint_monto_unitario', null);
-                                            }
-
-                                            // Validación de cantidad
-                                            $cantidadDisponible = $producto->cantidad_disponible;
-                                            $cantidadSolicitada = $get('cantidad');
-
-                                            if ($cantidadSolicitada > $cantidadDisponible) {
-                                                $set('cantidad', $cantidadDisponible);
-                                                $set('error_cantidad', "La cantidad disponible es solo $cantidadDisponible.");
-                                            } else {
-                                                $set('error_cantidad', null);
                                             }
                                         }
                                     })
                                     ->validationMessages([
                                         'required' => 'Debe seleccionar un producto.',
                                     ])
-                                    ->hint(function ($state, $component) {
-                                        $producto = Producto::find($state);
-                                        return $producto ? "Cantidad disponible: {$producto->cantidad_disponible}" : 'Seleccione un producto.';
-                                    })
+                                    ->hint(fn(Get $get) => $get('hint_monto_unitario'))
                                     ->columnSpan(4),
-
                                 TextInput::make('cantidad')
                                     ->numeric()
                                     ->required()
@@ -259,16 +251,27 @@ class OrdenResource extends Resource
                                             $monto_unitario = $get('monto_unitario');
                                             $set('monto_total', number_format((float)($get('cantidad') * $monto_unitario), 2, '.', ''));
                                             $set('monto_unitario', number_format((float)$monto_unitario, 2, '.', ''));
+
+                                            // Recalcular el descuento total por producto
+                                            $precioOriginal = $producto->precio;
+                                            $precioConDescuento = $producto->en_oferta
+                                                ? $precioOriginal - ($precioOriginal * ($producto->porcentaje_oferta / 100))
+                                                : $precioOriginal;
+
+                                            $descuentoPorProducto = $producto->en_oferta
+                                                ? $precioOriginal - $precioConDescuento
+                                                : 0;
+
+                                            $descuentoTotalProducto = $descuentoPorProducto * $state;
+                                            $set('descuento_total_producto', number_format((float)$descuentoTotalProducto, 2, '.', ''));
                                         }
                                     })
-                                    ->columns(3)
                                     ->validationMessages([
                                         'required' => 'Debe introducir una cantidad',
                                         'min_value' => 'La cantidad mínima permitida es 1',
                                         'max_value' => 'La cantidad no puede ser mayor que la cantidad disponible'
                                     ])
                                     ->columnSpan(2),
-
                                 TextInput::make('monto_unitario')
                                     ->numeric()
                                     ->required()
@@ -286,6 +289,7 @@ class OrdenResource extends Resource
                                         'min_value' => 'La cantidad mínima permitida es 1'
                                     ])
                                     ->columnSpan(3),
+
                                 TextInput::make('monto_total')
                                     ->numeric()
                                     ->disabled()
@@ -336,7 +340,7 @@ class OrdenResource extends Resource
 
                             Placeholder::make('descuento_total_placeholder')
                                 ->label('Descuento Total:')
-                                ->content(fn(?Orden $record): string => $record?->descuento_total ? 'L. ' . number_format($record->descuento_total, 2) : '-')
+                                ->content(fn(Get $get) => 'L. ' . number_format($get('descuento_total') ?? 0, 2))
                                 ->columnSpan(1),
 
                             Placeholder::make('total_final_placeholder')
@@ -455,5 +459,16 @@ class OrdenResource extends Resource
     public static function getNavigationBadgeColor(): string|array|null
     {
         return self::getModel()::count() > 5 ? 'success' : 'danger';
+    }
+
+    protected function beforeSave(): void
+    {
+        $descuentoTotal = 0;
+
+        foreach ($this->data['elementos'] as $elemento) {
+            $descuentoTotal += $elemento['descuento_total_producto'] ?? 0;
+        }
+
+        $this->record->descuento_total = $descuentoTotal;
     }
 }

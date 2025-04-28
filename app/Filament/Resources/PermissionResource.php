@@ -3,11 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PermissionResource\Pages;
+use Closure;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -57,9 +59,34 @@ class PermissionResource extends Resource
             ->schema([
                 Section::make([
                     TextInput::make('name')
+                        ->label('Nombre del rol')
                         ->required()
-                        ->unique()
-                        ->label('Nombre del Permiso'),
+                        ->unique(ignoreRecord: true)
+                        ->regex('/^[a-zA-Z\s:]+$/')
+                        ->minLength(2)
+                        ->maxLength(50)
+                        ->helperText('Solo se permiten letras, espacios y dos puntos (:)')
+                        ->validationMessages([
+                            'required' => 'El nombre del rol es obligatorio.',
+                            'unique' => 'El nombre del rol ya existe.',
+                            'min' => 'El nombre del rol debe tener al menos 2 caracteres.',
+                            'max' => 'El nombre del rol no puede tener más de 50 caracteres.',
+                            'regex' => 'El nombre del rol solo puede contener letras y espacios.',
+                        ])
+                        ->rule(function (Get $get) {
+                            return function (string $attribute, $value, Closure $fail) use ($get) {
+                                $query = Permission::whereRaw('LOWER(name) = ?', [strtolower($value)]);
+
+                                if ($record = $get('record')) {
+                                    $query->where('id', '!=', $record->id); // Para no chocar contra sí mismo en edición
+                                }
+
+                                if ($query->exists()) {
+                                    $fail('Ya existe un rol con este nombre.');
+                                }
+                            };
+                        })
+                        ->columns(1),
                     Placeholder::make('created_at')
                         ->label('Fecha de creación')
                         ->content(fn(?Permission $record): string => $record?->created_at?->diffForHumans() ?? '-'),

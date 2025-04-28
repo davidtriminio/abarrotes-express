@@ -107,23 +107,36 @@
                         @endauth
                     </div>
 
+                    <!-- Desglose de precios -->
                     <div class="flex justify-between mb-2">
-                        <span>Subtotal</span>
-                        <span>{{ Number::currency($total_original, 'LPS') }}</span> <!-- Total sin aplicar cupones -->
+                        <span>Subtotal (sin ISV)</span>
+                        <span>{{ Number::currency($total_original / 1.15, 'LPS') }}</span>
                     </div>
                     <div class="flex justify-between mb-2">
-                        <span>Impuestos</span>
-                        <span>{{ Number::currency(0, 'LPS') }}</span> <!-- Impuestos -->
+                        <span>ISV (15%)</span>
+                        <span>{{ Number::currency($total_original - ($total_original / 1.15), 'LPS') }}</span>
                     </div>
                     <div class="flex justify-between mb-2">
                         <span>Envios</span>
                         <span>{{ Number::currency(0, 'LPS') }}</span>
                     </div>
-                    <!-- Descuento aplicado -->
-                    @if($descuento_total > 0)
+
+                    {{-- Mostrar descuento por ofertas si existe --}}
+                    @php
+                        $descuento_ofertas = App\Helpers\CarritoManagement::calcularDescuentoPorOfertas($elementos_carrito);
+                    @endphp
+                    @if($descuento_ofertas > 0)
                         <div class="flex justify-between mb-2 text-red-500">
-                            <span>Descuento aplicado</span>
-                            <span>-{{ Number::currency($descuento_total, 'LPS') }}</span> <!-- Mostrar descuento total -->
+                            <span>Descuento por ofertas</span>
+                            <span>-{{ Number::currency($descuento_ofertas, 'LPS') }}</span>
+                        </div>
+                    @endif
+
+                    {{-- Mostrar descuento por cupón si existe --}}
+                    @if($descuento_total > $descuento_ofertas)
+                        <div class="flex justify-between mb-2 text-red-500">
+                            <span>Descuento por cupón</span>
+                            <span>-{{ Number::currency($descuento_total - $descuento_ofertas, 'LPS') }}</span>
                         </div>
                     @endif
 
@@ -237,14 +250,9 @@
                     </div>
 
 
-
-
-
-
-                    <!-- Total Final después del cupón -->
                     <div class="flex justify-between mb-2 mt-2">
                         <span class="font-semibold">Total</span>
-                        <span class="font-semibold">{{ Number::currency($total_final, 'LPS') }}</span> <!-- Total con el cupón aplicado -->
+                        <span class="font-semibold">{{ Number::currency($total_final, 'LPS') }}</span>
                     </div>
                     @if(auth()->user())
                        @if($elementos_carrito)

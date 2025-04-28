@@ -51,14 +51,14 @@ class Carrito extends Component
         $this->usuario_autenticado = Auth::check();
         $this->actualizarCarrito();
         $this->elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
-        $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
+        $this->total_original = CarritoManagement::calcularSubTotalSinDescuentos($this->elementos_carrito);
 
-        // Obtener descuento y cupones aplicados de las cookies
-        $descuento_data = CarritoManagement::obtenerDescuentoDeCookies();
-        $this->descuento_total = $descuento_data['descuento_total'];
-        $this->cupones_aplicados = $descuento_data['cupones_aplicados'];
+        $descuento_ofertas = CarritoManagement::calcularDescuentoPorOfertas($this->elementos_carrito);
 
-        // Asegurarse de que el total final no sea negativo
+        $descuento_cupones = CarritoManagement::obtenerDescuentoDeCookies();
+        $this->descuento_total = $descuento_ofertas + $descuento_cupones['descuento_total'];
+        $this->cupones_aplicados = $descuento_cupones['cupones_aplicados'];
+
         $this->total_final = max(0, $this->total_original - $this->descuento_total);
     }
 
@@ -66,7 +66,7 @@ class Carrito extends Component
     {
         // Eliminar el producto del carrito
         $this->elementos_carrito = CarritoManagement::quitarElementosCarrito($producto_id);
-        $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
+        $this->total_original = CarritoManagement::calcularSubTotalSinDescuentos($this->elementos_carrito);
 
         // Limpiar el descuento y cupones aplicados
         $this->descuento_total = 0;
@@ -89,7 +89,12 @@ class Carrito extends Component
 
         if (is_array($resultado)) {
             $this->elementos_carrito = $resultado;
-            $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
+            $this->total_original = CarritoManagement::calcularSubTotalSinDescuentos($this->elementos_carrito);
+
+            $descuento_ofertas = CarritoManagement::calcularDescuentoPorOfertas($this->elementos_carrito);
+            $descuento_cupones = CarritoManagement::obtenerDescuentoDeCookies();
+            $this->descuento_total = $descuento_ofertas + $descuento_cupones['descuento_total'];
+
             $this->total_final = $this->total_original - $this->descuento_total;
             $this->cambios_detectados = true;
         } else {
@@ -109,11 +114,15 @@ class Carrito extends Component
 
         if (is_array($resultado)) {
             $this->elementos_carrito = $resultado;
-            $this->total_original = CarritoManagement::calcularTotalFinal($this->elementos_carrito);
+            $this->total_original = CarritoManagement::calcularSubTotalSinDescuentos($this->elementos_carrito);
 
             // Limpiar el descuento y cupones aplicados
             $this->descuento_total = 0;
             $this->cupones_aplicados = [];
+
+            $descuento_ofertas = CarritoManagement::calcularDescuentoPorOfertas($this->elementos_carrito);
+            $descuento_cupones = CarritoManagement::obtenerDescuentoDeCookies();
+            $this->descuento_total = $descuento_ofertas + $descuento_cupones['descuento_total'];
 
             // Asegurarse de que el total final no sea negativo
             $this->total_final = max(0, $this->total_original - $this->descuento_total);
@@ -379,10 +388,10 @@ class Carrito extends Component
         // Crear una nueva orden
         $orden = new Orden();
         $orden->user_id = auth()->user()->id;
-        $orden->sub_total = CarritoManagement::calcularTotalFinal($elementos_carrito_verificados);
+        $orden->sub_total = $this->total_original; // <-- aquí usamos el original sin descuentos
         $orden->descuento_total = $this->descuento_total;
         $orden->costos_envio = 0;
-        $orden->total_final = (CarritoManagement::calcularTotalFinal($elementos_carrito_verificados) - $this->descuento_total) + $orden->costos_envio;
+        $orden->total_final = $this->total_final + $orden->costos_envio;
         $orden->metodo_pago = 'efectivo';
         $orden->estado_pago = 'procesando';
         $orden->estado_entrega = 'nuevo';

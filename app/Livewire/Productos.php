@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Helpers\CarritoManagement;
 use App\Livewire\Complementos\Navbar;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use App\Models\Producto;
@@ -182,4 +183,13 @@ class Productos extends Component
 
         ]);
     }
+    public function obtenerImagen($rutaImagen)
+    {
+        if ($rutaImagen && Storage::disk('public')->exists($rutaImagen)) {
+            return asset('storage/' . $rutaImagen);
+        } else {
+            return asset('imagen/no-photo.png');
+        }
+    }
+
 }

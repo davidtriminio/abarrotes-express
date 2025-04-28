@@ -101,7 +101,7 @@ class DetallePedido extends Component
     public function render()
     {
         $elementos_carrito = CarritoManagement::obtenerElementosDeCookies();
-        $total_original = CarritoManagement::calcularTotalFinal($elementos_carrito);
+        $total_original = CarritoManagement::calcularSubTotalSinDescuentos($elementos_carrito);
         $descuentos = CarritoManagement::obtenerDescuentoDeCookies();
         $descuento_total = $descuentos['descuento_total'];
         $total_final = ($total_original - $descuento_total);

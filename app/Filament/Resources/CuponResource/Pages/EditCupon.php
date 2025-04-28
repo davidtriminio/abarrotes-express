@@ -105,6 +105,28 @@ class EditCupon extends EditRecord
                             ]),
 
 
+                        Select::make('tipo_descuento')
+                            ->required()
+                            ->native(false)
+                            ->label('Tipo de Descuento')
+                            ->options([
+                                'porcentaje' => 'Porcentaje',
+                                'dinero' => 'Dinero',
+                            ])
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, $set) {
+                                $set('descuento_porcentaje', null);
+                                $set('descuento_dinero', null);
+
+                                if ($state === 'porcentaje') {
+                                    $set('compra_minima', null);
+                                    $set('compra_cantidad', null);
+                                }
+                            })
+                            ->validationMessages([
+                                'required' => 'Debe seleccionar un tipo de descuento.',
+                            ]),
+
 
                         TextInput::make('descuento_porcentaje')
                             ->label('Descuento en Porcentaje')

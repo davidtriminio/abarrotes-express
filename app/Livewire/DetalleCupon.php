@@ -19,7 +19,7 @@ class DetalleCupon extends Component
         $cupones = Cupon::where('estado', true)
         ->where('fecha_inicio', '<=', now())
             ->where('fecha_expiracion', '>', now())
-            ->where('user_id', $userId)
+            //->where('user_id', $userId)
             ->paginate($this->perPage);
 
         return view('livewire.detalle-cupon', [

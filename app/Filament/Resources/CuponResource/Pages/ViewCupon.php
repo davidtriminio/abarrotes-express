@@ -143,6 +143,8 @@ class ViewCupon extends ViewRecord
 
 
 
+
+
                         Forms\Components\TextInput::make('descuento_porcentaje')
                             ->label('Descuento en Porcentaje')
                             ->numeric()

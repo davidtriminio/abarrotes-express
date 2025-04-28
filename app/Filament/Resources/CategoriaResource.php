@@ -140,14 +140,14 @@ class CategoriaResource extends Resource
                     ->image()
                     ->directory('categorias')
                     ->maxFiles(1)
-                    ->maxSize(5190)
+                    ->maxSize(2048)
                     ->preserveFilenames()
                     ->columnSpanFull()
                     ->validationMessages([
                         'maxFiles' => 'Se permite un máximo de 1 imagen.',
                         'required' => 'Debe seleccionar al menos una imagen.',
                         'image' => 'El archivo debe ser una imagen válida.',
-                        'max' => 'El tamaño de la imagen no debe exceder los 5MB.',
+                        'max' => 'El tamaño de la imagen no debe exceder los 2MB.',
                     ]),
 
 

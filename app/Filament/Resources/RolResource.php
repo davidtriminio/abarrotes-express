@@ -10,6 +10,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -20,6 +21,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
+use Illuminate\Validation\Rule;
+use Closure;
 
 class RolResource extends Resource
 {
@@ -64,8 +67,32 @@ class RolResource extends Resource
                     Section::make([
                         TextInput::make('name')
                             ->label('Nombre del rol')
-                            ->unique(ignoreRecord: true)
                             ->required()
+                            ->unique(ignoreRecord: true)
+                            ->regex('/^[a-zA-Z\s]+$/')
+                            ->minLength(2)
+                            ->maxLength(50)
+                            ->helperText('Solo se permiten letras y espacios')
+                            ->validationMessages([
+                                'required' => 'El nombre del rol es obligatorio.',
+                                'unique' => 'El nombre del rol ya existe.',
+                                'min' => 'El nombre del rol debe tener al menos 2 caracteres.',
+                                'max' => 'El nombre del rol no puede tener más de 50 caracteres.',
+                                'regex' => 'El nombre del rol solo puede contener letras y espacios.',
+                            ])
+                            ->rule(function (Get $get) {
+                                return function (string $attribute, $value, Closure $fail) use ($get) {
+                                    $query = Role::whereRaw('LOWER(name) = ?', [strtolower($value)]);
+
+                                    if ($record = $get('record')) {
+                                        $query->where('id', '!=', $record->id); // Para no chocar contra sí mismo en edición
+                                    }
+
+                                    if ($query->exists()) {
+                                        $fail('Ya existe un rol con este nombre.');
+                                    }
+                                };
+                            })
                             ->columns(1),
 
                         Placeholder::make('created_at')

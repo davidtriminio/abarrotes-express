@@ -115,7 +115,7 @@
                                 <tr wire:key="{{$orden -> id}}"
                                     class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
                                     <td class="p-4 align-middle [&:has([role=checkbox])]:pr-0">{{$orden->id}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $orden->total_final }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">L {{ $orden->total_final }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $metodos_pago !!}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $estado_pago !!}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{!! $estado_orden !!}</td>
@@ -126,7 +126,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                      <p>No hay ordenes aun hecha</p>
+                                      <h2 class="mb-9 text-center font-bold">No se ha realizado ninguna orden</h2>
                             @endforelse
 
                             </tbody>

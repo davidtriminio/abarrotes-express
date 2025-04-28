@@ -101,6 +101,7 @@ class EditProveedor extends EditRecord
                             ->autocomplete('off')
                             ->step(0.01)
                             ->minValue(1)
+                            ->maxValue(100000)
                             ->validationMessages([
                                 'required' => 'El pago es obligatorio.',
                                 'numeric' => 'El pago debe ser un valor numérico.',
@@ -118,6 +119,7 @@ class EditProveedor extends EditRecord
                             ->autocomplete('off')
                             ->step(0.01)
                             ->minValue(1)
+                            ->maxValue(10000)
                             ->validationMessages([
                                 'required' => 'La cantidad de producto es obligatorio.',
                                 'numeric' => 'La cantidad debe ser un valor numérico.',

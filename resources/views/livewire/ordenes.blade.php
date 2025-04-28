@@ -58,6 +58,8 @@
                             class="text-gray-600">{{ ucfirst($orden->estado_pago) }}</span></p>
                     <p class="mt-2"><strong>Estado de Entrega:</strong> <span
                             class="text-gray-600">{{ ucfirst($orden->estado_entrega) }}</span></p>
+                    <p class="mt-2"><strong>Estado de Entrega:</strong> <span
+                            class="text-gray-600">{{ $numeroFactura }}</span></p>
                 </div>
             </div>
 
@@ -90,8 +92,7 @@
                             <div class="text-sm text-gray-700">L. {{ $elemento->monto_unitario }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-700">L. {{ $elemento->cantidad*$elemento->monto_unitario }}</div>
-                        </td>
+                        <div class="text-sm text-gray-700">L. {{ number_format($elemento->cantidad*$elemento->monto_unitario, 2) }}</div>                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class=""></div>
                         </td>

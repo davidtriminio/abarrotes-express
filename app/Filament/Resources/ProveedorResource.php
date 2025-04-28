@@ -111,6 +111,7 @@ class ProveedorResource extends Resource
                             ->autocomplete('off')
                             ->step(0.01)
                             ->minValue(1)
+                            ->maxValue(100000)
                             ->validationMessages([
                                 'required' => 'El pago es obligatorio.',
                                 'numeric' => 'El pago debe ser un valor numérico.',
@@ -127,6 +128,7 @@ class ProveedorResource extends Resource
                             ->placeholder(0)
                             ->step('1')
                             ->minValue(1)
+                            ->maxValue(10000)
                             ->autocomplete('off')
                             ->validationMessages([
                                 'required' => 'La cantidad es obligatoria.',

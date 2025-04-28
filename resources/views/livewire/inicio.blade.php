@@ -30,9 +30,11 @@
                                                 <h3 class="text-lg font-semibold mb-2 text-primary">{{$producto->nombre}}</h3>
                                             </a>
                                             <div class="flex items-center justify-center mb-4">
-                                                <span class="text-lg font-bold text-primary">L. {{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}</span>
+                                                <span
+                                                    class="text-lg font-bold text-primary">L. {{ $producto->precio - ($producto->precio * ($producto->porcentaje_oferta / 100)) }}</span>
                                                 @if($producto->porcentaje_oferta > 0)
-                                                    <span class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
+                                                    <span
+                                                        class="text-sm line-through ml-2">L. {{$producto->precio}}</span>
                                                 @endif
                                             </div>
 
@@ -81,7 +83,9 @@
                                                     <img src="{{ $this->obtenerImagen($categoria->imagen ?? null) }}"
                                                          class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
                                                          alt="{{ $categoria->nombre }}">
-                                                    <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary">{{ $categoria->nombre }}</h3>
+                                                    <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary line-clamp-2 break-words px-2">
+                                                        {{ $categoria->nombre }}
+                                                    </h3>
                                                 </a>
                                             </div>
                                         @endif
@@ -109,7 +113,9 @@
                                                     <img src="{{ $this->obtenerImagen($marca->imagen ?? null) }}"
                                                          class="w-full object-cover mb-4 rounded-lg tamanoCard h-auto mx-auto"
                                                          alt="{{ $marca->nombre }}">
-                                                    <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary">{{ $marca->nombre }}</h3>
+                                                    <h3 class="text-lg font-semibold mb-2 text-center hover:text-primary line-clamp-2 break-words px-2">
+                                                        {{ $marca->nombre }}
+                                                    </h3>
                                                 </a>
                                             </div>
                                         @endif
@@ -130,8 +136,9 @@
                                             con
                                             confianza en abarrotes-express, tu tienda en línea donde garantizamos una
                                             experiencia satifatoria</p>
-                                        <img class="image-svg h-auto m-auto object-cover mb-4 rounded-lg tamanoCard2 h-auto mx-auto"
-                                             src="/imagen/segurida.svg" alt="blog">
+                                        <img
+                                            class="image-svg h-auto m-auto object-cover mb-4 rounded-lg tamanoCard2 h-auto mx-auto"
+                                            src="/imagen/segurida.svg" alt="blog">
 
                                     </div>
                                     <div class="flex flex-col p-6 bg-white rounded-xl shadow-lg">

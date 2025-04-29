@@ -338,6 +338,3 @@ class CarritoManagement
     }
 
 }
-
-
-

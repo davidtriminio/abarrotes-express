@@ -84,4 +84,7 @@ class AppServiceProvider extends ServiceProvider
         $variable = Route::currentRouteName() === 'home' ? 'Inicio' : session('titulo_pagina', 'Inicio');
         View::share('titulo_pagina', $variable);
     }
+if (app()->environment('production')) {
+        URL::forceScheme('https');
+    }
 }

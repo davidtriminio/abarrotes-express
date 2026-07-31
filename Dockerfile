@@ -37,8 +37,9 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
 
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 storage bootstrap/cache
+    && chmod -R 775 storage bootstrap/cache \
+    && chmod +x docker-init.sh
 
 EXPOSE 80
 
-CMD sh -c "php artisan migrate --force && apache2-foreground"
+CMD sh -c "./docker-init.sh && apache2-foreground"

@@ -80,11 +80,11 @@ class AppServiceProvider extends ServiceProvider
             }
         );
 
-// Compartimos el valor de la sesión con todas las vistas
         $variable = Route::currentRouteName() === 'home' ? 'Inicio' : session('titulo_pagina', 'Inicio');
         View::share('titulo_pagina', $variable);
-    }
-if (app()->environment('production')) {
-        URL::forceScheme('https');
+
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }

@@ -27,38 +27,39 @@ class SeedDatabaseOnce extends Command
     public function handle(): int
     {
         try {
-            // Ensure the seeder_executions table exists
+            // First, ensure migrations table exists by running migrations
+            $this->info('Ejecutando migraciones...');
+            $this->call('migrate', ['--force' => true]);
+
+            // Now check if seeder_executions table exists
             if (!DB::connection()->getSchemaBuilder()->hasTable('seeder_executions')) {
-                $this->info('Tabla seeder_executions no encontrada. Ejecutando migraciones primero...');
-                $this->call('migrate', ['--force' => true]);
+                $this->error('Tabla seeder_executions no encontrada después de migraciones.');
+                return self::FAILURE;
             }
 
-            // Check if seeders have been executed before
-            $hasExecutedSeeders = DB::table('seeder_executions')->exists();
+            // Check if seeders have been successfully executed before
+            $hasExecutedSeeders = DB::table('seeder_executions')
+                ->where('seeder_class', 'DatabaseSeeder')
+                ->exists();
 
             if (!$hasExecutedSeeders) {
-                $this->info('Primera ejecución detectada. Ejecutando migraciones y seeders...');
+                $this->info('Primera ejecución de seeders detectada.');
                 
-                // Run migrations
-                $this->call('migrate', ['--force' => true]);
-                
-                // Run seeders
-                $this->call('db:seed', ['--force' => true]);
-                
-                // Mark that seeders have been executed
-                DB::table('seeder_executions')->insert([
+                // Mark seeders as being executed (to prevent re-runs on failure)
+                DB::table('seeder_executions')->insertOrIgnore([
                     'seeder_class' => 'DatabaseSeeder',
                     'executed_at' => now(),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
 
+                // Run seeders
+                $this->info('Ejecutando seeders...');
+                $this->call('db:seed', ['--force' => true]);
+
                 $this->info('✓ Seeders ejecutados correctamente.');
             } else {
-                $this->info('Seeders ya fueron ejecutados. Solo ejecutando migraciones pendientes...');
-                
-                // Run only migrations
-                $this->call('migrate', ['--force' => true]);
+                $this->info('Seeders ya fueron ejecutados. Omitiendo...');
             }
 
             return self::SUCCESS;

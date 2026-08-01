@@ -36,10 +36,11 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install && npm run build
 
-RUN chown -R www-data:www-data /var/www/html \
+RUN mkdir -p storage/app/public storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache \
     && chmod +x docker-init.sh
 
 EXPOSE 80
 
-CMD sh -c "./docker-init.sh && apache2-foreground"
+CMD ["sh", "-c", "./docker-init.sh && apache2-foreground"]

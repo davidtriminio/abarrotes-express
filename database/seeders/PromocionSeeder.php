@@ -2,17 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\Promocion;
-use App\Models\Producto;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class PromocionSeeder extends Seeder
 {
     public function run(): void
     {
-        $productos = Producto::limit(5)->pluck('id')->toArray();
-
         $promociones = [
             [
                 'nombre' => 'Promoción de Verano',
@@ -40,10 +37,22 @@ class PromocionSeeder extends Seeder
             ],
         ];
 
-        foreach ($promociones as $promocion) {
-            Promocion::updateOrCreate(
-                ['nombre' => $promocion['nombre']],
-                $promocion
+        // Seed a simple promotion linked to an existing product (if any)
+        $productoId = DB::table('productos')->value('id');
+        if ($productoId) {
+            $data = [
+                'producto_id' => $productoId,
+                'estado' => true,
+                'fecha_inicio' => Carbon::now(),
+                'fecha_expiracion' => Carbon::now()->addDays(30),
+                'promocion' => 15,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            DB::table('promociones')->updateOrInsert(
+                ['producto_id' => $productoId],
+                $data
             );
         }
     }

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Marca;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class MarcaSeeder extends Seeder
 {
@@ -28,7 +28,11 @@ class MarcaSeeder extends Seeder
         ];
 
         foreach ($marcas as $marca) {
-            Marca::updateOrCreate(
+            $marca['created_at'] = now();
+            $marca['updated_at'] = now();
+            // Ensure required fields exist (database may enforce NOT NULL)
+            $marca['disponible'] = $marca['disponible'] ?? true;
+            DB::table('marcas')->updateOrInsert(
                 ['nombre' => $marca['nombre']],
                 $marca
             );

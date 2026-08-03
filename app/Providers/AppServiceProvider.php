@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use App\Helpers\DBDriver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,21 +27,29 @@ class AppServiceProvider extends ServiceProvider
         try {
             DB::connection()->getPdo();
             if (\Schema::hasTable('roles') && !User::role('SuperAdmin')->exists() && !User::find(1)) {
-                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-                // Insertar manualmente el superadministrador con ID 1
-                DB::insert('INSERT IGNORE INTO users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [
-                    1,
-                    'SuperAdministrador',
-                    'super@ae.com',
-                    now(),
-                    \Hash::make('admin'),
-                    \Str::random(10),
-                    now(),
-                    now()
+                // Only disable foreign key checks for MySQL before inserting; PostgreSQL doesn't support this global statement
+                DBDriver::executeByDriver([
+                    'mysql' => function($conn) { return $conn->statement('SET FOREIGN_KEY_CHECKS=0;'); },
+                    'default' => function($conn) { return null; },
                 ]);
 
-                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+                // Insertar manualmente el superadministrador con ID 1 using query builder (portable)
+                DB::table('users')->insert([
+                    'id' => 1,
+                    'name' => 'SuperAdministrador',
+                    'email' => 'super@ae.com',
+                    'email_verified_at' => now(),
+                    'password' => \Hash::make('admin'),
+                    'remember_token' => \Str::random(10),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                // Re-enable foreign key checks for MySQL
+                DBDriver::executeByDriver([
+                    'mysql' => function($conn) { return $conn->statement('SET FOREIGN_KEY_CHECKS=1;'); },
+                    'default' => function($conn) { return null; },
+                ]);
 
                 // Asignar el rol de SuperAdmin
                 $superAdmin = User::find(1);

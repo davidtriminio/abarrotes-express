@@ -1,8 +1,9 @@
 <?php
 
-namespace Z3d0X\FilamentLogger\Resources;
+namespace App\Filament\Resources;
 
 use App\Filament\Exports\ActivityExporter;
+use App\Filament\Resources\ActivityResource\Pages;
 use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\ExportAction;
@@ -26,7 +27,6 @@ use Filament\Forms\Components\Placeholder;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\ActivitylogServiceProvider;
 use Spatie\Activitylog\Models\Activity as ActivityModel;
-use Z3d0X\FilamentLogger\Resources\ActivityResource\Pages;
 
 class ActivityResource extends Resource
 {

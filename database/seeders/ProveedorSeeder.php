@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Proveedor;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProveedorSeeder extends Seeder
 {
@@ -53,9 +53,20 @@ class ProveedorSeeder extends Seeder
         ];
 
         foreach ($proveedores as $proveedor) {
-            Proveedor::updateOrCreate(
+            $data = [
+                'nombre' => $proveedor['nombre'],
+                'id_producto' => 0,
+                'contracto' => '',
+                'cantidad_producto' => 0,
+                'pago' => 0,
+                'estado' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            DB::table('proveedores')->updateOrInsert(
                 ['nombre' => $proveedor['nombre']],
-                $proveedor
+                $data
             );
         }
     }

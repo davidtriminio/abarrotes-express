@@ -19,7 +19,7 @@ class SeedDatabaseOnce extends Command
      *
      * @var string
      */
-    protected $description = 'Run seeders only on first execution, then migrate on subsequent runs';
+    protected $description = 'Run seeders only on first execution, then just run migrations on subsequent runs';
 
     /**
      * Execute the console command.
@@ -27,11 +27,11 @@ class SeedDatabaseOnce extends Command
     public function handle(): int
     {
         try {
-            // First, ensure migrations table exists by running migrations
+            // First, ensure migrations table exists and run migrations
             $this->info('Ejecutando migraciones...');
             $this->call('migrate', ['--force' => true]);
 
-            // Now check if seeder_executions table exists
+            // Check if seeder_executions table exists
             if (!DB::connection()->getSchemaBuilder()->hasTable('seeder_executions')) {
                 $this->error('Tabla seeder_executions no encontrada después de migraciones.');
                 return self::FAILURE;
@@ -44,7 +44,7 @@ class SeedDatabaseOnce extends Command
 
             if (!$hasExecutedSeeders) {
                 $this->info('Primera ejecución de seeders detectada.');
-                
+
                 // Mark seeders as being executed (to prevent re-runs on failure)
                 DB::table('seeder_executions')->insertOrIgnore([
                     'seeder_class' => 'DatabaseSeeder',

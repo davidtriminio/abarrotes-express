@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Observers\UsuarioObserver;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -95,13 +94,6 @@ class User extends Authenticatable implements FilamentUser
             ]);
     }
 
-
-
-
-    public $user;
-    public $isAdmin;
-
-
     public function canAccessPanel(Panel $panel): bool
     {
         if ($this->hasPermissionTo('ver:admin') == true){
@@ -109,4 +101,9 @@ class User extends Authenticatable implements FilamentUser
         }
         return false;
     }
+
+    /**
+     * Remove unprotected public properties that cause memory exhaustion during serialization.
+     * These properties were being serialized with the user object during authentication.
+     */
 }

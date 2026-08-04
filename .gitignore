@@ -22,3 +22,11 @@ a
 /public/css/styles/bad.css
 public/css/filament/
 public/js/filament/
+
+# Documentation and debug files - Memory issue investigation
+README_SOLUCION_MEMORIA.md
+SOLUCION_MEMORIA_RESUMEN.md
+DIAGNOSTICO_MEMORIA_AUTH.md
+DEPLOYMENT_ORACLE_LINUX.md
+debug_auth.php
+debug_memory.sh

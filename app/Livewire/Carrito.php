@@ -415,7 +415,12 @@ class Carrito extends Component
             // Limpiar cookies y notificar al usuario
             CarritoManagement::quitarElementosCookies();
             CarritoManagement::quitarCuponesYDescuentos();
-            $users = \App\Models\User::permission('ver:admin')->get();
+
+            // Get admin users efficiently using direct SQL to avoid Spatie Permission overhead
+            $users = \App\Models\User::whereHas('roles', function ($query) {
+                $query->where('name', 'SuperAdmin');
+            })->select('id', 'email', 'name')->get();
+
             Notification::make('Orden creada correctamente.')->success()
                 ->title(auth()->user()->name . ' ha realizado una nueva orden')
                 ->body('El pedido se ha creado con éxito.')

@@ -10,9 +10,12 @@ use Livewire\Component;
 class Navbar extends Component
 {
     public $conteo_total = 0;
+    public bool $puede_acceder_admin = false;
 
     public function mount(){
         $this->conteo_total = count(CarritoManagement::obtenerElementosDeCookies());
+        $this->puede_acceder_admin = auth()->check()
+            && auth()->user()->hasPermissionTo('ver:admin');
     }
 
     #[On('update-cart-count')]

@@ -57,12 +57,11 @@ class AppServiceProvider extends ServiceProvider
      */
     private function shouldInitializeSuperAdmin(): bool
     {
-        // Don't run during web requests if in production
-        // Run only during console commands (migrations, seeding)
-        if (app()->environment('production') && !app()->runningInConsole()) {
-            return false;
+        if (filter_var(env('INITIALIZE_SUPERADMIN_ON_BOOT', false), FILTER_VALIDATE_BOOLEAN)) {
+            return true;
         }
-        return true;
+
+        return app()->runningInConsole();
     }
 
     /**

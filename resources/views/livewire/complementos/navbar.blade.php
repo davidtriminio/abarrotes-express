@@ -142,7 +142,7 @@
                                         </a>
 
                                     </div>
-                                    @if(auth()->user()->hasPermissionTo('ver:admin'))
+                                    @if($puede_acceder_admin)
                                         <div class="py-2 first:pt-0 last:pb-0">
       <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">
         Administración

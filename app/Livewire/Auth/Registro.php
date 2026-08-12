@@ -19,7 +19,6 @@ class Registro extends Component
     public $password;
     public $telefono; // Propiedad para teléfono, opcional
     public $email_verified_at;
-    public $user;
 
     public function render()
     {
@@ -57,10 +56,11 @@ class Registro extends Component
         $user->password = Hash::make($this->password);
         $user->recovery_key = Str::random(30);
         $user->email_verified_at = Carbon::now();
-        $user->assignRole('Cliente');
         $user->save();
+        $user->assignRole('Cliente');
 
         Auth::login($user);
+        session()->regenerate();
 
         $this->reset();
 

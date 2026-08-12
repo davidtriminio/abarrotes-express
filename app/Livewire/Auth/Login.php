@@ -76,6 +76,7 @@ class Login extends Component
         } else {
 
             RateLimiter::clear($throttleKey);
+            session()->regenerate();
 
             return redirect()->route('inicio');
         }

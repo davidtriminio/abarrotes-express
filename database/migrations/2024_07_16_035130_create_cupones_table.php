@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cupones', function (Blueprint $table) {
             $table->id();
             $table->string('codigo')->unique();
+            $table->string('descripcion')->default('');
             $table->enum('tipo_descuento', ['porcentaje', 'dinero'])->default('porcentaje');
             $table->decimal('descuento_porcentaje', 5, 2)->nullable();
             $table->decimal('descuento_dinero', 7, 2)->nullable();

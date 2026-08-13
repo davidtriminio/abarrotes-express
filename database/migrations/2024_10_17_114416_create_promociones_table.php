@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('promociones', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('producto_id');
-            $table->boolean('estado');
-            $table->dateTime('fecha_inicio');
-            $table->dateTime('fecha_expiracion');
-            $table->decimal('promocion');
-            $table->timestamps();
-        });
+           Schema::create('promociones', function (Blueprint $table) {
+                       $table->id();
+                       $table->string('nombre')->unique();
+                       $table->text('descripcion')->nullable();
+                       $table->decimal('descuento', 5, 2);
+                       $table->dateTime('fecha_inicio');
+                       $table->dateTime('fecha_fin');
+                       $table->boolean('activa')->default(true);
+                       $table->timestamps();
+            });
     }
 
     /**

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre')->unique();
             $table->longText('imagen')->nullable();
             $table->longText('descripcion')->nullable();
-            $table->boolean('disponible');
+            $table->boolean('disponible')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

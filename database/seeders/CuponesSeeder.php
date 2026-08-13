@@ -37,7 +37,7 @@ class CuponesSeeder extends Seeder
 
                 // Crear el cupón
                 $cupones[] = [
-                    'codigo' => rand(10000000, 99999999),
+                    'codigo' => 'CUP-' . Str::upper(Str::random(10)),
                     'tipo_descuento' => $tipoDescuento,
                     'descuento_porcentaje' => $tipoDescuento === 'porcentaje' ? $descuento : null,
                     'descuento_dinero' => $tipoDescuento === 'dinero' ? $descuento : null,

@@ -28,7 +28,7 @@ return new class extends Migration
             $table->integer('cantidad_disponible');
             $table->boolean('en_oferta')->default(false);
             $table->decimal('porcentaje_oferta', 10, 4)->default(0);
-            $table->date('fecha_expiracion');
+            $table->date('fecha_expiracion')->default(DB::raw('(CURRENT_DATE + INTERVAL 3 MONTH)'));
             $table->timestamps();
             $table->softDeletes();
         });

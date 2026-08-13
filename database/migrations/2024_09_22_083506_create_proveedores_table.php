@@ -12,14 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('proveedores', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->integer('id_producto');
-            $table->longText('contracto');
-            $table->decimal('cantidad_producto');
-            $table->decimal('pago');
-            $table->boolean('estado');
-            $table->timestamps();
+                    $table->id();
+                    $table->string('nombre');
+                    $table->string('email')->unique();
+                    $table->string('telefono')->nullable();
+                    $table->string('direccion')->nullable();
+                    $table->string('ciudad')->nullable();
+                    $table->enum('estado_proveedor', ['activo', 'inactivo'])
+                        ->default('activo');
+                    $table->timestamps();
         });
     }
 

@@ -42,7 +42,11 @@ class OrdenesTotales extends ApexChartWidget
         $mesInicial = Carbon::now()->startOfYear();
         $mesActual = Carbon::now()->endOfMonth();
 
-        $pedidos = Orden::selectRaw("EXTRACT(MONTH FROM created_at)::INTEGER as mes, EXTRACT(YEAR FROM created_at)::INTEGER as anio, count(*) as total")
+        $pedidos = Orden::selectRaw("
+                MONTH(created_at) as mes,
+                YEAR(created_at) as anio,
+                COUNT(*) as total
+            ")
             ->whereBetween('created_at', [$mesInicial, $mesActual])
             ->groupBy('mes', 'anio')
             ->orderBy('anio', 'desc')

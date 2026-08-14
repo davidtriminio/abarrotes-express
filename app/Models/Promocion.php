@@ -11,15 +11,10 @@ class Promocion extends Model
 
     protected $table='promociones';
 
-    protected $fillable = [ 
-    'producto_id',
-    'estado',
-    'fecha_inicio',
-    'fecha_expiracion',
-    'promocion',
-    ];
+    protected $fillable = ['nombre', 'descripcion', 'descuento', 'fecha_inicio', 'fecha_fin', 'activa'];
 
-    public function producto(){
-       return  $this->belongsTo(Producto::class, 'producto_id');
+    public function productos()
+    {
+        return $this->belongsToMany(Producto::class, 'producto_promocion');
     }
 }

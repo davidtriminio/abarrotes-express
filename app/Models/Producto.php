@@ -69,7 +69,7 @@ class Producto extends Model
 
     public function promociones()
 {
-    return $this->hasMany(Promocion::class);
+     return $this->belongsToMany(Promocion::class, 'producto_promocion');
 }
 
 

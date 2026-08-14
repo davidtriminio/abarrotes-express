@@ -11,62 +11,72 @@ class CategoriaSeeder extends Seeder
     {
         $categorias = [
             [
-                'nombre' => 'Abarrotes',
-                'descripcion' => 'Productos de abarrotes y despensa',
+                'nombre' => 'Camisetas y Blusas',
+                'descripcion' => 'Todo tipo de playeras, camisas y blusas',
                 'disponible' => true,
+                'keyword' => 'shirts,clothing'
             ],
             [
-                'nombre' => 'Bebidas',
-                'descripcion' => 'Bebidas refrescantes y alcohólicas',
+                'nombre' => 'Pantalones',
+                'descripcion' => 'Jeans, pantalones de vestir y casuales',
                 'disponible' => true,
+                'keyword' => 'pants,trousers'
             ],
             [
-                'nombre' => 'Lácteos',
-                'descripcion' => 'Leche, queso y productos lácteos',
+                'nombre' => 'Calzado',
+                'descripcion' => 'Tenis, zapatos, botas y sandalias',
                 'disponible' => true,
+                'keyword' => 'shoes,footwear'
             ],
             [
-                'nombre' => 'Panadería',
-                'descripcion' => 'Pan, pasteles y productos de panadería',
+                'nombre' => 'Accesorios',
+                'descripcion' => 'Cinturones, gorras, bufandas y lentes',
                 'disponible' => true,
+                'keyword' => 'accessories,fashion'
             ],
             [
-                'nombre' => 'Carnes',
-                'descripcion' => 'Carnes frescas y embutidos',
+                'nombre' => 'Chaquetas y Abrigos',
+                'descripcion' => 'Chamarras, suéteres y abrigos de invierno',
                 'disponible' => true,
+                'keyword' => 'jackets,coats'
             ],
             [
-                'nombre' => 'Frutas y Verduras',
-                'descripcion' => 'Frutas y verduras frescas',
+                'nombre' => 'Ropa Interior',
+                'descripcion' => 'Lencería, calcetines y ropa interior',
                 'disponible' => true,
+                'keyword' => 'underwear,lingerie'
             ],
             [
-                'nombre' => 'Congelados',
-                'descripcion' => 'Productos congelados',
+                'nombre' => 'Vestidos',
+                'descripcion' => 'Vestidos casuales y de noche',
                 'disponible' => true,
+                'keyword' => 'dresses,fashion'
             ],
             [
-                'nombre' => 'Snacks',
-                'descripcion' => 'Galletas, snacks y confites',
+                'nombre' => 'Ropa Deportiva',
+                'descripcion' => 'Ropa para entrenamiento y gimnasio',
                 'disponible' => true,
-            ],
-            [
-                'nombre' => 'Condimentos',
-                'descripcion' => 'Especias, condimentos y salsas',
-                'disponible' => true,
-            ],
-            [
-                'nombre' => 'Higiene Personal',
-                'descripcion' => 'Productos de higiene y belleza',
-                'disponible' => true,
+                'keyword' => 'sportswear,gym'
             ],
         ];
 
-        foreach ($categorias as $categoria) {
+        // Usamos un contador distinto (desde 1000)
+        $lockId = 1000;
+
+        foreach ($categorias as $categoriaData) {
+            $keyword = $categoriaData['keyword'];
+            $imagenUrl = "https://loremflickr.com/320/240/{$keyword}?lock={$lockId}";
+
             Categoria::updateOrCreate(
-                ['nombre' => $categoria['nombre']],
-                $categoria
+                ['nombre' => $categoriaData['nombre']],
+                [
+                    'descripcion' => $categoriaData['descripcion'],
+                    'imagen' => $imagenUrl,
+                    'disponible' => $categoriaData['disponible'],
+                ]
             );
+
+            $lockId++;
         }
     }
 }

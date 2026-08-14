@@ -10,28 +10,35 @@ class MarcaSeeder extends Seeder
     public function run(): void
     {
         $marcas = [
-            ['nombre' => 'Coca Cola', 'descripcion' => 'Bebidas refrescantes'],
-            ['nombre' => 'Pepsi', 'descripcion' => 'Bebidas gaseosas'],
-            ['nombre' => 'Sprite', 'descripcion' => 'Bebidas cítricas'],
-            ['nombre' => 'Fanta', 'descripcion' => 'Bebidas de frutas'],
-            ['nombre' => 'Nestlé', 'descripcion' => 'Productos alimenticios variados'],
-            ['nombre' => 'Danone', 'descripcion' => 'Lácteos y yogures'],
-            ['nombre' => 'La Lechera', 'descripcion' => 'Leche y derivados'],
-            ['nombre' => 'Bimbo', 'descripcion' => 'Panadería y productos de trigo'],
-            ['nombre' => 'Grupo Lala', 'descripcion' => 'Productos lácteos frescos'],
-            ['nombre' => 'Sabritas', 'descripcion' => 'Snacks y botanas'],
-            ['nombre' => 'Marinela', 'descripcion' => 'Pastelería y dulces'],
-            ['nombre' => 'Maggi', 'descripcion' => 'Condimentos y sopas'],
-            ['nombre' => 'Heinz', 'descripcion' => 'Salsas y condimentos'],
-            ['nombre' => 'Knorr', 'descripcion' => 'Sopas y condimentos'],
-            ['nombre' => 'McCormick', 'descripcion' => 'Especias y condimentos'],
+            ['nombre' => 'Nike', 'descripcion' => 'Ropa y calzado deportivo de alto rendimiento', 'keyword' => 'nike,logo'],
+            ['nombre' => 'Adidas', 'descripcion' => 'Moda deportiva y urbana', 'keyword' => 'adidas,logo'],
+            ['nombre' => 'Levi\'s', 'descripcion' => 'La marca icónica de ropa de mezclilla', 'keyword' => 'levis,denim'],
+            ['nombre' => 'Zara', 'descripcion' => 'Moda rápida, casual y formal', 'keyword' => 'zara,store'],
+            ['nombre' => 'H&M', 'descripcion' => 'Ropa y accesorios accesibles para todos', 'keyword' => 'hm,store'],
+            ['nombre' => 'Puma', 'descripcion' => 'Estilo deportivo y casual', 'keyword' => 'puma,logo'],
+            ['nombre' => 'Calvin Klein', 'descripcion' => 'Ropa interior, jeans y moda de diseñador', 'keyword' => 'calvinklein,fashion'],
+            ['nombre' => 'Vans', 'descripcion' => 'Calzado y ropa inspirada en el skate', 'keyword' => 'vans,skate'],
+            ['nombre' => 'Under Armour', 'descripcion' => 'Ropa de alto rendimiento para atletas', 'keyword' => 'underarmour,sports'],
+            ['nombre' => 'Tommy Hilfiger', 'descripcion' => 'Ropa casual con estilo americano', 'keyword' => 'tommyhilfiger,fashion'],
         ];
 
-        foreach ($marcas as $marca) {
+        // Usamos un contador (desde 500 para no chocar visualmente con los de productos)
+        $lockId = 500;
+
+        foreach ($marcas as $marcaData) {
+            $keyword = $marcaData['keyword'];
+            $imagenUrl = "https://loremflickr.com/320/240/{$keyword}?lock={$lockId}";
+
             Marca::updateOrCreate(
-                ['nombre' => $marca['nombre']],
-                $marca
+                ['nombre' => $marcaData['nombre']],
+                [
+                    'descripcion' => $marcaData['descripcion'],
+                    'imagen' => $imagenUrl,
+                    'disponible' => true,
+                ]
             );
+
+            $lockId++;
         }
     }
 }

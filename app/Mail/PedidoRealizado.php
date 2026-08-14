@@ -33,7 +33,7 @@ class PedidoRealizado extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Detalles de Pedido - Abarrotes Express',
+            subject: 'Detalles de Pedido - ' . config('branding.name'),
         );
     }
 

@@ -12,6 +12,7 @@ use App\Models\Categoria;
 use App\Models\Marca;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
+#[Title('Inicio')]
 class Inicio extends Component
 {
     use LivewireAlert;
@@ -20,7 +21,6 @@ class Inicio extends Component
     public $categorias;
     public $marcas;
 
-    #[Title('Inicio - Abarrotes Express')]
     public function agregarCarrito($producto_id)
     {
         $conteo_total = CarritoManagement::agregarElementoAlCarrito($producto_id);

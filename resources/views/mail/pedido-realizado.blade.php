@@ -48,7 +48,7 @@
     <div class="header text-center"
          style="text-align:center; background-color:rgba(59, 130, 246, 0.1); border-radius:0.5rem; margin-bottom:2rem; padding:1rem"
          align="center" bgcolor="rgba(59, 130, 246, 0.1)">
-        <img src="https://i.ibb.co/48StGsQ/logo1.jpg" alt="logo1" width="50px">
+        <img src="{{ asset(config('branding.logo')) }}" alt="{{ config('branding.name') }}" width="50px">
     </div>
 
     <!-- Saludo -->

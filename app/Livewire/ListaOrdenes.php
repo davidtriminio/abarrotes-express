@@ -7,10 +7,9 @@ use App\Models\User;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Mis Órdenes')]
 class ListaOrdenes extends Component
 {
-    #[Title('Mis Ordenes - Abarrotes Express')]
-
     public $estado;
 
     public function mount($estado = null)

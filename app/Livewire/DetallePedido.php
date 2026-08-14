@@ -8,9 +8,9 @@ use App\Models\Orden;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Proceder al pago')]
 class DetallePedido extends Component
 {
-    #[Title('Proceder al pago - Abarrotes Express')]
     public $nombres;
     public $apellidos;
     public $telefono;

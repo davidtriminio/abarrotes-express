@@ -16,7 +16,7 @@
     Restablecer Contraseña
 </a>
 
-<p>Si tienes algún problema, por favor contáctanos a equipo.abarrotes.express@gmail.com</p>
+<p>Si tienes algún problema, por favor contáctanos a {{ config('branding.contact.email') }}</p>
 
 <p>Saludos,</p>
 <p>El equipo de {{ config('app.name') }}</p>

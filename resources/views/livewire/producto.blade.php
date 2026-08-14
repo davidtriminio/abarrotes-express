@@ -22,27 +22,35 @@
                 <div class="flex flex-col lg:flex-row gap-6">
                     <!-- Image Section -->
                     <div class="w-full lg:w-1/2">
+                        @php
+                            $noPhoto = asset('imagen/no-photo.png');
+                            $imagenesValidas = collect(is_array($producto->imagenes) ? $producto->imagenes : [])
+                                ->filter(fn ($imagen) => filled($imagen) && \Illuminate\Support\Facades\Storage::disk('public')->exists($imagen))
+                                ->map(fn ($imagen) => \Illuminate\Support\Facades\Storage::disk('public')->url($imagen))
+                                ->values();
+                        @endphp
                         <div class="grid gap-4">
                             <!-- Big Image -->
                             <div id="main-image-container">
                                 <img id="main-image"
                                      class="h-auto w-full max-w-full rounded-lg object-cover object-center md:h-[480px] transition-transform duration-300 ease-in-out transform hover:scale-105"
-                                     src="{{ isset($producto->imagenes[0]) ? url('storage/' . $producto->imagenes[0]) : asset('imagen/no-photo.png') }}"
+                                     src="{{ $imagenesValidas->first() ?? $noPhoto }}"
                                      alt="{{ $producto->nombre }}"/>
                             </div>
                             <!-- Small Images -->
                             <div class="grid grid-cols-5 gap-4">
-                                @if(is_array($producto->imagenes) && count($producto->imagenes) > 0)
-                                    @foreach($producto->imagenes as $imagen)
-                                        <img onclick="changeImage(this)"
-                                             data-full="{{ isset($imagen) ? url('storage/' . $imagen) : asset('imagen/no-photo.png') }}"
-                                             src="{{ isset($imagen) ? url('storage/' . $imagen) : asset('imagen/no-photo.png') }}"
-                                             class="object-cover object-center max-h-30 max-w-full rounded-lg cursor-pointer border-2 border-transparent hover:border-primary transition-shadow duration-300 ease-in-out shadow-sm hover:shadow-lg"
-                                             alt="{{ $producto->nombre }}"/>
-                                    @endforeach
-                                @else
-                                    <p class="grid-cols-5 gap-4">No hay imagenes disponibles para este producto.</p>
-                                @endif
+                                @forelse($imagenesValidas as $imagenUrl)
+                                    <img onclick="changeImage(this)"
+                                         data-full="{{ $imagenUrl }}"
+                                         src="{{ $imagenUrl }}"
+                                         class="object-cover object-center max-h-30 max-w-full rounded-lg cursor-pointer border-2 border-transparent hover:border-primary transition-shadow duration-300 ease-in-out shadow-sm hover:shadow-lg"
+                                         alt="{{ $producto->nombre }}"/>
+                                @empty
+                                    <img data-full="{{ $noPhoto }}"
+                                         src="{{ $noPhoto }}"
+                                         class="object-cover object-center max-h-30 max-w-full rounded-lg border-2 border-transparent shadow-sm"
+                                         alt="{{ $producto->nombre }}"/>
+                                @endforelse
                             </div>
                         </div>
                     </div>

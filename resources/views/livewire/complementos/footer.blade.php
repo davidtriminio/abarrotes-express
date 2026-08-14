@@ -97,11 +97,11 @@
                 <div class="lg:w-1/4 sm:w-full px-4 mb-8">
                     <h3 class="text-lg font-semibold mb-4">Contactanos</h3>
                     <div class="flex items-center mb-4">
-                        <img src="/imagen/logo.png" alt="Logo" width="80px" height="80px" class="rounded-2xl">
-                        <p class="ml-4">Barrio El Carmelo, Frente al Marchante N°2, Danlí El Paraíso</p>
+                        <img src="{{ asset(config('branding.logo')) }}" alt="{{ config('branding.name') }}" width="80px" height="80px" class="rounded-2xl">
+                        <p class="ml-4">{{ config('branding.contact.address') }}</p>
                     </div>
-                    <p class="text-xl font-bold my-4" style="white-space: nowrap;">Telefono: +504 3333 9999</p>
-                    <a href="#"  style="white-space: nowrap;">Email: equipo.abarrotes.express@gmail.com</a>
+                    <p class="text-xl font-bold my-4" style="white-space: nowrap;">Telefono: {{ config('branding.contact.phone') }}</p>
+                    <a href="#"  style="white-space: nowrap;">Email: {{ config('branding.contact.email') }}</a>
                 </div>
             </div>
         </div>
@@ -111,7 +111,7 @@
             <div class="container w-full mx-auto px-4 flex flex-wrap justify-around align-middle">
                 <!-- Copyright and Links -->
                 <div class="w-full lg:w-3/4 text-center lg:text-center mb-4 lg:mb-0">
-                    <p class="mb-2 font-bold">&copy; 2024 Abarrotes Express. Todos los derechos
+                    <p class="mb-2 font-bold">&copy; {{ now()->year }} {{ config('branding.name') }}. Todos los derechos
                         reservados.</p>
                     <ul class="flex justify-center lg:justify-center space-x-4 mb-4 lg:mb-0">
                         <li><a href="#" class="hover:text-primary hover:underline"

@@ -3,69 +3,70 @@
 namespace Database\Seeders;
 
 use App\Models\Categoria;
+use Database\Seeders\Concerns\GeneratesPlaceholderImages;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CategoriaSeeder extends Seeder
 {
+    use GeneratesPlaceholderImages;
+
     public function run(): void
     {
         $categorias = [
             [
-                'nombre' => 'Abarrotes',
-                'descripcion' => 'Productos de abarrotes y despensa',
+                'nombre' => 'Camisetas y Blusas',
+                'descripcion' => 'Todo tipo de playeras, camisas y blusas',
                 'disponible' => true,
             ],
             [
-                'nombre' => 'Bebidas',
-                'descripcion' => 'Bebidas refrescantes y alcohólicas',
+                'nombre' => 'Pantalones',
+                'descripcion' => 'Jeans, pantalones de vestir y casuales',
                 'disponible' => true,
             ],
             [
-                'nombre' => 'Lácteos',
-                'descripcion' => 'Leche, queso y productos lácteos',
+                'nombre' => 'Calzado',
+                'descripcion' => 'Tenis, zapatos, botas y sandalias',
                 'disponible' => true,
             ],
             [
-                'nombre' => 'Panadería',
-                'descripcion' => 'Pan, pasteles y productos de panadería',
+                'nombre' => 'Accesorios',
+                'descripcion' => 'Cinturones, gorras, bufandas y lentes',
                 'disponible' => true,
             ],
             [
-                'nombre' => 'Carnes',
-                'descripcion' => 'Carnes frescas y embutidos',
+                'nombre' => 'Chaquetas y Abrigos',
+                'descripcion' => 'Chamarras, suéteres y abrigos de invierno',
                 'disponible' => true,
             ],
             [
-                'nombre' => 'Frutas y Verduras',
-                'descripcion' => 'Frutas y verduras frescas',
+                'nombre' => 'Ropa Interior',
+                'descripcion' => 'Lencería, calcetines y ropa interior',
                 'disponible' => true,
             ],
             [
-                'nombre' => 'Congelados',
-                'descripcion' => 'Productos congelados',
+                'nombre' => 'Vestidos',
+                'descripcion' => 'Vestidos casuales y de noche',
                 'disponible' => true,
             ],
             [
-                'nombre' => 'Snacks',
-                'descripcion' => 'Galletas, snacks y confites',
-                'disponible' => true,
-            ],
-            [
-                'nombre' => 'Condimentos',
-                'descripcion' => 'Especias, condimentos y salsas',
-                'disponible' => true,
-            ],
-            [
-                'nombre' => 'Higiene Personal',
-                'descripcion' => 'Productos de higiene y belleza',
+                'nombre' => 'Ropa Deportiva',
+                'descripcion' => 'Ropa para entrenamiento y gimnasio',
                 'disponible' => true,
             ],
         ];
 
-        foreach ($categorias as $categoria) {
+        foreach ($categorias as $categoriaData) {
+            $slug = Str::slug($categoriaData['nombre']);
+            $imagenPath = $this->generatePlaceholderImage('categorias', $slug, $categoriaData['nombre']);
+
             Categoria::updateOrCreate(
-                ['nombre' => $categoria['nombre']],
-                $categoria
+                ['nombre' => $categoriaData['nombre']],
+                [
+                    'descripcion' => $categoriaData['descripcion'],
+                    'imagen' => $imagenPath,
+                    'disponible' => $categoriaData['disponible'],
+                ]
             );
         }
     }

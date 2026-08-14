@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ?? 'Abarrotes Express' }}</title>
+    <title>{{ isset($title) ? "{$title} - " . config('branding.name') : config('branding.name') }}</title>
+    <meta name="description" content="{{ config('branding.tagline') }}">
+    <meta name="theme-color" content="{{ config('branding.primary_color') }}">
+    <link rel="icon" href="{{ asset(config('branding.favicon')) }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     <link rel="stylesheet" href="{{url(asset('css/styles/custom.css'))}}">

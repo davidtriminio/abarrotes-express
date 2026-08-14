@@ -3,10 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Categoria;
+use Database\Seeders\Concerns\GeneratesPlaceholderImages;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CategoriaSeeder extends Seeder
 {
+    use GeneratesPlaceholderImages;
+
     public function run(): void
     {
         $categorias = [
@@ -14,69 +18,56 @@ class CategoriaSeeder extends Seeder
                 'nombre' => 'Camisetas y Blusas',
                 'descripcion' => 'Todo tipo de playeras, camisas y blusas',
                 'disponible' => true,
-                'keyword' => 'shirts,clothing'
             ],
             [
                 'nombre' => 'Pantalones',
                 'descripcion' => 'Jeans, pantalones de vestir y casuales',
                 'disponible' => true,
-                'keyword' => 'pants,trousers'
             ],
             [
                 'nombre' => 'Calzado',
                 'descripcion' => 'Tenis, zapatos, botas y sandalias',
                 'disponible' => true,
-                'keyword' => 'shoes,footwear'
             ],
             [
                 'nombre' => 'Accesorios',
                 'descripcion' => 'Cinturones, gorras, bufandas y lentes',
                 'disponible' => true,
-                'keyword' => 'accessories,fashion'
             ],
             [
                 'nombre' => 'Chaquetas y Abrigos',
                 'descripcion' => 'Chamarras, suéteres y abrigos de invierno',
                 'disponible' => true,
-                'keyword' => 'jackets,coats'
             ],
             [
                 'nombre' => 'Ropa Interior',
                 'descripcion' => 'Lencería, calcetines y ropa interior',
                 'disponible' => true,
-                'keyword' => 'underwear,lingerie'
             ],
             [
                 'nombre' => 'Vestidos',
                 'descripcion' => 'Vestidos casuales y de noche',
                 'disponible' => true,
-                'keyword' => 'dresses,fashion'
             ],
             [
                 'nombre' => 'Ropa Deportiva',
                 'descripcion' => 'Ropa para entrenamiento y gimnasio',
                 'disponible' => true,
-                'keyword' => 'sportswear,gym'
             ],
         ];
 
-        // Usamos un contador distinto (desde 1000)
-        $lockId = 1000;
-
         foreach ($categorias as $categoriaData) {
-            $keyword = $categoriaData['keyword'];
-            $imagenUrl = "https://loremflickr.com/320/240/{$keyword}?lock={$lockId}";
+            $slug = Str::slug($categoriaData['nombre']);
+            $imagenPath = $this->generatePlaceholderImage('categorias', $slug, $categoriaData['nombre']);
 
             Categoria::updateOrCreate(
                 ['nombre' => $categoriaData['nombre']],
                 [
                     'descripcion' => $categoriaData['descripcion'],
-                    'imagen' => $imagenUrl,
+                    'imagen' => $imagenPath,
                     'disponible' => $categoriaData['disponible'],
                 ]
             );
-
-            $lockId++;
         }
     }
 }

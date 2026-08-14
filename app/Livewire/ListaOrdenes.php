@@ -2,10 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Exports\MisOrdenesExport;
 use App\Models\Orden;
 use App\Models\User;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 #[Title('Mis Órdenes')]
 class ListaOrdenes extends Component
@@ -15,6 +17,14 @@ class ListaOrdenes extends Component
     public function mount($estado = null)
     {
         $this->estado = $estado;
+    }
+
+    public function exportar()
+    {
+        return Excel::download(
+            new MisOrdenesExport(auth()->id()),
+            'mis-ordenes-' . now()->format('Y-m-d') . '.xlsx'
+        );
     }
 
     public function render()

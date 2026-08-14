@@ -13,26 +13,31 @@ class OrdenFactory extends Factory
 
     public function definition(): array
     {
-        if (Orden::where('estado_entrega', 'entregado')) {
-            $fecha_entrega = $this->faker->dateTimeBetween('-90 days', '-1 days');
+        $estado_entrega = $this->faker->randomElement(['nuevo', 'procesado', 'enviado', 'entregado', 'cancelado']);
+        $created_at = $this->faker->dateTimeBetween('-1 year', '-1 day');
+
+        if ($estado_entrega === 'entregado') {
+            $fecha_entrega = $this->faker->dateTimeBetween($created_at, 'now');
             $estado_pago = 'pagado';
-        }
-        else {
+        } else {
             $fecha_entrega = null;
-            $estado_pago = $this->faker->randomElement(['pagado', 'procesando']);
+            $estado_pago = $this->faker->randomElement(['pagado', 'procesando', 'error']);
         }
+
+        $sub_total = $this->faker->randomFloat(2, 200, 3000);
+
         return [
-            'created_at' => $this->faker->dateTimeBetween('-1 year', '-1 day'),
+            'created_at' => $created_at,
             'updated_at' => Carbon::now(),
-            'user_id' => User::inRandomOrder()->first(),
-            'sub_total' => $this->faker->numberBetween(10, 100),
-            'total_final' => $this->faker->numberBetween(0, 10000),
+            'user_id' => User::inRandomOrder()->value('id'),
+            'sub_total' => $sub_total,
+            'total_final' => $sub_total,
             'metodo_pago' => $this->faker->randomElement(['par', 'efectivo', 'tarjeta']),
             'estado_pago' => $estado_pago,
-            'estado_entrega' => $this->faker->randomElement(['nuevo', 'procesado', 'enviado', 'entregado', 'cancelado']),
+            'estado_entrega' => $estado_entrega,
             'costos_envio' => $this->faker->numberBetween(90, 95),
             'fecha_entrega' => $fecha_entrega,
-            'notas' => $this->faker->text()
+            'notas' => $this->faker->optional()->sentence(),
         ];
     }
 }

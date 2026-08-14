@@ -13,14 +13,16 @@ class ElementoOrdenFactory extends Factory
 
     public function definition(): array
     {
-        return
-            [
-                'orden_id' => Orden::inRandomOrder()->first(),
-                'producto_id' => Producto::inRandomOrder()->first(),
-                'cantidad' => $this->faker->numberBetween(1, 5),
-                'monto_unitario' => $this->faker->numberBetween(100, 150),
-                'monto_total' => ($this->faker->numberBetween(1, 5) * $this->faker->numberBetween(100, 150)),
-                'created_at' => $this->faker->dateTimeBetween('-1 year', '-1 day'),
-            ];
+        $cantidad = $this->faker->numberBetween(1, 5);
+        $monto_unitario = $this->faker->randomFloat(2, 100, 150);
+
+        return [
+            'orden_id' => Orden::inRandomOrder()->value('id'),
+            'producto_id' => Producto::inRandomOrder()->value('id'),
+            'cantidad' => $cantidad,
+            'monto_unitario' => $monto_unitario,
+            'monto_total' => round($cantidad * $monto_unitario, 2),
+            'created_at' => $this->faker->dateTimeBetween('-1 year', '-1 day'),
+        ];
     }
 }

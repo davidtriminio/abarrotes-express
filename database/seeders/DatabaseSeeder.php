@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CategoriaSeeder::class,
             MarcaSeeder::class,
             ProductoSeeder::class,
+            OrdenSeeder::class,
             CuponSeeder::class,
             ProveedorSeeder::class,
             PromocionSeeder::class,

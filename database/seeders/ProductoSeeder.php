@@ -74,8 +74,8 @@ class ProductoSeeder extends Seeder
                         'disponible' => true,
                         'en_oferta' => rand(0, 1) === 1,
                         'porcentaje_oferta' => rand(0, 1) === 1 ? rand(5, 30) : 0,
-                        // Guardamos el arreglo de rutas relativas (disco "public") como JSON
-                        'imagenes' => json_encode($imagenesGeneradas),
+                        // El modelo castea 'imagenes' a array y se encarga de codificarlo a JSON al guardar
+                        'imagenes' => $imagenesGeneradas,
                         'fecha_expiracion' => now()->addYears(2)->toDateString(),
                     ], $urlsIndividuales)
                 );

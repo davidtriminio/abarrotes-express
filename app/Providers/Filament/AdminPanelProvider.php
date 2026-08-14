@@ -32,14 +32,15 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->id('admin')
             ->path('admin')
+            ->brandName(config('branding.name'))
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::hex(config('branding.primary_color')),
             ])
             ->plugins([
                 FilamentApexChartsPlugin::make()
             ])
-            ->brandLogo(asset('/imagen/logo-admin.png'))
-            ->favicon(asset('imagen/favicon-admin.ico'))
+            ->brandLogo(asset(config('branding.logo_admin')))
+            ->favicon(asset(config('branding.favicon_admin')))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

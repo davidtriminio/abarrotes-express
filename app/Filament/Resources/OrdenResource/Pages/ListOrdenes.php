@@ -2,12 +2,19 @@
 
 namespace App\Filament\Resources\OrdenResource\Pages;
 
+use App\Exports\OrdenesDetalladoExport;
+use App\Exports\OrdenesPlantillaExport;
 use App\Filament\Resources\OrdenResource;
+use App\Imports\OrdenesImport;
 use App\Models\Orden;
 use App\Traits\PermisoVer;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -19,6 +26,8 @@ use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListOrdenes extends ListRecords
 {
@@ -30,6 +39,63 @@ class ListOrdenes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('plantilla')
+                ->label('Plantilla de importación')
+                ->icon('heroicon-o-document-arrow-down')
+                ->color('gray')
+                ->visible(fn () => auth()->user()->hasPermissionTo('crear:' . self::getResource()::getSlug()))
+                ->action(fn () => Excel::download(new OrdenesPlantillaExport(), 'plantilla-ordenes.xlsx')),
+
+            Action::make('importar')
+                ->label('Importar')
+                ->icon('heroicon-o-arrow-up-tray')
+                ->color('gray')
+                ->visible(fn () => auth()->user()->hasPermissionTo('crear:' . self::getResource()::getSlug()))
+                ->form([
+                    FileUpload::make('archivo')
+                        ->label('Archivo Excel (.xlsx)')
+                        ->disk('local')
+                        ->directory('importaciones/ordenes')
+                        ->acceptedFileTypes([
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                            'application/vnd.ms-excel',
+                            'text/csv',
+                        ])
+                        ->required(),
+                ])
+                ->action(function (array $data) {
+                    $import = new OrdenesImport();
+                    Excel::import($import, Storage::disk('local')->path($data['archivo']));
+                    Storage::disk('local')->delete($data['archivo']);
+
+                    $resumen = sprintf(
+                        '%d creada(s), %d actualizada(s), %d con error(es).',
+                        count($import->creadas),
+                        count($import->actualizadas),
+                        count($import->errores)
+                    );
+
+                    if (count($import->errores) > 0) {
+                        Notification::make()
+                            ->title('Importación finalizada con errores')
+                            ->body($resumen . "\n" . implode("\n", array_slice($import->errores, 0, 5)))
+                            ->warning()
+                            ->persistent()
+                            ->send();
+                    } else {
+                        Notification::make()
+                            ->title('Importación completada')
+                            ->body($resumen)
+                            ->success()
+                            ->send();
+                    }
+                }),
+
+            Action::make('exportar')
+                ->label('Exportar todo')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->action(fn () => Excel::download(new OrdenesDetalladoExport(), 'ordenes-' . now()->format('Y-m-d') . '.xlsx')),
+
             CreateAction::make('Crear')
                 ->label('Crear Orden')
                 ->icon('heroicon-o-plus-circle')
@@ -168,6 +234,14 @@ class ListOrdenes extends ListRecords
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     RestoreBulkAction::make(),
+                    BulkAction::make('exportarSeleccionadas')
+                        ->label('Exportar seleccionadas')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->action(fn ($records) => Excel::download(
+                            new OrdenesDetalladoExport($records->pluck('id')->all()),
+                            'ordenes-' . now()->format('Y-m-d') . '.xlsx'
+                        ))
+                        ->deselectRecordsAfterCompletion(),
                 ])
             ]);
     }

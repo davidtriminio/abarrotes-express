@@ -25,10 +25,20 @@
     $slug => $this->getResource()::getSlug()
     ]"/>
         </div>
-    @if($this->getAction('Crear') && $this->getAction('Crear')->isVisible())
-        <div class="flex h-10 justify-content-end justify-end">{{$this->getAction('Crear')}}
-        </div>
-    @endif
+    <div class="flex h-10 items-center gap-2 justify-content-end justify-end">
+        @if($this->getAction('plantilla') && $this->getAction('plantilla')->isVisible())
+            {{ $this->getAction('plantilla') }}
+        @endif
+        @if($this->getAction('importar') && $this->getAction('importar')->isVisible())
+            {{ $this->getAction('importar') }}
+        @endif
+        @if($this->getAction('exportar') && $this->getAction('exportar')->isVisible())
+            {{ $this->getAction('exportar') }}
+        @endif
+        @if($this->getAction('Crear') && $this->getAction('Crear')->isVisible())
+            {{ $this->getAction('Crear') }}
+        @endif
+    </div>
     </div>
     <div class="flex flex-col gap-y-6">
         <x-filament-panels::resources.tabs/>

@@ -18,6 +18,10 @@ class Orden extends Model
 
     protected $fillable = ['user_id','producto_id' ,'sub_total', 'total_final', 'descuento_total', 'monto_unitario', 'metodo_pago', 'estado_pago', 'estado_entrega', 'fecha_entrega', 'costos_envio', 'notas'];
 
+    protected $casts = [
+        'fecha_entrega' => 'datetime',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -4,10 +4,25 @@
             <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
                 <div class="flex flex-row items-center justify-between space-y-0 p-6">
                     <h3 class="text-xl font-bold">Mis Ordenes</h3>
-                    <button onclick="printTable()"
-                            class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400">
-                        Imprimir Ordenes
-                    </button>
+                    <div class="flex gap-2">
+                        <button wire:click="exportar"
+                                wire:loading.attr="disabled"
+                                style="background-color: #15803d !important; color: white;"
+                                class="py-2 px-4 rounded-md transition-colors hover:bg-green-500 disabled:opacity-50">
+
+                            <span wire:loading.remove wire:target="exportar">
+                                Exportar a Excel
+                            </span>
+
+                            <span wire:loading wire:target="exportar">
+                                Exportando...
+                            </span>
+                        </button>
+                        <button onclick="printTable()"
+                                class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400">
+                            Imprimir Ordenes
+                        </button>
+                    </div>
                 </div>
                 <div class="p-6 pt-0">
                     <div id="orderTable" class="relative w-full overflow-auto">
@@ -225,12 +240,12 @@
     // Restore the original body content
     setTimeout(function() {
         document.body.innerHTML = originalContents;
-        
+
         // Recargar los eventos de Livewire después de restaurar el contenido
         if (typeof window.Livewire !== 'undefined') {
             window.Livewire.restart();
         }
-        
+
     }, 100);
 
             event.preventDefault();
